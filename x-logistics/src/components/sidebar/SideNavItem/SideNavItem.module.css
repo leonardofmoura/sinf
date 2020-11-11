@@ -1,0 +1,26 @@
+.activeItem {
+    font-size: 1.5em;
+    padding: 1rem;
+    text-decoration: none;
+    color: var(--primary-color-darker);
+    background-color: var(--background-color-lighter);
+}
+  
+.inactiveItem {
+    font-size: 1.5em;
+    padding: 1rem;
+    color: #727272 !important;
+    text-decoration: none;
+}
+
+.activeItem:hover {
+    text-decoration: none;
+    color: var(--primary-color-darker);
+    background-color: var(--background-color-lighter);
+}
+  
+.inactiveItem:hover {
+    text-decoration: none;
+    color: var(--primary-color-darker);
+    background-color: var(--background-color-lighter);
+}

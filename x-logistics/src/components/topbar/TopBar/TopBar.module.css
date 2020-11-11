@@ -1,0 +1,15 @@
+.header {
+    background-color: var(--primary-color);
+    padding-left: 2vw;
+    padding-top: 1em;
+    padding-bottom: 1em;
+    z-index: 1;
+}
+
+.brandName {
+    font-size: 2em;
+    color: white !important;
+    text-shadow: 0.2rem 0.2rem 0.5rem black;
+    padding: 0;
+    margin: 0;
+}
