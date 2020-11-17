@@ -1,0 +1,8 @@
+.ordersListHeader {
+    display: flex;
+    background-color: aliceblue;
+}
+
+.ordersListHeader div {
+    flex-grow: 1;
+}

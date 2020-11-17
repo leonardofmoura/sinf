@@ -1,8 +1,9 @@
 import SidebarLayout from "../layouts/SidebarLayout";
+import OrdersLayout from '../layouts/OrdersLayout';
 
 const OrdersPage = () => (
     <SidebarLayout>
-        TODO
+        <OrdersLayout/>
     </SidebarLayout>
 )
 
