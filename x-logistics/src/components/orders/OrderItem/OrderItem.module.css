@@ -7,4 +7,5 @@
 
 .orderItem div {
     flex-grow: 1;
+    min-width: 25%;
 }
