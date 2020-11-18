@@ -1,14 +1,24 @@
-import React from 'react';
+import React, { useState } from 'react';
+
+import OrderDetails from '../OrderDetails/OrderDetails';
 
 import styles from './OrderItem.module.css';
 
 export default function OrderItem(props) {
+    const [expanded, setExpanded] = useState(false);
+
     return(
-        <section className={styles.orderItem}>
-            <div>{props.order.id}</div>
-            <div>{props.order.supplier}</div>
-            <div>{props.order.date}</div>
-            <div>{props.order.summary}</div>
-        </section>
+        <div>
+            <section className={styles.orderItem}>
+                <div>{props.order.id}</div>
+                <div>{props.order.supplier}</div>
+                <div>{props.order.date}</div>
+                <div>{props.order.summary}</div>
+                <button onClick={ () => setExpanded(!expanded) }>
+                    +
+                </button>
+            </section>
+            { expanded && <OrderDetails/> }
+        </div>
     )
 }
