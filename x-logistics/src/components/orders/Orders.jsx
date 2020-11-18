@@ -1,10 +1,10 @@
 import React from 'react';
-import OrdersHeader from './OrdersHeader/OrdersHeader';
+import OrderTable from './OrderTable/OrderTable';
 
 export default class Orders extends React.Component {
     render() {
         return (
-            <OrdersHeader/>
+            <OrderTable/>
         );
     }
 }
