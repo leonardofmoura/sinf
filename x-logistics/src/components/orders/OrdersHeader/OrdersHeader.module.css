@@ -1,6 +1,11 @@
 .ordersListHeader {
     display: flex;
-    background-color: aliceblue;
+    background-color: #ffffff;
+    margin: 0 auto;
+    width: 80%;
+    padding: 0.8em 2em;
+    margin-top: 2em;
+    border: 1px solid #bebebe;
 }
 
 .ordersListHeader div {
