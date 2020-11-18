@@ -1,0 +1,10 @@
+.orderItem {
+    display: flex;
+    background-color: #ffffff;
+    padding: 0.8em 2em;
+    border-bottom: 1px solid #dddddd;
+}
+
+.orderItem div {
+    flex-grow: 1;
+}

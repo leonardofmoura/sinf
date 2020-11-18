@@ -1,4 +1,7 @@
 import React from 'react';
+
+import OrderItem from '../OrderItem/OrderItem';
+
 import styles from './OrderList.module.css';
 
 export default function OrderList(props) {
@@ -12,7 +15,7 @@ export default function OrderList(props) {
         },
         {
             id: '0000002',
-            suppler: 'NVIDIA Inc',
+            supplier: 'NVIDIA Inc',
             date: '12/11/2020',
             summary: '2080 Ti Graphics Cards',
         }
@@ -23,7 +26,7 @@ export default function OrderList(props) {
             {
                 orders.map((item) => {
                     return (
-                        <div>{item.id}</div>
+                        <OrderItem order={item}/>
                     )
                 })
             }
