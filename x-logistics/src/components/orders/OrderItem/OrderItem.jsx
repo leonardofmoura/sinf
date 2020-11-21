@@ -18,7 +18,7 @@ export default function OrderItem(props) {
                     +
                 </button>
             </section>
-            { expanded && <OrderDetails/> }
+            { expanded && <OrderDetails items={props.order.items}/> }
         </div>
     )
 }

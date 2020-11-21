@@ -1,0 +1,24 @@
+.orderDetailsSection  {
+    background-color: #f9f9f9;
+}
+
+.orderDetailsHeader {
+    display: flex;
+    padding: 0.8em 2em;
+    border-bottom: 1px solid #dddddd;
+}
+
+.orderDetailsHeader div:not(:last-child) {
+    flex-grow: 1;
+    width: 20%;
+}
+
+.orderDetailsItem {
+    display: flex;
+    padding: 0.8em 2em;
+}
+
+.orderDetailsItem div {
+    flex-grow: 1;
+    width: 20%;
+}
