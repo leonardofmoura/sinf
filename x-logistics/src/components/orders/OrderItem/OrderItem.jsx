@@ -9,7 +9,7 @@ export default function OrderItem(props) {
 
     return(
         <div>
-            <section className={styles.orderItem}>
+            <section className={styles.orderItem + (expanded ? ' ' + styles.expanded : ' ' + styles.notExpanded)}>
                 <div>{props.order.id}</div>
                 <div>{props.order.supplier}</div>
                 <div>{props.order.date}</div>
