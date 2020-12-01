@@ -3,7 +3,9 @@ import React from 'react';
 import styles from './OrderDetails.module.css';
 
 
-export default function OrderDetails(props) {
+const OrderDetails = (props) => {
+    console.log(props.items);
+
     return (
         <div className={styles.orderDetailsSection}>
             <section className={styles.orderDetailsHeader}>
@@ -17,10 +19,10 @@ export default function OrderDetails(props) {
                 props.items.map((item) => {
                     return(
                         <section className={styles.orderDetailsItem}>
-                            <div>{item.productId}</div>
+                            <div>???</div>
                             <div>{item.quantity}</div>
-                            <div>{item.itemName}</div>
-                            <div>{item.category}</div>
+                            <div>{item.purchasesItemDescription}</div>
+                            <div>???</div>
                             <button>Confirm</button>
                         </section>
                     )
@@ -29,3 +31,5 @@ export default function OrderDetails(props) {
         </div>
     )
 }
+
+export default OrderDetails;

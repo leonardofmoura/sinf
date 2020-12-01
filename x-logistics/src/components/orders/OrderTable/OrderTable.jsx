@@ -5,7 +5,7 @@ import OrderList from '../OrderList/OrderList';
 
 import styles from './OrderTable.module.css';
 
-export default function OrderTable(props) {
+const OrderTable = (props) => {
     return(
         <section className={styles.orderTable}>
             <OrdersHeader/>
@@ -13,3 +13,5 @@ export default function OrderTable(props) {
         </section>
     )
 }
+
+export default OrderTable;
