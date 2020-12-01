@@ -1,5 +1,10 @@
+
+import { Link } from "react-router-dom";
+
 const LoginPage = () => (
-    <span>This is the login page. Check /inventory, /orders, /sales, /transactions</span>
+    <div>
+        <Link to="/sales/pending_picking">Sales</Link>
+    </div>
 )
 
 export default LoginPage;
