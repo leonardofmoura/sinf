@@ -4,6 +4,8 @@ body, html {
   --primary-color-darker: #177B62; 
   --background-color: #E5E5E5;
   --background-color-lighter: #F2F2F2;
+  --inactive-sidebar-item: #727272;
+  --inactive-tab-item: #959595;
   min-height: 100vh;
   font-family: 'Roboto', serif;
   margin: 0;

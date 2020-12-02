@@ -12,12 +12,12 @@ export default function SideNav(props) {
             key: 1
         },
         {
-            path: '/orders',
+            path: '/orders/pending_storage',
             title:'Order List',
             key: 2
         },
         {
-            path: '/sales',
+            path: '/sales/pending_picking',
             title:'Sale List',
             key: 3
         },
@@ -28,8 +28,15 @@ export default function SideNav(props) {
         },
     ]);
 
-    function onItemClick(path){
+    function onItemClick(path) {
         setActivePath(path);
+    }
+
+    function isActive(path) {
+        let currentPathStr = activePath.substring(0, activePath.lastIndexOf("/"));
+        let pathStr = path.substring(0, path.lastIndexOf("/"));
+
+        return (currentPathStr === "" && activePath === path) || (currentPathStr !== "" && currentPathStr === pathStr);
     }
 
     return (
@@ -37,9 +44,9 @@ export default function SideNav(props) {
             {
                 navItems.map((item) => {
                     return (
-                        <SideNavItem path={item.path} onItemClick={onItemClick} title={item.title}
-                            active={item.path === activePath}
-                            className={styles["sidebar-item"]}
+                        <SideNavItem path={item.path} onItemClick={() => onItemClick(item.path)} title={item.title}
+                            active={isActive(item.path)}
+                            className={styles.sidebarItem}
                             key={item.key}/>
                     )
                 })
