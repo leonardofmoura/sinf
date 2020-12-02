@@ -1,7 +1,8 @@
 import React from 'react';
 
-import styles from './OrderDetails.module.css';
+import Popup from 'reactjs-popup';
 
+import styles from './OrderDetails.module.css';
 
 const OrderDetails = (props) => {
     console.log(props.items);
@@ -23,7 +24,15 @@ const OrderDetails = (props) => {
                             <div>{item.quantity}</div>
                             <div>{item.purchasesItemDescription}</div>
                             <div>???</div>
-                            <button>Confirm</button>
+                            <Popup
+                                trigger={open=> (
+                                    <button>Confirm</button>
+                                )}  
+                                modal="true"
+                                closeOnDocumentClick
+                            >
+                                <span>Popup content</span>
+                            </Popup>
                         </section>
                     )
                 })

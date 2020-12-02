@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
 import OrderItem from '../OrderItem/OrderItem';
-
 import styles from './OrderList.module.css';
 
 const OrderList = (props) => {
@@ -72,7 +71,7 @@ const OrderList = (props) => {
                 method: 'GET',
                 headers: {
                     'Content-type': 'application/json',
-                    Authorization: `Bearer eyJhbGciOiJSUzI1NiIsImtpZCI6IkFEM0Q1RDJERjM4OTZBMDUwMzYwNzVDQkNFNDc0RDJBMjI4MUVCM0UiLCJ0eXAiOiJKV1QiLCJ4NXQiOiJyVDFkTGZPSmFnVURZSFhMemtkTktpS0I2ejQifQ.eyJuYmYiOjE2MDY3OTExODYsImV4cCI6MTYwNjgwNTU4NiwiaXNzIjoiaHR0cHM6Ly9pZGVudGl0eS5wcmltYXZlcmFic3MuY29tIiwiYXVkIjpbImh0dHBzOi8vaWRlbnRpdHkucHJpbWF2ZXJhYnNzLmNvbS9yZXNvdXJjZXMiLCJqYXNtaW4iXSwiY2xpZW50X2lkIjoiR1hTQUtFWSIsInNjb3BlIjpbImFwcGxpY2F0aW9uIl19.Y462TmQOWkORcl4BNnueDOu_Z6lBH42cj6loPtgJwKTK89qn8G2QL_FmfS9v4075iytq3M2628RXBjoNlOKBeEHU99O29Khbysw79dVL2MSuvWHwus1pF1nt9DChVNTz3BHIUjmg4rdGKU8CmjSiTJg8ig8fmtyXTYsL7DMvkw1SVvpHyoHJdBbOvuSmVYHuGkDvZEhf00NamuWWcmLVO4lDdvjJ2aoN1SsBUL49_aNggTMFehB-KI3ZghA5SGqgTeMtR1cLjRZV-C_NjeMY89bZXemmcPrBWfs5vSVck3vCg-DUGp6UUMuMMSWjXE7S80BbqaRJkFEWgISvo3e3xw`,
+                    Authorization: `Bearer eyJhbGciOiJSUzI1NiIsImtpZCI6IkFEM0Q1RDJERjM4OTZBMDUwMzYwNzVDQkNFNDc0RDJBMjI4MUVCM0UiLCJ0eXAiOiJKV1QiLCJ4NXQiOiJyVDFkTGZPSmFnVURZSFhMemtkTktpS0I2ejQifQ.eyJuYmYiOjE2MDY5MjUzMjIsImV4cCI6MTYwNjkzOTcyMiwiaXNzIjoiaHR0cHM6Ly9pZGVudGl0eS5wcmltYXZlcmFic3MuY29tIiwiYXVkIjpbImh0dHBzOi8vaWRlbnRpdHkucHJpbWF2ZXJhYnNzLmNvbS9yZXNvdXJjZXMiLCJqYXNtaW4iXSwiY2xpZW50X2lkIjoiR1hTQUtFWSIsInNjb3BlIjpbImFwcGxpY2F0aW9uIl19.shAPu2VhcRj7i2t6H63YQvtAQmwATgA7tSwOnj7qJK4sClJA0AePDvK6TMlruw_RPhuvhA3Fxa7BeP5OygBoT-z8HazLsf_yywAhFV_b6a2Az1Zl75l-BeA5ni5XwkylUq1-r72i9kO_ymKAvypukIt9AdP6McVKTfORaPmjnod1wO727SR6EU1Tgz-MNQ5cqYoLoeYrIefZHproGy-6FYfRjflk1vWPp3t338ySD3wbuogO47o5duT7pEQvGGU2XMjAFDvkX7wxF_j5mvkhA4r7kcjAdVvvclQSCH5pDOWOMVc7mnZtdvFDCf7TwfZbLT4Xb4KYJcjDvv65aS5JYw`,
                 },
             };
 

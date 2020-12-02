@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 
 import OrderDetails from '../OrderDetails/OrderDetails';
-
 import styles from './OrderItem.module.css';
 
 const OrderItem = (props) => {
