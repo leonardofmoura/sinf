@@ -1,0 +1,12 @@
+.confirm {
+    color: var(--primary-color);
+}
+
+.confirm:hover {
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.disabled {
+    color: grey
+}
