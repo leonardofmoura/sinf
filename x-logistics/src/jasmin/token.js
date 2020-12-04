@@ -1,39 +1,65 @@
-const axios = require('axios');
-const FormData = require('form-data');
+import { sendRequest } from "./request";
+const axios = require("axios");
 
-const getBodyData = (formObj) => {
-    let bodyData = new FormData();
-    for (const key in formObj) {
-        bodyData.append(key, formObj[key]);
-    }
-    return bodyData;
-};
+const CLIENT_ID = process.env.REACT_APP_CLIENT_ID
+const CLIENT_SECRET = process.env.REACT_APP_CLIENT_SECRET;
 
 async function getToken() {
 
     const url = "https://identity.primaverabss.com/connect/token";
     const proxy = "https://cors-anywhere.herokuapp.com/"
 
-    const headers = {
-        "Accept": "application/json",
-        "Content-Type": "multipart/form-data",
-    }
-
     const body = {
-        client_id: "GXSAKEY",
-        client_secret: "70fce762-8fc6-4095-ab02-708f1ab99e13",
+        client_id: CLIENT_ID,
+        client_secret: CLIENT_SECRET,
         grant_type: "client_credentials",
         scope: "application"
     };
 
-    const bodyData = getBodyData(body);
+    const response = await sendRequest(proxy + url, 'post', body);
 
-   axios({
-        baseURL: proxy + url,
-        method: 'post',
-        data: bodyData,
-        headers: headers
-    }).then((response) => { console.log(response.data.access_token)})
-
-
+    return response.data.access_token;
 }
+
+const setToken = (token) => {
+    axios.defaults.headers.common = { "Authorization": `bearer ${token}` };
+};
+
+// Intercept request in case of unauthorized error and request new token
+const setAutoToken = () => {
+    axios.interceptors.response.use((response) => (response),
+        (error) => {
+            // Return any error which is not due to authentication back to the calling service
+            if (error.response.status !== 401) {
+                return new Promise((_resolve, reject) => {
+                    reject(error);
+                });
+            }
+            
+            // Try request again with new token
+            return getToken()
+                .then((token) => {
+                
+                if (token) {
+                    setToken(token);
+                }
+                
+                const config = error.config;
+                
+                return new Promise((resolve, reject) => {
+                    axios.request(config).then((response) => {
+                        resolve(response);
+                    }).catch((error) => {
+                        reject(error);
+                    });
+                });
+                
+            })
+            .catch((error) => {
+                Promise.reject(error);
+            });
+        },
+    ); 
+}
+
+export { getToken, setToken, setAutoToken };
