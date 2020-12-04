@@ -1,10 +1,14 @@
-import getToken from "../../jasmin/token"
+import { useState } from "react";
+import getToken from "../../jasmin/token";
+
+const token = getToken();
 
 
 export default function PendingPicking() {
-    const token = getToken();
 
-    return (
-        <span>ola</span>
+
+
+    return (    
+        <span></span>
     )
 }
