@@ -1,0 +1,11 @@
+.checkbox {
+    color: var(--primary-color) !important;
+}
+
+.checkbox:checked {
+    color: var(--primary-color) !important;
+}
+
+.checkbox:hover {
+    background-color: var(--background-color) !important;
+}
