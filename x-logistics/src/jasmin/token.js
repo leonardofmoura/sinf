@@ -1,10 +1,9 @@
 import { sendRequest } from "./request";
 const axios = require("axios");
 
-const CLIENT_ID = process.env.REACT_APP_CLIENT_ID
-const CLIENT_SECRET = process.env.REACT_APP_CLIENT_SECRET;
-
 async function getToken() {
+    const CLIENT_ID = process.env.REACT_APP_CLIENT_ID
+    const CLIENT_SECRET = process.env.REACT_APP_CLIENT_SECRET;
 
     const url = "https://identity.primaverabss.com/connect/token";
     const proxy = "https://cors-anywhere.herokuapp.com/"
