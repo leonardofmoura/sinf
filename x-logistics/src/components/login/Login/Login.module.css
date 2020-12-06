@@ -1,0 +1,16 @@
+.loginSection {
+    display: flex;
+    flex-flow: column;
+    min-height: 100vh !important; 
+    justify-content: center;
+    align-items: center;
+}
+
+.loginButton {
+    padding: 2rem;
+    font-size: 2rem;
+}
+
+.loginButton:hover {
+    cursor: pointer;
+}

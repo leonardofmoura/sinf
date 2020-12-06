@@ -1,0 +1,17 @@
+.header {
+    display: flex;
+    align-items: center;
+
+    padding: 1rem 1rem 0.2rem 1rem;
+}
+
+.headerItem {
+    font-size: 1.15rem;
+    flex-grow: 1;
+    width: 20%;
+    margin: 0 1rem;
+}
+
+.headerLine {
+    margin: 0.4rem 2rem 0.5rem 2rem;
+}

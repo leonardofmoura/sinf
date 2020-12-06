@@ -1,0 +1,17 @@
+.header {
+    display: flex;
+    align-items: center;
+
+    padding: 0.6rem;
+    margin-bottom: 1.5rem;
+
+    background-color: white;
+    border: 0.1rem solid #bebebe;
+}
+
+.headerItem {
+    font-size: 1.15rem;
+    flex-grow: 1;
+    width: 20%;
+    margin: 0 1rem;
+}
