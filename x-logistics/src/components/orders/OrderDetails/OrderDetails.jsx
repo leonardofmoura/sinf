@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import Popup from 'reactjs-popup';
 import 'reactjs-popup/dist/index.css';
@@ -31,7 +31,7 @@ const OrderDetails = (props) => {
                                 )}  
                                 modal="true"
                             >
-                                <OrderStoragePopup/>
+                                <OrderStoragePopup item={item}/>
                             </Popup>
                         </section>
                     )
@@ -42,14 +42,20 @@ const OrderDetails = (props) => {
 }
 
 const OrderStoragePopup = (props) => {
-    const options = [
-        'A1', 'A2', 'A3', 'A4', 'A5', 'A6', 'A7',
-        'B1', 'B2', 'B3', 'B4', 'B5', 'B6', 'B7',
-        'C1', 'C2', 'C3', 'C4', 'C5', 'C6', 'C7',
-        'D1', 'D2', 'D3', 'D4', 'D5', 'D6', 'D7',
-        'E1', 'E2', 'E3', 'E4', 'E5', 'E6', 'E7',
-        'F1', 'F2', 'F3', 'F4', 'F5', 'F6', 'F7'
-    ];
+    const [selectedRow, setRow] = useState('A');
+    const [selectedCol, setCol] = useState('1');
+
+    const _handleRowChange = (event) => {
+        setRow(event.target.value);
+    }
+
+    const _handleColChange = (event) => {
+        setCol(event.target.value);
+    }
+
+    const _confirmItemStorage = () => {
+
+    }
 
     const rowOptions = [
         'A', 'B', 'C', 'D', 'E', 'F'
@@ -62,7 +68,7 @@ const OrderStoragePopup = (props) => {
     return(
         <div>
             <span className={styles.storagePopup}>Choose storage section:</span>
-            <select>
+            <select value={selectedRow} onChange={_handleRowChange}>
                 {
                     rowOptions.map((option) => {
                         return(
@@ -71,7 +77,7 @@ const OrderStoragePopup = (props) => {
                     })
                 }
             </select>
-            <select>
+            <select value={selectedCol} onChange={_handleColChange}>
                 {
                     columnOptions.map((option) => {
                         return(
@@ -80,9 +86,9 @@ const OrderStoragePopup = (props) => {
                     })
                 }
             </select>
-            <button>Confirm</button>
+            <button onClick = {_confirmItemStorage}>Confirm</button>
         </div>
     )
-}
+};
 
 export default OrderDetails;

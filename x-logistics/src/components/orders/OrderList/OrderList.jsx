@@ -15,26 +15,6 @@ const OrderList = (props) => {
     useEffect(() => {
         const fetchData = async () => {
             const json = await sendJasminRequest('purchases/orders', 'GET');
-            /*const token = await getToken();
-            
-            console.log('JSON:');
-            console.log(json);
-
-            const options = {
-                method: 'GET',
-                headers: {
-                    'Content-type': 'application/json',
-                    Authorization: `Bearer ${token}`,
-                },
-            };
-
-            const response = await fetch('https://my.jasminsoftware.com/api/242853/242853-0001/purchases/orders', options)
-                .catch((error) => {
-                    console.error(error);
-                });
-
-            const responseJson = await response.json();*/
-
             setItems(json.data);
         };
 
