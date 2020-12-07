@@ -20,8 +20,9 @@
     border-right: 0.1rem solid #bebebe;
 }
 
-.tableRow:hover {
-    cursor: pointer;
+.tableRowCollapsed:hover, 
+.tableRowExpanded:hover {
+    /* cursor: pointer; */
 }
 
 .tableRowItem {
@@ -29,6 +30,10 @@
     flex-grow: 1;
     width: 20%;
     margin: 0 1rem;
+}
+
+.tableRowItem:hover {
+   /*  cursor: pointer; */
 }
 
 .tabelRowExpansion {

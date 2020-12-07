@@ -4,6 +4,7 @@ import Tabel from "../tabel/Tabel/Tabel.jsx";
 import TabelHeader from "../tabel/TabelHeader/TabelHeader.jsx";
 import TabelRow from "../tabel/TabelRow/TabelRow.jsx";
 import TabelRowSubRow from "../tabel/TabelRowSubRow/TabelRowSubRow.jsx";
+import CreatePickingWaveButton from "./CreatePickingWaveButton/CreatePickingWaveButton.jsx";
 import PickingAction from "./PickingAction/PickingAction.jsx";
 
 export default class PendingPicking extends Component {
@@ -20,10 +21,6 @@ export default class PendingPicking extends Component {
         getAllSales().then(newSales => this.setState({sales: newSales}));
     }
 
-    handlePick = () => {
-        //TODO
-    }
-
     renderSales = () => {
         if (this.state.sales !== null) {
             return (
@@ -34,7 +31,7 @@ export default class PendingPicking extends Component {
                                 sale.products.map((product, index) => {
                                     return (
                                         <TabelRowSubRow data={product} key={index} 
-                                            actionComponent={<PickingAction onPick={this.handlePick.bind(this)}/>}/>
+                                            actionComponent={<PickingAction onPick={this.handleItemPick}/>}/>
                                     )
                                 })
                             }
@@ -45,11 +42,20 @@ export default class PendingPicking extends Component {
         }
     }
 
+    handleItemPick = () => {
+        //TODO
+    }
+
+    handleCreatePickingWave = () => {
+        //TODO
+    }
+
     render = () => {
         return (
             <Tabel>
                 <TabelHeader headers={this.tabelHeaders}/>
                 { this.renderSales() }
+                <CreatePickingWaveButton onPick={this.handleCreatePickingWave} />
             </Tabel>
         )
     }
