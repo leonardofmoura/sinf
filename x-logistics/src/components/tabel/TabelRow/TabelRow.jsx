@@ -8,7 +8,9 @@ export default function TabelRow(props) {
     const [isExpanded, setIsExpanded] = useState(false);
 
     const handleClickRow = () => {
-        setIsExpanded(!isExpanded);
+        if (!props.disableExpansion) {
+            setIsExpanded(!isExpanded);
+        }
     }
 
     return (
