@@ -1,3 +1,4 @@
+import { getAllSales } from "../../jasmin/sales.js";
 import Tabel from "../tabel/Tabel/Tabel.jsx";
 import TabelHeader from "../tabel/TabelHeader/TabelHeader.jsx";
 import TabelRow from "../tabel/TabelRow/TabelRow.jsx";
@@ -8,6 +9,8 @@ export default function PendingPicking() {
 
     const tabelHeaders = ["ID", "Customer", "Date", "Summary", "Picking"];
     const subTabelHeaders = ["Product ID", "Quantity", "Item Name", "Category", "Picking"];
+
+    getAllSales();
 
     const saleExample = {
         saleData: ["0000001", "L Moura", "11/11/2020", "2080 Ti Graphics cards"],

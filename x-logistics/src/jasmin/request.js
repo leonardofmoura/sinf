@@ -35,7 +35,7 @@ const sendJasminRequest = async (resourcePath, method) => {
         baseURL: `https://my.jasminsoftware.com/api/${ACCOUNT}/${SUBSCRIPTION}/`,
         method: method,
         headers: headers
-    })
+    });
     return response;
 }
 
