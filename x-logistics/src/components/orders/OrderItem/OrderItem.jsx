@@ -17,7 +17,7 @@ const OrderItem = (props) => {
                     +
                 </button>
             </section>
-            { expanded && <OrderDetails items={props.order.documentLines}/> }
+            { expanded && <OrderDetails order={props.order} items={props.order.documentLines}/> }
         </div>
     )
 };

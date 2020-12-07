@@ -3,7 +3,11 @@ import React, { useState } from 'react';
 import Popup from 'reactjs-popup';
 import 'reactjs-popup/dist/index.css';
 
+import { sendRequest } from '../../../jasmin/request';
 import styles from './OrderDetails.module.css';
+
+const ACCOUNT = process.env.REACT_APP_ACCOUNT;
+const SUBSCRIPTION = process.env.REACT_APP_SUBSCRIPTION;
 
 const OrderDetails = (props) => {
     console.log(props.items);
@@ -31,7 +35,7 @@ const OrderDetails = (props) => {
                                 )}  
                                 modal="true"
                             >
-                                <OrderStoragePopup item={item}/>
+                                <OrderStoragePopup order={props.order} item={item}/>
                             </Popup>
                         </section>
                     )
@@ -54,7 +58,43 @@ const OrderStoragePopup = (props) => {
     }
 
     const _confirmItemStorage = () => {
+        const body = {
+            documentType: 'GMA',
+            serie: props.order.serie,
+            seriesNumber: props.order.seriesNumber,
+            loadingPoint: 'RECEPTION',
+            loadingStreetName: 'Dr. Roberto Frias',
+            loadingBuildNumber: '0',
+            loadingPostalZone: '0000',
+            loadingPostalCity: '4200-465',
+            loadingDateTime: new Date().getTimezoneOffset(),
+            unloadingDateTime: new Date().getTimezoneOffset(),
+            isATDocCodeIDEditable: true, // ???
+            loadingCountry: 'Portugal',
+            documentDate: new Date().getDate(),
+            company: 'GXSA',
+            sourceWarehouse: 'RECEPTION',
+            targetWarehouse: selectedRow + selectedCol,
+            useCurrentDate: true,
+            documentLines: [
+                {
+                    description: props.item.description,
+                    quantity: props.item.quantity,
+                    unit: props.item.unit,
+                    item: props.item.purchasesItem,
+                }
+            ],
+        };
+        console.log(props.item);
+        
+        const response = sendRequest(
+            `https://my.jasminsoftware.com/api/${ACCOUNT}/${SUBSCRIPTION}/materialsManagement/stockTransferOrders`,
+            'POST',
+            body,
+            );
 
+        console.log('RESPONSE: ');
+        console.log(response);
     }
 
     const rowOptions = [
