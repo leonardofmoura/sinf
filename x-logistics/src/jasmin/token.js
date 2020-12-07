@@ -1,6 +1,8 @@
 import { sendRequest } from "./request";
 const axios = require("axios");
 
+let isTokenSet = false;
+
 async function getToken() {
     const CLIENT_ID = process.env.REACT_APP_CLIENT_ID
     const CLIENT_SECRET = process.env.REACT_APP_CLIENT_SECRET;
@@ -24,12 +26,17 @@ const setToken = (token) => {
     axios.defaults.headers.common = { "Authorization": `bearer ${token}` };
 };
 
-let isAutoTokenSet = false;
+const updateToken = () => {
+    getToken().then((token) => {
+        setToken(token);
+    })
+}
 
 // Intercept request in case of unauthorized error and request new token
 const setAutoToken = () => {
-    if (isAutoTokenSet) {
-        return;
+    if (!isTokenSet) {
+        updateToken();
+        isTokenSet = true;
     }
 
     axios.interceptors.response.use((response) => (response),
@@ -45,28 +52,26 @@ const setAutoToken = () => {
             return getToken()
                 .then((token) => {
                 
-                if (token) {
-                    setToken(token);
-                }
-                
-                const config = error.config;
-                
-                return new Promise((resolve, reject) => {
-                    axios.request(config).then((response) => {
-                        resolve(response);
-                    }).catch((error) => {
-                        reject(error);
+                    if (token) {
+                        setToken(token);
+                    }
+                    
+                    const config = error.config;
+                    
+                    return new Promise((resolve, reject) => {
+                        axios.request(config).then((response) => {
+                            resolve(response);
+                        }).catch((error) => {
+                            reject(error);
+                        });
                     });
-                });
                 
-            })
-            .catch((error) => {
-                Promise.reject(error);
-            });
+                })
+                .catch((error) => {
+                    Promise.reject(error);
+                });
         },
     ); 
-
-    isAutoTokenSet = true;
 }
 
-export { getToken, setToken, setAutoToken };
+export { getToken, setToken, updateToken, setAutoToken };
