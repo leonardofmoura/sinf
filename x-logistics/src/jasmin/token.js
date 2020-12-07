@@ -1,7 +1,6 @@
 import { sendRequest } from "./request";
 const axios = require("axios");
 
-// Globals
 let isTokenSet = false;
 
 async function getToken() {

@@ -28,14 +28,19 @@ const sendRequest = async (url, method, data) => {
     return response;
 }
 
-const sendJasminRequest = async (resourcePath, method) => {
-    const response = axios(
-    {
+const sendJasminRequest = async (resourcePath, method, data) => {
+    let requestInfo = {
         url: resourcePath,
         baseURL: `https://my.jasminsoftware.com/api/${ACCOUNT}/${SUBSCRIPTION}/`,
         method: method,
         headers: headers
-    });
+    }
+
+    if (data !== undefined && data !== null) {
+        requestInfo.data = getBodyData(data);
+    }
+
+    const response = axios(requestInfo);
     return response;
 }
 

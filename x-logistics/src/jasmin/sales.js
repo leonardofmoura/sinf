@@ -1,28 +1,45 @@
 import { sendJasminRequest } from "./request";
+const moment = require('moment');
 
 const getAllSales = async () => {
-    const resource = "sales/orders"; 
+    const resource = "sales/orders";
+    let sales = []; 
 
     const response = await sendJasminRequest(resource, "get");
 
-    const data = response.data;
-    
-    const sales = [];
-
-    data.forEach(sale => {
-        console.log(sale);
-
-        let saleId = ("" + sale.seriesNumber).padStart(5, "0");
+    for (const sale of response.data) {
+        // Sale Info
+        let saleId = sale.serie + ":" + ("" + sale.seriesNumber).padStart(4, "0");
         let saleCustomer = sale.buyerCustomerParty;
-        let saleDate = sale.documentDate;
+        let saleDate = moment(sale.documentDate).format("YYYY-MM-DD");
+        
+        let saleInfo = [saleId, saleCustomer, saleDate, "TODO"];
+        
+        let products = [];
+        for (const product of sale.documentLines) {
+            let salesItem = await getSalesItem(product.salesItemId);
+            
+            let productId = product.salesItemId;
+            let quantity = product.quantity + " " + product.unit;
+            let productName = product.salesItemDescription;
+            let category = salesItem.assortmentDescription;
+            
+            let parsedProduct = [productId, quantity, productName, category];
+            
+            products.push(parsedProduct);
+        }
+        
+        let parsedSale = {saleInfo: saleInfo, products: products};
+        
+        sales.push(parsedSale);
+    }
+    
+    return sales;
+}
 
-        //let products = [];
-
-        //sale.documentLines.forEach((product))
-
-
-        console.log(sale.description);
-    })
+const getSalesItem = async (salesItemId) => {
+    let response = await sendJasminRequest("salesCore/salesItems/" + salesItemId);
+    return response.data;
 }
 
 export { getAllSales };
