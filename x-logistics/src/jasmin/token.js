@@ -24,8 +24,14 @@ const setToken = (token) => {
     axios.defaults.headers.common = { "Authorization": `bearer ${token}` };
 };
 
+let isAutoTokenSet = false;
+
 // Intercept request in case of unauthorized error and request new token
 const setAutoToken = () => {
+    if (isAutoTokenSet) {
+        return;
+    }
+
     axios.interceptors.response.use((response) => (response),
         (error) => {
             // Return any error which is not due to authentication back to the calling service
@@ -59,6 +65,8 @@ const setAutoToken = () => {
             });
         },
     ); 
+
+    isAutoTokenSet = true;
 }
 
 export { getToken, setToken, setAutoToken };
