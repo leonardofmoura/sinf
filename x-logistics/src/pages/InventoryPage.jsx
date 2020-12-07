@@ -1,9 +1,15 @@
 import SidebarLayout from "../layouts/SidebarLayout";
+import { setAutoToken} from "../jasmin/token";
 
-const InventoryPage = () => (
-    <SidebarLayout>
-        TODO
-    </SidebarLayout>
-)
+const InventoryPage = () => {
+    setAutoToken();
+
+    return (
+        <SidebarLayout>
+            TODO
+        </SidebarLayout>
+    )
+}
+
 
 export default InventoryPage;

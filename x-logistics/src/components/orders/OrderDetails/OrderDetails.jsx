@@ -3,11 +3,8 @@ import React, { useState } from 'react';
 import Popup from 'reactjs-popup';
 import 'reactjs-popup/dist/index.css';
 
-import { sendRequest } from '../../../jasmin/request';
+import { sendJasminRequest } from '../../../jasmin/request';
 import styles from './OrderDetails.module.css';
-
-const ACCOUNT = process.env.REACT_APP_ACCOUNT;
-const SUBSCRIPTION = process.env.REACT_APP_SUBSCRIPTION;
 
 const OrderDetails = (props) => {
     console.log(props.items);
@@ -87,8 +84,8 @@ const OrderStoragePopup = (props) => {
         };
         console.log(props.item);
         
-        const response = sendRequest(
-            `https://my.jasminsoftware.com/api/${ACCOUNT}/${SUBSCRIPTION}/materialsManagement/stockTransferOrders`,
+        const response = sendJasminRequest(
+            `materialsManagement/stockTransferOrders`,
             'POST',
             body,
             );
