@@ -2,6 +2,7 @@
 body, html {
   --primary-color: #23C39B;
   --primary-color-darker: #177B62; 
+  --primary-color-lighter: #dbfff6;
   --background-color: #E5E5E5;
   --background-color-lighter:#F9F9F9;
   --inactive-sidebar-item: #727272;
