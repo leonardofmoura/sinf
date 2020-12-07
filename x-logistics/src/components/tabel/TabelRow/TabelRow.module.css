@@ -1,0 +1,40 @@
+.tableRowCollapsed {
+    display: flex;
+    align-items: center;
+
+    padding: 1rem 0.6rem;
+
+    background-color: white;
+    border: 0.1rem solid #bebebe;
+}
+
+.tableRowExpanded {
+    display: flex;
+    align-items: center;
+
+    padding: 1rem;
+
+    background-color: white;
+    border-top: 0.1rem solid #bebebe;
+    border-left: 0.1rem solid #bebebe;
+    border-right: 0.1rem solid #bebebe;
+}
+
+.tableRow:hover {
+    cursor: pointer;
+}
+
+.tableRowItem {
+    font-size: 1.15rem;
+    flex-grow: 1;
+    width: 20%;
+    margin: 0 1rem;
+}
+
+.tabelRowExpansion {
+    background-color: var(--background-color-lighter);
+    border-bottom: 0.1rem solid #bebebe;
+    border-left: 0.1rem solid #bebebe;
+    border-right: 0.1rem solid #bebebe;
+    box-shadow: inset 0px 4px 4px rgba(0, 0, 0, 0.25);
+}

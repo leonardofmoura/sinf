@@ -1,0 +1,8 @@
+.action {
+    color: var(--primary-color);
+}
+
+.action:hover {
+    text-decoration: underline;
+    cursor: pointer;
+}
