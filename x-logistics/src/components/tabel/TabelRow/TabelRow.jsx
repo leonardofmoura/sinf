@@ -13,6 +13,16 @@ export default function TabelRow(props) {
         }
     }
 
+    const showActionComponent = () => {
+        if (props.actionComponent) {
+            return (
+                <div className={styles.tableRowItem}>
+                    {props.actionComponent}
+                </div>
+            );
+        }
+    }
+
     return (
         <React.Fragment>
             <div className={isExpanded ? styles.tableRowExpanded : styles.tableRowCollapsed} onClick={handleClickRow}>
@@ -25,9 +35,7 @@ export default function TabelRow(props) {
                         )
                     })
                 }
-                <div className={styles.tableRowItem}>
-                    {props.actionComponent}
-                </div>
+                {showActionComponent()}
             </div>
             <Collapse isOpened={isExpanded}>
                 <div className={styles.tabelRowExpansion}>

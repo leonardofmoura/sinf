@@ -1,0 +1,8 @@
+.viewWarehouse {
+    color: var(--primary-color);
+}
+
+.viewWarehouse:hover {
+    text-decoration: underline;
+    cursor: pointer;
+}

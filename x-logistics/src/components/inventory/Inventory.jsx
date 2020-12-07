@@ -2,11 +2,12 @@ import Tabel from "../tabel/Tabel/Tabel.jsx";
 import TabelHeader from "../tabel/TabelHeader/TabelHeader.jsx";
 import TabelRow from "../tabel/TabelRow/TabelRow.jsx";
 import TabelRowSubRow from "../tabel/TabelRowSubRow/TabelRowSubRow.jsx";
+import ViewWarehouse from "./ViewWarehouse/ViewWarehouse.jsx";
 
 const Inventory = () => {
 
-    const tabelHeaders = ["ID", "Item Name", "Quantity", "Category", "Action"];
-    const subTabelHeaders = ["ID", "Quantity", "Warehouse", "SomeAction"];
+    const tabelHeaders = ["ID", "Item Name", "Quantity", "Category"];
+    const subTabelHeaders = ["ID", "Quantity", "Warehouse", "Action"];
 
     const itemExample = {
         info: ["0000001", "2080 Ti Graphics cards", "37", "Graphics Cards"],
@@ -28,13 +29,15 @@ const Inventory = () => {
                             key={index} 
                             subHeaders={subTabelHeaders} 
                             data={item.info} 
-                            actionComponent={<a>todo</a>}
                         >
                             {
                                 item.itemWarehouses.map((item,index) => {
                                     return (
-                                        <TabelRowSubRow data={item} key={index} 
-                                            actionComponent={<a>todo</a>}/>
+                                        <TabelRowSubRow 
+                                            data={item} 
+                                            key={index} 
+                                            actionComponent={<ViewWarehouse />}
+                                        />
                                     )
                                 })
                             }
