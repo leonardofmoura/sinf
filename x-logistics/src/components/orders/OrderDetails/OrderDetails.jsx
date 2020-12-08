@@ -19,9 +19,9 @@ const OrderDetails = (props) => {
                 <div>Storage</div>
             </section>
             {
-                props.items.map((item) => {
+                props.items.map((item,index) => {
                     return(
-                        <section className={styles.orderDetailsItem}>
+                        <section key={index} className={styles.orderDetailsItem}>
                             <div>???</div>
                             <div>{item.quantity}</div>
                             <div>{item.purchasesItemDescription}</div>
@@ -61,14 +61,14 @@ const OrderStoragePopup = (props) => {
             seriesNumber: props.order.seriesNumber,
             loadingPoint: 'RECEPTION',
             loadingStreetName: 'Dr. Roberto Frias',
-            loadingBuildNumber: '0',
-            loadingPostalZone: '0000',
-            loadingPostalCity: '4200-465',
+            loadingBuildingNumber: '1',
+            loadingPostalZone: '4200-465',
+            loadingCityName: 'Porto',
             loadingDateTime: new Date().getTimezoneOffset(),
             unloadingDateTime: new Date().getTimezoneOffset(),
-            isATDocCodeIDEditable: true, // ???
-            loadingCountry: 'Portugal',
-            documentDate: new Date().getDate(),
+            isATDocCodeIDEditable: false, // ???
+            loadingCountry: 'PT',
+            documentDate: new Date().toString(),
             company: 'GXSA',
             sourceWarehouse: 'RECEPTION',
             targetWarehouse: selectedRow + selectedCol,
@@ -109,7 +109,7 @@ const OrderStoragePopup = (props) => {
                 {
                     rowOptions.map((option) => {
                         return(
-                            <option>{option}</option>
+                            <option key={option}>{option}</option>
                         )
                     })
                 }
@@ -118,7 +118,7 @@ const OrderStoragePopup = (props) => {
                 {
                     columnOptions.map((option) => {
                         return(
-                            <option>{option}</option>
+                            <option key={option}>{option}</option>
                         )
                     })
                 }

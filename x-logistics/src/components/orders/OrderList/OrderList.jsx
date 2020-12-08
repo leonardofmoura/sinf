@@ -34,9 +34,9 @@ const OrderList = (props) => {
             {console.log('BEFORE MAP:')}
             {console.log(items)}
             {
-                items.map((item) => {
+                items.map((item,index) => {
                     return (
-                        <OrderItem order={item}/>
+                        <OrderItem key={index} order={item}/>
                     )
                 })
             }
