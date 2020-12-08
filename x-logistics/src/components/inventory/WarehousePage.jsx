@@ -1,20 +1,21 @@
+import WarehouseHeader from "./WarehouseHeader/WarehouseHeader";
 import Tabel from "../tabel/Tabel/Tabel.jsx";
 import TabelHeader from "../tabel/TabelHeader/TabelHeader.jsx";
-import TabelRow from "../tabel/TabelRow/TabelRow.jsx";import ViewWarehouse from "./ViewWarehouse/ViewWarehouse.jsx";
-;
+import TabelRow from "../tabel/TabelRow/TabelRow.jsx";;
 
-const Warehouses = () => {
-    const tabelHeaders = ["Warehouse", "Description", "Total Number of items", "Action"];
+const WarehousePage = () => {
+    const tabelHeaders = ["ID", "Item Name", "Quantity", "Category"];
     const wareHouseName = "RECEPTION"
 
-    const warehouseExample = {
-        info: ["SHIPPING", "The warehouse with items to ship", "37"],
+    const itemExample = {
+        info: ["0000001", "2080 Ti Graphics cards", "37", "Graphics Cards"],
     };
 
-    const example = [warehouseExample,warehouseExample];
+    const example = [itemExample,itemExample];
 
     return (
         <div>
+            <WarehouseHeader warehouseName={wareHouseName} />
             <Tabel>
                 <TabelHeader headers={tabelHeaders}/>
                 {
@@ -23,7 +24,6 @@ const Warehouses = () => {
                             <TabelRow 
                                 key={index} 
                                 data={item.info} 
-                                actionComponent={<ViewWarehouse />}
                             >
                             </TabelRow>
                         )
@@ -34,4 +34,4 @@ const Warehouses = () => {
     )
 }
 
-export default Warehouses;
+export default WarehousePage;

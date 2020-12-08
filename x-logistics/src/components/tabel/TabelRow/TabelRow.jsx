@@ -8,7 +8,7 @@ export default function TabelRow(props) {
     const [isExpanded, setIsExpanded] = useState(false);
 
     const handleClickRow = () => {
-        if (!props.disableExpansion) {
+        if (props.subHeaders) {
             setIsExpanded(!isExpanded);
         }
     }
@@ -19,6 +19,19 @@ export default function TabelRow(props) {
                 <div className={styles.tableRowItem}>
                     {props.actionComponent}
                 </div>
+            );
+        }
+    }
+
+    const showSubTable = () => {
+        if (props.subHeaders) {
+            return (
+                <Collapse isOpened={isExpanded}>
+                    <div className={styles.tabelRowExpansion}>
+                        <TabelRowSubHeader headers={props.subHeaders} />
+                        {props.children}
+                    </div>
+                </Collapse>
             );
         }
     }
@@ -37,12 +50,7 @@ export default function TabelRow(props) {
                 }
                 {showActionComponent()}
             </div>
-            <Collapse isOpened={isExpanded}>
-                <div className={styles.tabelRowExpansion}>
-                    <TabelRowSubHeader headers={props.subHeaders} />
-                    {props.children}
-                </div>
-            </Collapse>
+            {showSubTable()}
         </React.Fragment>
     )
     
