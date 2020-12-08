@@ -26,7 +26,7 @@ export default function SalesPage() {
             title: 'Complete',
             component: <CompleteSales />,
             key: 3
-        },
+        }, 
     ]
 
     return (

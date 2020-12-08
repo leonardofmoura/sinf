@@ -1,5 +1,5 @@
 import { Component } from "react";
-import { getAllSales } from "../../jasmin/sales.js";
+import { getPendingPicking } from "../../jasmin/sales.js";
 import Tabel from "../tabel/Tabel/Tabel.jsx";
 import TabelHeader from "../tabel/TabelHeader/TabelHeader.jsx";
 import TabelRow from "../tabel/TabelRow/TabelRow.jsx";
@@ -18,7 +18,7 @@ export default class PendingPicking extends Component {
     }
 
     componentDidMount = () => {
-        getAllSales().then(newSales => this.setState({sales: newSales}));
+        getPendingPicking().then(newSales => this.setState({sales: newSales}));
     }
 
     renderSales = () => {
@@ -26,7 +26,7 @@ export default class PendingPicking extends Component {
             return (
                 this.state.sales.map((sale, index) => {     
                     return (
-                        <TabelRow key={index} subHeaders={this.subTabelHeaders} data={sale.saleInfo}>
+                        <TabelRow key={index} subHeaders={this.subTabelHeaders} data={sale.info}>
                             {
                                 sale.products.map((product, index) => {
                                     return (

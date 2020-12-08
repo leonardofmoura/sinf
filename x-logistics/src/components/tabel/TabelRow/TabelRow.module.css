@@ -22,7 +22,7 @@
 
 .tableRowCollapsed:hover, 
 .tableRowExpanded:hover {
-    /* cursor: pointer; */
+    cursor: pointer; 
 }
 
 .tableRowItem {
@@ -30,10 +30,6 @@
     flex-grow: 1;
     width: 20%;
     margin: 0 1rem;
-}
-
-.tableRowItem:hover {
-   /*  cursor: pointer; */
 }
 
 .tabelRowExpansion {

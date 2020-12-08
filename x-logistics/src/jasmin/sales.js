@@ -1,4 +1,5 @@
 import { sendJasminRequest } from "./request";
+import WAREHOUSE from "./warehouse";
 const moment = require('moment');
 
 const getAllSales = async () => {
@@ -12,26 +13,28 @@ const getAllSales = async () => {
         let products = [];
         for (const product of sale.documentLines) {
             let salesItem = await getSalesItem(product.salesItemId);
+
+            console.log(product);
             
-            let productId = product.salesItemId;
-            let quantity = product.quantity + " " + product.unit;
-            let productName = product.salesItemDescription;
-            let category = salesItem.assortmentDescription;
-            
-            let parsedProduct = [productId, quantity, productName, category];
+            let parsedProduct = {
+                id: product.salesItemId,
+                quantity:  product.quantity + " " + product.unit, 
+                name:  product.salesItemDescription, 
+                category: salesItem.assortmentDescription,
+                warehouse: product.warehouse,
+            };
             
             products.push(parsedProduct);
         }
-
-        // Sale Info
-        let saleId = sale.serie + ":" + ("" + sale.seriesNumber).padStart(4, "0");
-        let saleCustomer = sale.buyerCustomerParty;
-        let saleDate = moment(sale.documentDate).format("YYYY-MM-DD");
-        let summary = createSaleSummary(products);
         
-        let saleInfo = [saleId, saleCustomer, saleDate, summary];
+        let saleInfo = {
+            id: sale.serie + ":" + ("" + sale.seriesNumber).padStart(4, "0"),
+            customer: sale.buyerCustomerParty,
+            date: moment(sale.documentDate).format("YYYY-MM-DD"),
+            summary: createSaleSummary(products),
+        };
         
-        let parsedSale = {saleInfo: saleInfo, products: products};
+        let parsedSale = {info: saleInfo, products: products};
         
         sales.push(parsedSale);
     }
@@ -48,8 +51,8 @@ const createSaleSummary = (products) => {
     let summaryInfo = {};
 
     for (const product of products) {
-        let quantity = product[1].substring(0, product[1].length - 3);
-        let category = product[3];
+        let quantity = product.quantity.substring(0, product.quantity.length - 3);
+        let category = product.category;
         
         if (category === null) {
             continue;
@@ -77,4 +80,44 @@ const createSaleSummary = (products) => {
     return saleSummary;
 }
 
-export { getAllSales };
+const parseProduct = (product) => {
+    return [product.id, product.quantity, product.name, product.category];
+}
+
+const parseSale = (sale) => {
+    let saleInfo = sale.saleInfo;
+    let parsedSaleInfo = [saleInfo.id, saleInfo.customer, saleInfo.date, saleInfo.summary];
+
+    let parsedProducts = [];
+    for (const product of sale.products) {
+        parsedProducts.push(parseProduct(product));
+    }
+
+    return {info: parsedSaleInfo, products: parsedProducts};
+}
+
+const getPendingPicking = async () => {
+    let pendingPicking = [];
+
+    const allSales = await getAllSales();
+
+    for (const sale of allSales) {
+        let pendingPickingProducts = [];
+
+        for (const product of sale.products) {
+           
+            if (product.warehouse !== WAREHOUSE.RECEPTION && product.warehouse !== WAREHOUSE.SHIPPING) {
+                pendingPickingProducts.push(product);
+            }
+        }
+
+        if (pendingPickingProducts.length > 0) {
+            let pendingPickingSale = {saleInfo: sale.info, products: pendingPickingProducts};
+            pendingPicking.push(parseSale(pendingPickingSale));
+        }
+    }
+
+    return pendingPicking;
+}
+
+export { getAllSales, getPendingPicking };
