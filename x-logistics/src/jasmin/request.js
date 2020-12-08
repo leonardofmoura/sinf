@@ -5,8 +5,8 @@ const ACCOUNT = process.env.REACT_APP_ACCOUNT;
 const SUBSCRIPTION = process.env.REACT_APP_SUBSCRIPTION;
 
 const headers = {
-    "Accept": "application/json",
-    "Content-Type": "multipart/form-data",
+	"Accept": "application/json",
+	"Content-Type": "application/json; charset=utf-8",
 }
 
 const getBodyData = (formObj) => {
