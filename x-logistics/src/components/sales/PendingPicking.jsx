@@ -1,50 +1,66 @@
-import { Component } from "react";
 import { getPendingPicking } from "../../jasmin/sales.js";
+import { parseSaleInfo, parseProduct } from "../../parsers/tabelParsers";
 import Tabel from "../tabel/Tabel/Tabel.jsx";
 import TabelHeader from "../tabel/TabelHeader/TabelHeader.jsx";
 import TabelRow from "../tabel/TabelRow/TabelRow.jsx";
 import TabelRowSubRow from "../tabel/TabelRowSubRow/TabelRowSubRow.jsx";
 import CreatePickingWaveButton from "./CreatePickingWaveButton/CreatePickingWaveButton.jsx";
 import PickingAction from "./PickingAction/PickingAction.jsx";
+import { Component  } from "react";
+import { withRouter } from "react-router-dom";
+const moment = require("moment");
 
-export default class PendingPicking extends Component {
+class PendingPicking extends Component {
     constructor(props) {
         super(props);
 
         this.tabelHeaders = ["ID", "Customer", "Date", "Summary", "Picking"];
         this.subTabelHeaders = ["Product ID", "Quantity", "Item Name", "Category", "Picking"];
 
-        this.selectedItems = {};
+        this.selectedItems = [];
 
         this.state = {sales: null};
     }
 
-    componentDidMount = () => {
-        getPendingPicking().then(newSales => this.setState({sales: newSales}));
+    componentDidMount() {
+        getPendingPicking().then(newSales => this.setState({ sales: newSales }));
+    }
+    
+    handleItemPick = (saleId, product, quantity) => {
+        let itemId = saleId + ":" + product.id;
+        this.selectedItems[itemId] = {product: product, quantity: quantity};
     }
 
-    handleItemPick = (productId, quantity) => {
-        this.selectedItems[productId] = quantity;
-    }
-
-    handleItemUnpick = (productId) => {
-        delete this.selectedItems[productId];
+    handleItemUnpick = (saleId, product) => {
+        let itemId = saleId + ":" + product.id;
+        delete this.selectedItems[itemId];
     }
 
     handleCreatePickingWave = () => {
-        let pickingWave = {};
-
+        let pickingWaveProducts = [];
         for (const key in this.selectedItems) {
             let itemKey = key.substr(key.lastIndexOf(":") + 1, key.length - key.lastIndexOf(":"));
-
-            if (pickingWave.hasOwnProperty(itemKey)) {
-                pickingWave[itemKey] += this.selectedItems[key];
+            
+            let productQuantity = 0;
+            if (pickingWaveProducts.hasOwnProperty(itemKey)) {
+                productQuantity = pickingWaveProducts[itemKey].quantity + this.selectedItems[key].quantity;
             } else {
-                pickingWave[itemKey] = this.selectedItems[key];
+                productQuantity = this.selectedItems[key].quantity;
             }
+
+            delete this.selectedItems[key].product.quantity;
+
+            pickingWaveProducts[itemKey] = {product: this.selectedItems[key].product, quantity: productQuantity};
         }
 
-        console.log(pickingWave);
+        let pickingWave = {id: moment().unix(), products: pickingWaveProducts};
+
+        let storedPickingWaves = localStorage.getItem("picking_waves") ? JSON.parse(localStorage.getItem("picking_waves")) : [];
+        storedPickingWaves.push(pickingWave);
+
+        localStorage.setItem("picking_waves", JSON.stringify(storedPickingWaves));
+
+        this.props.history.push("/sales/picking_waves");
     }
 
     renderSales = () => {
@@ -52,15 +68,16 @@ export default class PendingPicking extends Component {
             return (
                 this.state.sales.map((sale, index) => {     
                     return (
-                        <TabelRow key={index} subHeaders={this.subTabelHeaders} data={sale.info}>
+                        <TabelRow key={index} subHeaders={this.subTabelHeaders} data={parseSaleInfo(sale.info)}>
                             {
                                 sale.products.map((product, index) => {
                                     return (
-                                        <TabelRowSubRow data={product} key={index} 
+                                        <TabelRowSubRow data={parseProduct(product)} key={index} 
                                             actionComponent={<PickingAction 
-                                                                maxValue={product[1]} 
-                                                                onPick={this.handleItemPick.bind(this, sale.info[0] + ":" + product[0])}
-                                                                onUnpick={this.handleItemUnpick.bind(this, sale.info[0] + ":" + product[0])}
+                                                                product={product}
+                                                                saleId={sale.info.id}
+                                                                onPick={this.handleItemPick}
+                                                                onUnpick={this.handleItemUnpick}
                                                             />}
                                         />
                                     )
@@ -78,8 +95,10 @@ export default class PendingPicking extends Component {
             <Tabel>
                 <TabelHeader headers={this.tabelHeaders}/>
                 { this.renderSales() }
-                <CreatePickingWaveButton onClick={this.handleCreatePickingWave.bind(this)} />
+                <CreatePickingWaveButton onClick={this.handleCreatePickingWave} />
             </Tabel>
         )
     }
 }
+
+export default withRouter(PendingPicking);

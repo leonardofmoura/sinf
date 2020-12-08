@@ -4,6 +4,7 @@ import PendingPicking from "../components/sales/PendingPicking";
 import SidebarLayout from "../layouts/SidebarLayout";
 import TabsLayout from "../layouts/TabsLayout";
 import { setAutoToken } from "../jasmin/token";
+import PickingWave from "../components/sales/PickingWave";
 
 export default function SalesPage() {
     setAutoToken();
@@ -16,16 +17,22 @@ export default function SalesPage() {
             key: 1
         },
         {
+            path: '/sales/picking_waves',
+            title: 'Picking Waves',
+            component: <PickingWave />,
+            key: 2
+        }, 
+        {
             path: '/sales/pending_packaging',
             title: 'Pending Packaging',
             component: <PendingPackaging />,
-            key: 2
+            key: 3
         },
         {
             path: '/sales/complete',
             title: 'Complete',
             component: <CompleteSales />,
-            key: 3
+            key: 4
         }, 
     ]
 

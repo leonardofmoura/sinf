@@ -78,26 +78,6 @@ const createSaleSummary = (products) => {
     return saleSummary;
 }
 
-const parseProduct = (product) => {
-    return [product.id, product.quantity, product.name, product.category];
-}
-
-const parsePendingPackagingProduct = (product) => {
-    return [product.id, product.quantity, product.name, product.category, product.status];
-}
-
-const parseSale = (sale, productParser) => {
-    let saleInfo = sale.info;
-    let parsedSaleInfo = [saleInfo.id, saleInfo.customer, saleInfo.date, saleInfo.summary];
-
-    let parsedProducts = [];
-    for (const product of sale.products) {
-        parsedProducts.push(productParser(product));
-    }
-
-    return {info: parsedSaleInfo, products: parsedProducts};
-}
-
 const isPendingPicking = (product) => {
     return product.warehouse !== WAREHOUSE.RECEPTION && product.warehouse !== WAREHOUSE.SHIPPING
 }
@@ -123,7 +103,7 @@ const getPendingPicking = async () => {
 
         if (pendingPickingProducts.length > 0) {
             let pendingPickingSale = {info: sale.info, products: pendingPickingProducts};
-            pendingPicking.push(parseSale(pendingPickingSale, parseProduct));
+            pendingPicking.push(pendingPickingSale);
         }
     }
 
@@ -152,7 +132,7 @@ const getPendingPackaging = async () => {
         }
 
         if (pendingProducts.length > 0 && hasPickedProducts) {
-            pendingPackaging.push(parseSale(sale, parsePendingPackagingProduct));
+            pendingPackaging.push(sale);
         }
     }
 

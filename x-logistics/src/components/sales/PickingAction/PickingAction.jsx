@@ -9,18 +9,21 @@ export default function PickingAction(props) {
     const [isExpanded, setExpanded] = useState(false);
     const [isChecked, setChecked] = useState(false);
 
-    let maxQuantity = props.maxValue.substr(0, props.maxValue.length-3);
+    const product = props.product;
+    const saleId = props.saleId;
+
+    let maxQuantity = product.quantity.substr(0, product.quantity.length-3);
     let pickingQuantity = 1;
 
     const handleCheck = () => {
-        isChecked ? props.onUnpick() : props.onPick(pickingQuantity);
+        isChecked ? props.onUnpick(saleId, product) : props.onPick(saleId, product, pickingQuantity);
         setExpanded(!isExpanded);
         setChecked(!isChecked);  
     }
 
     const handleQuantityChange = (event) => {
         pickingQuantity = parseInt(event.target.value);
-        props.onPick(pickingQuantity);
+        props.onPick(saleId, product, pickingQuantity);
     }
 
     return (
