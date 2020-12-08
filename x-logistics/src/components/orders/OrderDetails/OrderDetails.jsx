@@ -56,27 +56,17 @@ const OrderStoragePopup = (props) => {
 
     const _confirmItemStorage = async () => {
         const body = {
-            documentType: 'GMA',
-            serie: props.order.serie,
-            loadingPoint: 'RECEPTION',
             loadingStreetName: 'Dr. Roberto Frias',
             loadingBuildingNumber: '1',
             loadingPostalZone: '4200-465',
             loadingCityName: 'Porto',
-            loadingDateTime: new Date().getTimezoneOffset(),
-            unloadingDateTime: new Date().getTimezoneOffset(),
-            isATDocCodeIDEditable: false, // ???
             loadingCountry: 'PT',
-            documentDate: new Date().toString(),
             company: 'GXSA',
             sourceWarehouse: 'RECEPTION',
             targetWarehouse: selectedRow + selectedCol,
-            useCurrentDate: true,
             documentLines: [
                 {
-                    description: props.item.description,
                     quantity: props.item.quantity,
-                    unit: props.item.unit,
                     materialsItem: props.item.purchasesItem,
                 }
             ],
