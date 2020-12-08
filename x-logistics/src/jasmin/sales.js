@@ -13,8 +13,6 @@ const getAllSales = async () => {
         let products = [];
         for (const product of sale.documentLines) {
             let salesItem = await getSalesItem(product.salesItemId);
-
-            console.log(product);
             
             let parsedProduct = {
                 id: product.salesItemId,
@@ -28,7 +26,7 @@ const getAllSales = async () => {
         }
         
         let saleInfo = {
-            id: sale.serie + ":" + ("" + sale.seriesNumber).padStart(4, "0"),
+            id: sale.serie + ("" + sale.seriesNumber).padStart(4, "0"),
             customer: sale.buyerCustomerParty,
             date: moment(sale.documentDate).format("YYYY-MM-DD"),
             summary: createSaleSummary(products),
@@ -84,16 +82,28 @@ const parseProduct = (product) => {
     return [product.id, product.quantity, product.name, product.category];
 }
 
-const parseSale = (sale) => {
-    let saleInfo = sale.saleInfo;
+const parsePendingPackagingProduct = (product) => {
+    return [product.id, product.quantity, product.name, product.category, product.status];
+}
+
+const parseSale = (sale, productParser) => {
+    let saleInfo = sale.info;
     let parsedSaleInfo = [saleInfo.id, saleInfo.customer, saleInfo.date, saleInfo.summary];
 
     let parsedProducts = [];
     for (const product of sale.products) {
-        parsedProducts.push(parseProduct(product));
+        parsedProducts.push(productParser(product));
     }
 
     return {info: parsedSaleInfo, products: parsedProducts};
+}
+
+const isPendingPicking = (product) => {
+    return product.warehouse !== WAREHOUSE.RECEPTION && product.warehouse !== WAREHOUSE.SHIPPING
+}
+
+const isPendingPackaging = (product) => {
+    return product.warehouse === WAREHOUSE.SHIPPING;
 }
 
 const getPendingPicking = async () => {
@@ -106,18 +116,47 @@ const getPendingPicking = async () => {
 
         for (const product of sale.products) {
            
-            if (product.warehouse !== WAREHOUSE.RECEPTION && product.warehouse !== WAREHOUSE.SHIPPING) {
+            if (isPendingPicking(product)) {
                 pendingPickingProducts.push(product);
             }
         }
 
         if (pendingPickingProducts.length > 0) {
-            let pendingPickingSale = {saleInfo: sale.info, products: pendingPickingProducts};
-            pendingPicking.push(parseSale(pendingPickingSale));
+            let pendingPickingSale = {info: sale.info, products: pendingPickingProducts};
+            pendingPicking.push(parseSale(pendingPickingSale, parseProduct));
         }
     }
 
     return pendingPicking;
 }
 
-export { getAllSales, getPendingPicking };
+const getPendingPackaging = async () => {
+    let pendingPackaging = [];
+
+    const allSales = await getAllSales();
+
+    for (const sale of allSales) {
+        let pendingProducts = [];
+        let hasPickedProducts = false;
+
+        for (const product of sale.products) {
+
+            if (isPendingPackaging(product)) {
+                product.packagingStatus = true; // is ready to package
+                pendingProducts.push(product);
+                hasPickedProducts = true;
+            } else if (isPendingPicking(product)) {
+                product.packagingStatus = false; // is pending picking
+                pendingProducts.push(product);
+            }
+        }
+
+        if (pendingProducts.length > 0 && hasPickedProducts) {
+            pendingPackaging.push(parseSale(sale, parsePendingPackagingProduct));
+        }
+    }
+
+    return pendingPackaging;
+}
+
+export { getAllSales, getPendingPicking, getPendingPackaging };

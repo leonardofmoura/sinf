@@ -1,6 +1,6 @@
 import React from "react";
 import { useState } from "react";
-import {Collapse} from 'react-collapse';
+import { Collapse } from 'react-collapse';
 import TabelRowSubHeader from "../TabelRowSubHeader/TabelRowSubHeader.jsx";
 import styles from "./TabelRow.module.css";
 
