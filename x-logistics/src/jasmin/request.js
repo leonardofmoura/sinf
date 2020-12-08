@@ -37,7 +37,7 @@ const sendJasminRequest = async (resourcePath, method, data) => {
     }
 
     if (data !== undefined && data !== null) {
-        requestInfo.data = getBodyData(data);
+		requestInfo.data = data//getBodyData(data);
     }
 
     const response = axios(requestInfo);

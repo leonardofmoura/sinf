@@ -54,11 +54,10 @@ const OrderStoragePopup = (props) => {
         setCol(event.target.value);
     }
 
-    const _confirmItemStorage = () => {
+    const _confirmItemStorage = async () => {
         const body = {
             documentType: 'GMA',
             serie: props.order.serie,
-            seriesNumber: props.order.seriesNumber,
             loadingPoint: 'RECEPTION',
             loadingStreetName: 'Dr. Roberto Frias',
             loadingBuildingNumber: '1',
@@ -78,13 +77,13 @@ const OrderStoragePopup = (props) => {
                     description: props.item.description,
                     quantity: props.item.quantity,
                     unit: props.item.unit,
-                    item: props.item.purchasesItem,
+                    materialsItem: props.item.purchasesItem,
                 }
             ],
         };
         console.log(props.item);
         
-        const response = sendJasminRequest(
+        const response = await sendJasminRequest(
             `materialsManagement/stockTransferOrders`,
             'POST',
             body,
