@@ -8,6 +8,10 @@
     border: 0.1rem solid #bebebe;
 }
 
+.tableRowCollapsed:hover {
+    background-color: var(--primary-color-lighter);
+}
+
 .tableRowExpanded {
     display: flex;
     align-items: center;
@@ -18,6 +22,10 @@
     border-top: 0.1rem solid #bebebe;
     border-left: 0.1rem solid #bebebe;
     border-right: 0.1rem solid #bebebe;
+}
+
+.tableRowExpanded:hover {
+    background-color: var(--primary-color-lighter);
 }
 
 .tableRow:hover {
