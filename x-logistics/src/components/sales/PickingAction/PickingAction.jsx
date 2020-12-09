@@ -12,7 +12,7 @@ export default function PickingAction(props) {
     const product = props.product;
     const saleId = props.saleId;
 
-    let maxQuantity = product.quantity.substr(0, product.quantity.length-3);
+    let maxQuantity = product.quantity;
     let pickingQuantity = 1;
 
     const handleCheck = () => {
@@ -26,19 +26,27 @@ export default function PickingAction(props) {
         props.onPick(saleId, product, pickingQuantity);
     }
 
-    return (
-        <div className={styles.pickingSection}>
-            <Checkbox 
-                checked={isChecked}
-                onChange={handleCheck}
-                classes={{ root: styles.checkbox }}
-                />
-            <Collapse isOpened={isExpanded}>
-                <div className={styles.inputSection}>
-                    <Form.Label htmlFor="quantity" className={styles.label}>Quantity:</Form.Label>
-                    <input className={styles.input} id="quantity" type="number" min="1" max={maxQuantity} onChange={handleQuantityChange} />
-                </div>
-            </Collapse>
-        </div>
-    )
+    if (product.quantity <= 0) {
+        return (
+            <div className={styles.pickingSection}>
+                In picking wave
+            </div>
+        )
+    } else {
+        return (
+            <div className={styles.pickingSection}>
+                <Checkbox 
+                    checked={isChecked}
+                    onChange={handleCheck}
+                    classes={{ root: styles.checkbox }}
+                    />
+                <Collapse isOpened={isExpanded}>
+                    <div className={styles.inputSection}>
+                        <Form.Label htmlFor="quantity" className={styles.label}>Quantity:</Form.Label>
+                        <input className={styles.input} id="quantity" type="number" min="1" max={maxQuantity} onChange={handleQuantityChange} />
+                    </div>
+                </Collapse>
+            </div>
+        )
+    }
 }

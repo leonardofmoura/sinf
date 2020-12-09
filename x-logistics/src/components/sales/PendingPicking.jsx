@@ -1,5 +1,5 @@
 import { getPendingPicking } from "../../jasmin/sales.js";
-import { parseSaleInfo, parseProduct } from "../../parsers/tabelParsers";
+import { parseSaleInfo, parseProduct } from "../../parsers/saleParsers";
 import Tabel from "../tabel/Tabel/Tabel.jsx";
 import TabelHeader from "../tabel/TabelHeader/TabelHeader.jsx";
 import TabelRow from "../tabel/TabelRow/TabelRow.jsx";
@@ -23,7 +23,7 @@ class PendingPicking extends Component {
     }
 
     componentDidMount() {
-        getPendingPicking().then(newSales => this.setState({ sales: newSales }));
+        getPendingPicking().then(newSales => this.setState({ sales: this.filterSales(newSales) }));
     }
     
     handleItemPick = (saleId, product, quantity) => {
@@ -37,7 +37,10 @@ class PendingPicking extends Component {
     }
 
     handleCreatePickingWave = () => {
-        let pickingWaveProducts = [];
+        let numTotalProducts = 0;
+        let pickingWaveProducts = {};
+        let categories = [];
+
         for (const key in this.selectedItems) {
             let itemKey = key.substr(key.lastIndexOf(":") + 1, key.length - key.lastIndexOf(":"));
             
@@ -48,12 +51,19 @@ class PendingPicking extends Component {
                 productQuantity = this.selectedItems[key].quantity;
             }
 
+            numTotalProducts += this.selectedItems[key].quantity;
+            if (!categories.includes(this.selectedItems[key].category)) {
+                categories.push(this.selectedItems[key].category); 
+            }
+
             delete this.selectedItems[key].product.quantity;
 
             pickingWaveProducts[itemKey] = {product: this.selectedItems[key].product, quantity: productQuantity};
         }
 
-        let pickingWave = {id: moment().unix(), products: pickingWaveProducts};
+        let waveSummary = numTotalProducts + " total products of " + categories.length + (categories.length > 1 ? " categories" : " category");
+        let waveInfo = { id: moment().unix(), createdOn: moment().format("YYYY-MM-DD HH:mm"), summary: waveSummary };
+        let pickingWave = {info: waveInfo, products: pickingWaveProducts};
 
         let storedPickingWaves = localStorage.getItem("picking_waves") ? JSON.parse(localStorage.getItem("picking_waves")) : [];
         storedPickingWaves.push(pickingWave);
@@ -63,12 +73,52 @@ class PendingPicking extends Component {
         this.props.history.push("/sales/picking_waves");
     }
 
+    filterSales = (sales) => {
+        let pickingWaves = localStorage.getItem("picking_waves") ? JSON.parse(localStorage.getItem("picking_waves")) : [];
+
+        if (pickingWaves.length === 0) {
+            return sales;
+        }
+
+        let waveProductsInfo = [];
+        for (const wave of pickingWaves) {
+            for (const productKey in wave.products) {
+
+                if (waveProductsInfo.hasOwnProperty(productKey)) {
+                    waveProductsInfo[productKey] += wave.products[productKey].quantity;
+                } else {
+                    waveProductsInfo[productKey] = wave.products[productKey].quantity;
+                }
+            }
+        }
+
+        for (const sale of sales) {
+            for (const product of sale.products) {
+                let oldQuantity = product.quantity;
+                if (waveProductsInfo.hasOwnProperty(product.id)) {
+                    product.isInPickingWave = true;
+                    product.quantity -= waveProductsInfo[product.id];
+
+                    if (product.quantity > 0) {
+                        product.waveQuantity = waveProductsInfo[product.id];
+                        waveProductsInfo[product.id] = 0;
+                    } else {
+                        waveProductsInfo[product.id] = Math.abs(product.quantity);
+                        product.waveQuantity = oldQuantity;
+                    }
+                }
+            }
+        } 
+
+        return sales;
+    }
+
     renderSales = () => {
         if (this.state.sales !== null) {
             return (
                 this.state.sales.map((sale, index) => {     
                     return (
-                        <TabelRow key={index} subHeaders={this.subTabelHeaders} data={parseSaleInfo(sale.info)}>
+                        <TabelRow key={index} subHeaders={this.subTabelHeaders} data={parseSaleInfo(sale)}>
                             {
                                 sale.products.map((product, index) => {
                                     return (

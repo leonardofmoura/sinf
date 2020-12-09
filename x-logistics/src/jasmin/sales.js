@@ -16,10 +16,13 @@ const getAllSales = async () => {
             
             let parsedProduct = {
                 id: product.salesItemId,
-                quantity:  product.quantity + " " + product.unit, 
+                quantity:  product.quantity,
+                unit: product.unit,
                 name:  product.salesItemDescription, 
                 category: salesItem.assortmentDescription,
                 warehouse: product.warehouse,
+                isInPickingWave: false,
+                waveQuantity: 0,
             };
             
             products.push(parsedProduct);
@@ -29,7 +32,6 @@ const getAllSales = async () => {
             id: sale.serie + ("" + sale.seriesNumber).padStart(4, "0"),
             customer: sale.buyerCustomerParty,
             date: moment(sale.documentDate).format("YYYY-MM-DD"),
-            summary: createSaleSummary(products),
         };
         
         let parsedSale = {info: saleInfo, products: products};
@@ -43,39 +45,6 @@ const getAllSales = async () => {
 const getSalesItem = async (salesItemId) => {
     let response = await sendJasminRequest("salesCore/salesItems/" + salesItemId);
     return response.data;
-}
-
-const createSaleSummary = (products) => {
-    let summaryInfo = {};
-
-    for (const product of products) {
-        let quantity = product.quantity.substring(0, product.quantity.length - 3);
-        let category = product.category;
-        
-        if (category === null) {
-            continue;
-        }
-
-        if (summaryInfo.hasOwnProperty(category)) {
-            summaryInfo[category] += parseInt(quantity);  
-        } else {
-            summaryInfo[category] = parseInt(quantity);
-        }
-    }
-
-    let saleSummary = "";
-    let maxItems = 2;
-    let i = 0;
-    for (const key in summaryInfo) {
-        if (i >= maxItems) {
-            break;
-        }
-
-        saleSummary += summaryInfo[key] + " " + key + "; ";
-        i++;
-    }
-
-    return saleSummary;
 }
 
 const isPendingPicking = (product) => {
