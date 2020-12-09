@@ -1,3 +1,4 @@
+import { companyAddress, companyName } from "./companyInfo";
 import { sendJasminRequest } from "./request";
 import WAREHOUSE from "./warehouse";
 const moment = require('moment');
@@ -18,6 +19,7 @@ const getAllSales = async () => {
                 id: product.salesItemId,
                 quantity:  product.quantity,
                 unit: product.unit,
+                nameId: product.salesItem,
                 name:  product.salesItemDescription, 
                 category: salesItem.assortmentDescription,
                 warehouse: product.warehouse,
@@ -108,4 +110,26 @@ const getPendingPackaging = async () => {
     return pendingPackaging;
 }
 
-export { getAllSales, getPendingPicking, getPendingPackaging };
+const confirmPickedProduct = async (product, productQuantity) => {
+    const requestBody = {
+        loadingStreetName: companyAddress.streetName,
+        loadingBuildingNumber: companyAddress.buildingNumber,
+        loadingPostalZone: companyAddress.postalZone,
+        loadingCityName: companyAddress.cityName,
+        loadingCountry: companyAddress.country,
+        company: companyName,
+        sourceWarehouse: product.warehouse,
+        targetWarehouse: WAREHOUSE.SHIPPING,
+        documentLines: [
+            {
+                quantity: productQuantity,
+                materialsItem: product.nameId,
+            }
+        ],
+    }
+
+    const response = await sendJasminRequest('materialsManagement/stockTransferOrders', "POST", requestBody);
+    return response;
+}
+
+export { getAllSales, getPendingPicking, getPendingPackaging, confirmPickedProduct };

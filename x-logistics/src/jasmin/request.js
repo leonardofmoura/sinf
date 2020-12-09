@@ -6,7 +6,7 @@ const SUBSCRIPTION = process.env.REACT_APP_SUBSCRIPTION;
 
 const headers = {
     "Accept": "application/json",
-    "Content-Type": "multipart/form-data",
+    "Content-Type": "application/json; charset=utf-8",
 }
 
 const getBodyData = (formObj) => {
@@ -37,7 +37,7 @@ const sendJasminRequest = async (resourcePath, method, data) => {
     }
 
     if (data !== undefined && data !== null) {
-        requestInfo.data = getBodyData(data);
+        requestInfo.data = data;
     }
 
     const response = axios(requestInfo);
