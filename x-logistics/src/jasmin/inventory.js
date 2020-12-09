@@ -3,7 +3,6 @@ const { sendJasminRequest } = require("./request")
 
 const getInventory = async () => {
     let response = await sendJasminRequest("materialscore/materialsitems","GET");
-    console.log(response.data);
 
     const items = response.data.map((item) =>{
         return {
@@ -16,10 +15,27 @@ const getInventory = async () => {
                     name: warehouse["warehouse"],
                 }
             }),
-     };
+        };
     });
 
     return items;
 }
 
-export {getInventory};
+const getWarehouses = async () => {
+    let response = await sendJasminRequest("materialscore/warehouses","GET");
+    let allItems = await getInventory();
+
+    const warehouses = response.data.map((item) =>{
+        return {
+            warehouse: item["warehouseKey"],
+            description: item["description"],
+            totalItems: allItems.reduce(
+                (acc,article) => (acc.push(article.warehouses.filter((w) => w.name === item.warehouseKey)), acc), []
+            ).reduce((total,wa) => wa.length > 0 ? total + wa[0].stock : 0 ,0),
+        };
+    });
+
+    return warehouses;
+}
+
+export {getInventory, getWarehouses};

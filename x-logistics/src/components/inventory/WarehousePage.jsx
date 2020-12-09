@@ -1,37 +1,44 @@
 import WarehouseHeader from "./WarehouseHeader/WarehouseHeader";
 import Tabel from "../tabel/Tabel/Tabel.jsx";
 import TabelHeader from "../tabel/TabelHeader/TabelHeader.jsx";
-import TabelRow from "../tabel/TabelRow/TabelRow.jsx";;
+import TabelRow from "../tabel/TabelRow/TabelRow.jsx";
+import { Component } from "react";
 
-const WarehousePage = () => {
-    const tabelHeaders = ["ID", "Item Name", "Quantity", "Category"];
-    const wareHouseName = "RECEPTION"
+class WarehousePage extends Component {
+    constructor(props) {
+        super(props);
 
-    const itemExample = {
-        info: ["0000001", "2080 Ti Graphics cards", "37", "Graphics Cards"],
-    };
+        this.tabelHeaders = ["ID", "Item Name", "Quantity", "Category"];
+        this.wareHouseName = "RECEPTION"
 
-    const example = [itemExample,itemExample];
+        const itemExample = {
+            info: ["0000001", "2080 Ti Graphics cards", "37", "Graphics Cards"],
+        };
 
-    return (
-        <div>
-            <WarehouseHeader warehouseName={wareHouseName} />
-            <Tabel>
-                <TabelHeader headers={tabelHeaders}/>
-                {
-                    example.map((item, index) => {
-                        return (
-                            <TabelRow 
-                                key={index} 
-                                data={item.info} 
-                            >
-                            </TabelRow>
-                        )
-                    })
-                }
-            </Tabel>
-        </div>
-    )
+        this.example = [itemExample,itemExample];
+    }
+
+    render() {
+        return (
+            <div>
+                <WarehouseHeader warehouseName={this.wareHouseName} />
+                <Tabel>
+                    <TabelHeader headers={this.tabelHeaders}/>
+                    {
+                        this.example.map((item, index) => {
+                            return (
+                                <TabelRow 
+                                    key={index} 
+                                    data={item.info} 
+                                >
+                                </TabelRow>
+                            )
+                        })
+                    }
+                </Tabel>
+            </div>
+        )
+    }
 }
 
 export default WarehousePage;

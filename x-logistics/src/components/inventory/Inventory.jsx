@@ -38,7 +38,7 @@ class Inventory extends Component {
         })
     }
 
-    render = () => {
+    render() {
         if (this.state.items) {
             return (
                 <Tabel>
