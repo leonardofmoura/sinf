@@ -8,7 +8,7 @@ export default function TabelRow(props) {
     const [isExpanded, setIsExpanded] = useState(false);
 
     const handleClickRow = () => {
-        if (props.subHeaders) {
+        if (props.subHeaders && props.children.length > 0) {
             setIsExpanded(!isExpanded);
         }
     }
@@ -24,7 +24,7 @@ export default function TabelRow(props) {
     }
 
     const showSubTable = () => {
-        if (props.subHeaders) {
+        if (props.subHeaders && props.children.length > 0) {
             return (
                 <Collapse isOpened={isExpanded}>
                     <div className={styles.tabelRowExpansion}>
