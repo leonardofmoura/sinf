@@ -8,7 +8,7 @@ const IndexPage = () => {
     const [cookies, ] = useCookies(['loginState']);
 
     if (cookies.loginState) {
-        return <Redirect to="/inventory" />;
+        return <Redirect to="/inventory/list" />;
     } else {
         return <Redirect to="/login" />;
     }

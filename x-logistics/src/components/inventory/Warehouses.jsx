@@ -12,11 +12,6 @@ class Warehouses extends Component {
         this.tabelHeaders = ["Warehouse", "Description", "Total Number of items", "Action"];
         this.wareHouseName = "RECEPTION"
     
-        const warehouseExample = {
-            info: ["SHIPPING", "The warehouse with items to ship", "37"],
-        };
-    
-        this.example = [warehouseExample,warehouseExample];
         this.state = {
             warehouses: null,
         }

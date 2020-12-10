@@ -3,6 +3,7 @@ import Tabel from "../tabel/Tabel/Tabel.jsx";
 import TabelHeader from "../tabel/TabelHeader/TabelHeader.jsx";
 import TabelRow from "../tabel/TabelRow/TabelRow.jsx";
 import { Component } from "react";
+import { getWarehouseItems } from "../../jasmin/inventory";
 
 class WarehousePage extends Component {
     constructor(props) {
@@ -16,28 +17,60 @@ class WarehousePage extends Component {
         };
 
         this.example = [itemExample,itemExample];
+
+        this.state = {
+            warehouse: null,
+        }
+    }
+
+    componentDidMount() {
+        getWarehouseItems("A1").then((resp) => {
+            console.log(resp);
+
+            const warehouse = {
+                name: resp.name,
+                description: resp.description,
+                stock: resp.stock,
+                items: resp.items.map((item) => {
+                    return [
+                        item.id,item.name,item.stock,item.category
+                    ];
+                })
+            };
+
+            this.setState({warehouse: warehouse});
+        })
     }
 
     render() {
-        return (
-            <div>
-                <WarehouseHeader warehouseName={this.wareHouseName} />
-                <Tabel>
-                    <TabelHeader headers={this.tabelHeaders}/>
-                    {
-                        this.example.map((item, index) => {
-                            return (
-                                <TabelRow 
-                                    key={index} 
-                                    data={item.info} 
-                                >
-                                </TabelRow>
-                            )
-                        })
-                    }
-                </Tabel>
-            </div>
-        )
+        if (this.state.warehouse) {
+            return (
+                <div>
+                    <WarehouseHeader 
+                        warehouseName={this.state.warehouse.name}
+                        description={this.state.warehouse.description}
+                        stock={this.state.warehouse.stock} 
+                    />
+                    <Tabel>
+                        <TabelHeader headers={this.tabelHeaders}/>
+                        {
+                            this.state.warehouse.items.map((item, index) => {
+                                return (
+                                    <TabelRow 
+                                        key={index} 
+                                        data={item} 
+                                    >
+                                    </TabelRow>
+                                )
+                            })
+                        }
+                    </Tabel>
+                </div>
+            )
+        }
+        else {
+            return (<h1>todo -{'>'} waiting for request</h1>);
+        }
     }
 }
 

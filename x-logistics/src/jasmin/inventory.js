@@ -13,6 +13,7 @@ const getInventory = async () => {
                 return {
                     stock: warehouse["stockBalance"],
                     name: warehouse["warehouse"],
+                    description: warehouse["warehouseDescription"],
                 }
             }),
         };
@@ -27,6 +28,7 @@ const getWarehouses = async () => {
 
     const warehouses = response.data.map((item) =>{
         return {
+            id: item["id"],
             warehouse: item["warehouseKey"],
             description: item["description"],
             totalItems: allItems.reduce(
@@ -38,4 +40,31 @@ const getWarehouses = async () => {
     return warehouses;
 }
 
-export {getInventory, getWarehouses};
+const getWarehouseItems = async (warehouseId) => {
+    //TODO: Add warehouse not found
+
+    let response = await sendJasminRequest("materialscore/warehouses","GET");
+    let allItems = await getInventory();
+
+    const warehouseItems = allItems.filter((elem) => elem.warehouses.find((w) => w.name === warehouseId).stock > 0);
+
+    const info = {
+        name: warehouseId,
+        description: response.data.find((elem) => elem.warehouseKey === warehouseId).description,
+        stock: allItems.reduce(
+            (acc,article) => (acc.push(article.warehouses.filter((w) => w.name === warehouseId)), acc), []
+        ).reduce((total,wa) => wa.length > 0 ? total + wa[0].stock : 0 ,0),
+        items: warehouseItems.map((item) => {
+            return {
+                id: item.id,
+                name: item.name,
+                category: item.category,
+                stock: item.warehouses.find((w) => w.name === warehouseId).stock
+            }
+        } ),
+    }
+
+    return info;
+}
+
+export {getInventory, getWarehouses, getWarehouseItems};

@@ -1,11 +1,12 @@
+import { Link } from 'react-router-dom';
 import styles from './ViewWarehouse.module.css';
 
 const ViewWarehouse = () => {
     return (
-        <div className={styles.viewWarehouse} /*TODO: add onclick*/>
+        <Link to="/inventory/warehouse-page?id=3cd84e21-d727-41ee-9880-d3b6341a425a" className={styles.viewWarehouse}>
             View Warehouse
-        </div>
-    );  
+        </Link>
+    )
 }
 
 
