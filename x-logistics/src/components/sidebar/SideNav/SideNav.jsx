@@ -22,7 +22,7 @@ export default function SideNav(props) {
             key: 3
         },
         {
-            path: '/transactions',
+            path: '/transactions/purchases',
             title:'Transactions',
             key: 4
         },
