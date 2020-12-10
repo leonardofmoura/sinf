@@ -9,8 +9,8 @@ export default function Purchases() {
 	
 	const [items, setItems] = useState([]);
 	
-	const tabelHeaders = ["ID", "Seller", "Date", "Price", "Completed"];
-	const subTabelHeaders = ["Product ID", "Item Name", "Price", "Quantity", "Received Quantity", "Completed"];
+	const tabelHeaders = ["ID", "Seller", "Date", "Completed"];
+	const subTabelHeaders = ["Product ID", "Item Name", "Quantity", "Received Quantity", "Completed"];
 	
 	useEffect(() => {
 		const fetchData = async () => {
@@ -34,20 +34,22 @@ export default function Purchases() {
 					let completed = true
 					let date = purchase.documentDate.split("T")[0]//.split("-")
 					let subrows = []
-					purchase.documentLines.map((product, index) => {
-						let temp = product.quantity !== product.receivedQuantity && product.itemTypeDescription !== "Service"
+					purchase.documentLines.forEach((product, index) => {
+						if (product.itemTypeDescription === "Service") return
+						let temp = product.quantity !== product.receivedQuantity
 						if (temp)
 							completed = false
 						subrows.push(<TabelRowSubRow
 							data={[product.purchasesItem,
-								product.description, product.unitPrice.amount,
-								product.quantity, product.itemTypeDescription !== "Service" ? product.receivedQuantity : "Na",
+								product.description,
+								product.quantity + " (" + product.unit + ")",
+								product.receivedQuantity + " (" + product.unit + ")",
 								temp ? "No" : "Yes"]}
 							key={index}/>)
 					})
 					return (
 						<TabelRow key={index} subHeaders={subTabelHeaders}
-											data={[purchase.naturalKey, purchase.sellerSupplierPartyName, date, purchase.payableAmount.amount, completed ? "Yes" : "No"]}>
+											data={[purchase.naturalKey, purchase.sellerSupplierPartyName, date, completed ? "Yes" : "No"]}>
 							{subrows}
 						</TabelRow>
 					)
