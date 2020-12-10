@@ -1,9 +1,9 @@
 import SidebarLayout from "../layouts/SidebarLayout";
 import { setAutoToken} from "../jasmin/token";
 import Inventory from "../components/inventory/Inventory";
-import WarehousePage from "../components/inventory/WarehousePage";
 import TabsLayout from "../layouts/TabsLayout";
 import Warehouses from "../components/inventory/Warehouses";
+import WarehousePage from "../components/inventory/WarehousePage";
 
 const InventoryPage = () => {
     setAutoToken();
@@ -21,17 +21,19 @@ const InventoryPage = () => {
             component: <Warehouses />,
             key: 2
         },
+    ]
+
+    const extraRoutes = [
         {
-            path: '/inventory/warehouse-page',
-            title: 'Warehouse Page (temporary)',
+            path:'/warehouses/:id',
             component: <WarehousePage />,
-            key: 3
-        },
+            key: 3,
+        }
     ]
 
     return (
         <SidebarLayout>
-            <TabsLayout tabs={tabs}/>
+            <TabsLayout tabs={tabs} extraRoutes={extraRoutes}/>
         </SidebarLayout>
     )
 }

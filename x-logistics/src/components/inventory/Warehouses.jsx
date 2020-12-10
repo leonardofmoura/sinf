@@ -43,7 +43,7 @@ class Warehouses extends Component {
                                     <TabelRow 
                                         key={index} 
                                         data={item.data} 
-                                        actionComponent={<ViewWarehouse />}
+                                        actionComponent={<ViewWarehouse id={item.data[0]}/>}
                                     >
                                     </TabelRow>
                                 )

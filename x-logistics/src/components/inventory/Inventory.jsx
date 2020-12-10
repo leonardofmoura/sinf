@@ -57,7 +57,7 @@ class Inventory extends Component {
                                                 <TabelRowSubRow 
                                                     data={item} 
                                                     key={index} 
-                                                    actionComponent={<ViewWarehouse />}
+                                                    actionComponent={<ViewWarehouse id={item[1]}/>}
                                                 />
                                             )
                                         })
