@@ -50,6 +50,7 @@ const getAllSales = async () => {
         
         let saleInfo = {
             id: sale.serie + ("" + sale.seriesNumber).padStart(4, "0"),
+            jasminId: sale.id,
             key: sale.naturalKey,
             customer: sale.buyerCustomerPartyDescription,
             date: moment(sale.documentDate).format("YYYY-MM-DD"),
@@ -61,6 +62,11 @@ const getAllSales = async () => {
     }
     
     return sales;
+}
+
+const getSale = async (saleId) => {
+    const response = await sendJasminRequest('sales/orders/' + saleId, 'GET');
+    return response.data;
 }
 
 const getSalesItem = async (salesItemId) => {
@@ -218,6 +224,7 @@ const processSale = async (sale) => {
 
 export { 
     getAllSales, 
+    getSale,
     getPendingPicking, 
     getPendingPackaging,
     getCompleteSales, 

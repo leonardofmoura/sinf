@@ -9,6 +9,7 @@ import OrdersPage from './pages/OrdersPage';
 import SalesPage from './pages/SalesPage';
 import TransactionsPage from './pages/TransactionsPage';
 import IndexPage from './pages/IndexPage';
+import DeliveryNote from './components/sales/DeliveryNote';
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
             <Route path="/login" component={LoginPage} />
             <Route path="/inventory" component={InventoryPage} />
             <Route path="/orders" component={OrdersPage} />
+            <Route exact path="/sales/delivery_note/:id" component={DeliveryNote} />
             <Route path="/sales" component={SalesPage} />
             <Route path="/transactions" component={TransactionsPage} />
           </Switch>
