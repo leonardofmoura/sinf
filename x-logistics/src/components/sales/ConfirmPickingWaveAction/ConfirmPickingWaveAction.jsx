@@ -7,8 +7,15 @@ export default function ConfirmPickingWaveAction(props) {
 
     const handleClick = async () => {
         let products = props.wave.products;
+        let isPendingPackaging = false;
+
         for (const key in products) {
             let product = products[key];
+
+            if (product.saleQuantity <= product.waveQuantity + product.pickedQuantity) {
+                isPendingPackaging = true;
+            }
+
             await confirmPickedProduct(product, product.waveQuantity);
         }
  
@@ -17,7 +24,8 @@ export default function ConfirmPickingWaveAction(props) {
 
         localStorage.setItem("picking_waves", JSON.stringify(storedPickingWaves));
 
-        history.push('/sales/pending_packaging');
+        let redirectUrl = "/sales/" + (isPendingPackaging ? "pending_packaging" : "pending_picking");
+        history.push(redirectUrl);
     }
 
     return (

@@ -14,7 +14,7 @@ class PendingPicking extends Component {
     constructor(props) {
         super(props);
 
-        this.tabelHeaders = ["ID", "Customer", "Date", "Summary", "Picking"];
+        this.tabelHeaders = ["ID", "Customer", "Date", "Summary"];
         this.subTabelHeaders = ["Product ID", "Name", "Category", "Sale", "In Wave", "Picked", "Picking"];
 
         this.selectedItems = [];

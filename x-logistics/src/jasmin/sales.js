@@ -13,11 +13,13 @@ const getAllSales = async () => {
     const response = await sendJasminRequest(resource, "get");
 
     for (const sale of response.data) {
+
+        console.log(sale);
         
         let products = [];
         for (const product of sale.documentLines) {
 
-            if (product.salesItem === "PORTES") {
+            if (product.itemTypeDescription  === "Service") {
                 continue;
             }
 
@@ -49,7 +51,7 @@ const getAllSales = async () => {
         let saleInfo = {
             id: sale.serie + ("" + sale.seriesNumber).padStart(4, "0"),
             key: sale.naturalKey,
-            customer: sale.buyerCustomerParty,
+            customer: sale.buyerCustomerPartyDescription,
             date: moment(sale.documentDate).format("YYYY-MM-DD"),
         };
         

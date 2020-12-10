@@ -1,4 +1,5 @@
 import { Component } from "react";
+import { withRouter } from "react-router-dom";
 import { getPendingPackaging, processSale } from "../../jasmin/sales.js";
 import { parseSaleInfo, parsePendingPackagingProduct } from "../../parsers/saleParsers";
 import Tabel from "../tabel/Tabel/Tabel.jsx";
@@ -8,7 +9,7 @@ import TabelRowSubRow from "../tabel/TabelRowSubRow/TabelRowSubRow.jsx";
 import PackagingAction from "./PackagingAction/PackagingAction.jsx";
 import ProductStatus from "./ProductStatus/ProductStatus.jsx";
 
-export default class PendingPackaging extends Component {
+class PendingPackaging extends Component {
     constructor(props) {
         super(props);
 
@@ -23,7 +24,7 @@ export default class PendingPackaging extends Component {
     }
     
     handleConfirmPackaging = (sale) => {
-        processSale(sale);
+        processSale(sale).then(() => this.props.histoy.push("/sales/complete"));
     }
 
     calcSaleStatus = (sale) => {
@@ -68,3 +69,5 @@ export default class PendingPackaging extends Component {
         )
     }
 }
+
+export default withRouter(PendingPackaging);
