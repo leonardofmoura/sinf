@@ -4,4 +4,9 @@ const WAREHOUSE = {
     //TODO: acrescentar resto dos warehouses
 }
 
-export default WAREHOUSE;
+const warehouseIndex = {
+    RECEPTION: 41,
+    SHIPPING: 42,
+}
+
+export { WAREHOUSE, warehouseIndex };

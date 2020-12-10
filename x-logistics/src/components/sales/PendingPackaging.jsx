@@ -1,5 +1,6 @@
 import { Component } from "react";
-import { getPendingPackaging } from "../../jasmin/sales.js";
+import { getPendingPackaging, processSale } from "../../jasmin/sales.js";
+import { parseSaleInfo, parsePendingPackagingProduct } from "../../parsers/saleParsers";
 import Tabel from "../tabel/Tabel/Tabel.jsx";
 import TabelHeader from "../tabel/TabelHeader/TabelHeader.jsx";
 import TabelRow from "../tabel/TabelRow/TabelRow.jsx";
@@ -12,7 +13,7 @@ export default class PendingPackaging extends Component {
         super(props);
 
         this.tabelHeaders = ["ID", "Customer", "Date", "Summary", "Packaging"];
-        this.subTabelHeaders = ["Product ID", "Quantity", "Item Name", "Category", "Status"];
+        this.subTabelHeaders = ["Product ID", "Name", "Category", "Sale", "Picked", "Status"];
 
         this.state = {sales: null};
     }
@@ -21,13 +22,20 @@ export default class PendingPackaging extends Component {
         getPendingPackaging().then(newSales => this.setState({sales: newSales}));
     }
     
-    handleConfirmPackaging = () => {
-        //TODO
+    handleConfirmPackaging = (sale) => {
+        processSale(sale);
     }
 
-    calcSaleStatus = (saleIndex) => {
-        //TODO
-        return true;
+    calcSaleStatus = (sale) => {
+        let saleStatus = true; //saleStatus = true => Ready to package
+
+        for (const product of sale.products) {
+            if (!product.packagingStatus) {
+                saleStatus = false;
+            }
+        }
+
+        return saleStatus;
     }
 
     renderSales = () => {
@@ -35,12 +43,12 @@ export default class PendingPackaging extends Component {
             return (
                 this.state.sales.map((sale, index) => {
                     return (
-                        <TabelRow subHeaders={this.subTabelHeaders} data={sale.info} key={index} 
-                            actionComponent={<PackagingAction isReady={this.calcSaleStatus(index)} onConfirm={this.handleConfirmPackaging}/>}>
+                        <TabelRow subHeaders={this.subTabelHeaders} data={parseSaleInfo(sale)} key={index} 
+                            actionComponent={<PackagingAction isReady={this.calcSaleStatus(sale)} onConfirm={this.handleConfirmPackaging.bind(this, sale)}/>}>
                             {
                                 sale.products.map((product, index) => {
                                     return (
-                                        <TabelRowSubRow data={product} key={index} actionComponent={<ProductStatus isReady={product.packagingStatus} />} />
+                                        <TabelRowSubRow data={parsePendingPackagingProduct(product)} key={index} actionComponent={<ProductStatus isReady={product.packagingStatus} />} />
                                     )
                                 })
                             }

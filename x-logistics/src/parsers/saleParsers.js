@@ -1,36 +1,48 @@
-const parseProduct = (product) => {
-    let quantity = "";
-
-    if (product.isInPickingWave) {
-        if (product.quantity <= 0) {
-            quantity = product.waveQuantity + " " + product.unit + " in picking wave";
-        } else {
-            quantity = product.quantity + " " + product.unit;
-            if (product.waveQuantity > 0) {
-                quantity += " (+" + product.waveQuantity + " " + product.unit + " in picking wave)";
-            }
-        }
-    } else {
-        quantity = product.quantity + " " + product.unit;
-    }
-
-    return [product.id, quantity, product.name, product.category];
+const parsePendingPickingProduct = (product) => {
+    return [
+        product.id, 
+        product.name, 
+        product.category, 
+        product.saleQuantity + " " + product.unit, 
+        product.waveQuantity + " " + product.unit, 
+        product.pickedQuantity + " " + product.unit
+    ];
 }
 
 const parsePendingPackagingProduct = (product) => {
-    return [product.id, product.quantity + " " + product.unit, product.name, product.category, product.status];
+    return [
+        product.id, 
+        product.name, 
+        product.category, 
+        product.saleQuantity + " " + product.unit, 
+        product.pickedQuantity + " " + product.unit,
+    ];
+}
+
+const parseCompleteProduct = (product) => {
+    return [
+        product.id, 
+        product.name, 
+        product.category, 
+        product.saleQuantity + " " + product.unit, 
+    ];
 }
 
 const parseSaleInfo = (sale) => {
     let saleInfo = sale.info;
-    return [saleInfo.id, saleInfo.customer, saleInfo.date, createSaleSummary(sale.products)];
+    return [
+        saleInfo.id, 
+        saleInfo.customer, 
+        saleInfo.date, 
+        createSaleSummary(sale.products)
+    ];
 }
 
 const createSaleSummary = (products) => {
     let summaryInfo = {};
 
     for (const product of products) {
-        let quantity = product.quantity;
+        let quantity = product.saleQuantity;
         let category = product.category;
         
         if (category === null) {
@@ -59,4 +71,9 @@ const createSaleSummary = (products) => {
     return saleSummary;
 }
 
-export { parseProduct, parsePendingPackagingProduct, parseSaleInfo }
+export { 
+    parsePendingPickingProduct, 
+    parsePendingPackagingProduct, 
+    parseCompleteProduct,
+    parseSaleInfo 
+}

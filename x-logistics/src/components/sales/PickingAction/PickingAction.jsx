@@ -12,7 +12,7 @@ export default function PickingAction(props) {
     const product = props.product;
     const saleId = props.saleId;
 
-    let maxQuantity = product.quantity;
+    let maxQuantity = product.saleQuantity - product.waveQuantity - product.pickedQuantity;
     let pickingQuantity = 1;
 
     const handleCheck = () => {
@@ -26,7 +26,7 @@ export default function PickingAction(props) {
         props.onPick(saleId, product, pickingQuantity);
     }
 
-    if (product.quantity <= 0) {
+    if (maxQuantity <= 0) {
         return (
             <div className={styles.pickingSection}>
                 In picking wave

@@ -8,8 +8,8 @@ export default function ConfirmPickingWaveAction(props) {
     const handleClick = async () => {
         let products = props.wave.products;
         for (const key in products) {
-            let productInfo = products[key];
-            await confirmPickedProduct(productInfo.product, productInfo.quantity);
+            let product = products[key];
+            await confirmPickedProduct(product, product.waveQuantity);
         }
  
         let storedPickingWaves = localStorage.getItem("picking_waves") ? JSON.parse(localStorage.getItem("picking_waves")) : [];

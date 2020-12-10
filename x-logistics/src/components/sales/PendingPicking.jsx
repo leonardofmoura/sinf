@@ -1,5 +1,5 @@
 import { getPendingPicking } from "../../jasmin/sales.js";
-import { parseSaleInfo, parseProduct } from "../../parsers/saleParsers";
+import { parseSaleInfo, parsePendingPickingProduct } from "../../parsers/saleParsers";
 import Tabel from "../tabel/Tabel/Tabel.jsx";
 import TabelHeader from "../tabel/TabelHeader/TabelHeader.jsx";
 import TabelRow from "../tabel/TabelRow/TabelRow.jsx";
@@ -15,7 +15,7 @@ class PendingPicking extends Component {
         super(props);
 
         this.tabelHeaders = ["ID", "Customer", "Date", "Summary", "Picking"];
-        this.subTabelHeaders = ["Product ID", "Quantity", "Item Name", "Category", "Picking"];
+        this.subTabelHeaders = ["Product ID", "Name", "Category", "Sale", "In Wave", "Picked", "Picking"];
 
         this.selectedItems = [];
 
@@ -23,12 +23,13 @@ class PendingPicking extends Component {
     }
 
     componentDidMount() {
-        getPendingPicking().then(newSales => this.setState({ sales: this.filterSales(newSales) }));
+        getPendingPicking().then(newSales => this.setState({ sales: newSales }));
     }
     
     handleItemPick = (saleId, product, quantity) => {
         let itemId = saleId + ":" + product.id;
-        this.selectedItems[itemId] = {product: product, quantity: quantity};
+        product.selectedQuantity = quantity;
+        this.selectedItems[itemId] = product;
     }
 
     handleItemUnpick = (saleId, product) => {
@@ -46,19 +47,18 @@ class PendingPicking extends Component {
             
             let productQuantity = 0;
             if (pickingWaveProducts.hasOwnProperty(itemKey)) {
-                productQuantity = pickingWaveProducts[itemKey].quantity + this.selectedItems[key].quantity;
+                productQuantity = pickingWaveProducts[itemKey].waveQuantity + this.selectedItems[key].selectedQuantity;
             } else {
-                productQuantity = this.selectedItems[key].quantity;
+                productQuantity = this.selectedItems[key].selectedQuantity;
             }
 
-            numTotalProducts += this.selectedItems[key].quantity;
+            numTotalProducts += this.selectedItems[key].selectedQuantity;
             if (!categories.includes(this.selectedItems[key].category)) {
                 categories.push(this.selectedItems[key].category); 
             }
 
-            delete this.selectedItems[key].product.quantity;
-
-            pickingWaveProducts[itemKey] = {product: this.selectedItems[key].product, quantity: productQuantity};
+            pickingWaveProducts[itemKey] = this.selectedItems[key];
+            pickingWaveProducts[itemKey].waveQuantity = productQuantity;
         }
 
         let waveSummary = numTotalProducts + " total products of " + categories.length + (categories.length > 1 ? " categories" : " category");
@@ -73,7 +73,7 @@ class PendingPicking extends Component {
         this.props.history.push("/sales/picking_waves");
     }
 
-    filterSales = (sales) => {
+    /* filterSales = (sales) => {
         let pickingWaves = localStorage.getItem("picking_waves") ? JSON.parse(localStorage.getItem("picking_waves")) : [];
 
         if (pickingWaves.length === 0) {
@@ -111,7 +111,7 @@ class PendingPicking extends Component {
         } 
 
         return sales;
-    }
+    }*/
 
     renderSales = () => {
         if (this.state.sales !== null) {
@@ -122,7 +122,7 @@ class PendingPicking extends Component {
                             {
                                 sale.products.map((product, index) => {
                                     return (
-                                        <TabelRowSubRow data={parseProduct(product)} key={index} 
+                                        <TabelRowSubRow data={parsePendingPickingProduct(product)} key={index} 
                                             actionComponent={<PickingAction 
                                                                 product={product}
                                                                 saleId={sale.info.id}

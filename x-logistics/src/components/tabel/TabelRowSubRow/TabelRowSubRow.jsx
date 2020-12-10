@@ -2,10 +2,13 @@ import React from "react";
 import styles from "./TabelRowSubRow.module.css";
 
 export default function TabelRowSubRow(props) {
+    const numItems = props.data.length + (props.actionComponent !== undefined ? 1 : 0);
+    const itemWidth = (1 / numItems) * 100 + "%";
+
     const renderActionComponent = () => {
         if (props.actionComponent !== undefined)
             return (
-                <div className={styles.rowItem}>
+                <div className={styles.rowItem} style={{width: itemWidth}}>
                     {props.actionComponent}
                 </div>
             )
@@ -18,7 +21,7 @@ export default function TabelRowSubRow(props) {
                 {
                     props.data.map((header, index) => {
                         return (
-                            <div className={styles.rowItem} key={index}>
+                            <div className={styles.rowItem} style={{width: itemWidth}} key={index}>
                                 {header}
                             </div>
                         )
