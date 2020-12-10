@@ -9,7 +9,32 @@ export default function TabelRow(props) {
     const itemWidth = (1 / (props.data.length + props.actionComponent !== undefined ? 1 : 0)) * 100 + "%";
 
     const handleClickRow = () => {
-        setIsExpanded(!isExpanded);
+        if (props.subHeaders) {
+            setIsExpanded(!isExpanded);
+        }
+    }
+
+    const showActionComponent = () => {
+        if (props.actionComponent) {
+            return (
+                <div className={styles.tableRowItem} style={{width: itemWidth}}>
+                    {props.actionComponent}
+                </div>
+            );
+        }
+    }
+
+    const showSubTable = () => {
+        if (props.subHeaders) {
+            return (
+                <Collapse isOpened={isExpanded}>
+                    <div className={styles.tabelRowExpansion}>
+                        <TabelRowSubHeader headers={props.subHeaders} />
+                        {props.children}
+                    </div>
+                </Collapse>
+            );
+        }
     }
 
     return (
@@ -24,16 +49,9 @@ export default function TabelRow(props) {
                         )
                     })
                 }
-                <div className={styles.tableRowItem} style={{width: itemWidth}}>
-                    {props.actionComponent}
-                </div>
+                {showActionComponent()}
             </div>
-            <Collapse isOpened={isExpanded}>
-                <div className={styles.tabelRowExpansion}>
-                    <TabelRowSubHeader headers={props.subHeaders} />
-                    {props.children}
-                </div>
-            </Collapse>
+            {showSubTable()}
         </React.Fragment>
     )
     

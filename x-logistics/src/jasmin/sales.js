@@ -170,8 +170,6 @@ const getCompleteSales = async () => {
         }
     }
 
-    console.log(completeSales)
-
     return completeSales;
 }
 
