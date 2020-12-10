@@ -21,9 +21,6 @@ export default function Purchases() {
 		fetchData();
 	}, []);
 	
-	console.log('BEFORE RENDERS:');
-	//console.log(items);
-	
 	if (items.length === 0) {
 		console.log('Returning null');
 		return null;
@@ -38,13 +35,14 @@ export default function Purchases() {
 					let date = purchase.documentDate.split("T")[0]//.split("-")
 					let subrows = []
 					purchase.documentLines.map((product, index) => {
-						if (product.quantity !== product.receivedQuantity)
+						let temp = product.quantity !== product.receivedQuantity && product.itemTypeDescription !== "Service"
+						if (temp)
 							completed = false
 						subrows.push(<TabelRowSubRow
 							data={[product.purchasesItem,
 								product.description, product.unitPrice.amount,
-								product.quantity, product.receivedQuantity,
-								product.quantity === product.receivedQuantity ? "Yes" : "No"]}
+								product.quantity, product.itemTypeDescription !== "Service" ? product.receivedQuantity : "Na",
+								temp ? "No" : "Yes"]}
 							key={index}/>)
 					})
 					return (

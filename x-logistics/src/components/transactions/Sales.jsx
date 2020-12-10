@@ -21,9 +21,6 @@ export default function Sales() {
 		fetchData();
 	}, []);
 	
-	console.log('BEFORE RENDERS:');
-	//console.log(items);
-	
 	if (items.length === 0) {
 		console.log('Returning null');
 		return null;
@@ -38,13 +35,14 @@ export default function Sales() {
 					let date = sale.documentDate.split("T")[0]//.split("-")
 					let subrows = []
 					sale.documentLines.map((product, index) => {
-						if (product.quantity !== product.deliveredQuantity)
+						let temp = product.quantity !== product.deliveredQuantity && product.itemTypeDescription !== "Service"
+						if (temp)
 							completed = false
 						subrows.push(<TabelRowSubRow
 							data={[product.salesItem,
 								product.description, product.unitPrice.amount,
-								product.quantity, product.deliveredQuantity,
-								product.quantity === product.deliveredQuantity ? "Yes" : "No"]}
+								product.quantity, product.itemTypeDescription !== "Service" ? product.deliveredQuantity : "Na",
+								temp ? "No" : "Yes"]}
 							key={index}/>)
 					})
 					return (
