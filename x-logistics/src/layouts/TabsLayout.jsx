@@ -3,6 +3,21 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import TabsHeader from "../components/tabs/TabsHeader";
 
 export default function TabsLayout(props) {
+    const addExtraRoutes = () => {
+        if (props.extraRoutes) {
+            return (
+                props.extraRoutes.map((route) => {
+                    return (
+                        <Route path={route.path} key={route.key}>
+                            {route.component}
+                        </Route>
+                    );
+                })
+            )
+        } 
+    }
+
+
     return (
         <Router>
             <Switch>
@@ -16,6 +31,7 @@ export default function TabsLayout(props) {
                         )
                     })
                 }
+                {addExtraRoutes()}
             </Switch>
         </Router>
     )
