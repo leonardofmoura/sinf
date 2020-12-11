@@ -7,7 +7,7 @@ export default function SideNav(props) {
     const [activePath, setActivePath] = useState(props.location.pathname);
     const [navItems] = useState([
         {
-            path: '/inventory',
+            path: '/inventory/list',
             title:'Inventory',
             key: 1
         },
