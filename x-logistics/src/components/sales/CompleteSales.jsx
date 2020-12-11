@@ -1,47 +1,57 @@
+import { Component } from "react";
+import { getCompleteSales } from "../../jasmin/sales.js";
+import { parseCompleteProduct, parseSaleInfo } from "../../parsers/saleParsers.js";
 import Tabel from "../tabel/Tabel/Tabel.jsx";
 import TabelHeader from "../tabel/TabelHeader/TabelHeader.jsx";
 import TabelRow from "../tabel/TabelRow/TabelRow.jsx";
 import TabelRowSubRow from "../tabel/TabelRowSubRow/TabelRowSubRow.jsx";
 import ViewDeliveryNoteAction from "./ViewDeliveryNoteAction/ViewDeliveryNoteAction.jsx";
 
-export default function CompleteSales() {
+export default class CompleteSales extends Component {
+    constructor(props) {
+        super(props);
 
-    const tabelHeaders = ["ID", "Customer", "Date", "Summary", "Delivery Note"];
-    const subTabelHeaders = ["Product ID", "Quantity", "Item Name", "Category"];
+        this.tabelHeaders = ["ID", "Customer", "Date", "Summary", "Delivery Note"];
+        this.subTabelHeaders = ["Product ID", "Name", "Category", "Quantity"];
 
-    const saleExample = {
-        saleData: ["0000001", "L Moura", "11/11/2020", "2080 Ti Graphics cards"],
-        products: [
-            ["0000001", "37", "NVIDIA 2080 Ti", "Graphics cards"],
-            ["0000001", "37", "NVIDIA 2080 Ti", "Graphics cards"],
-        ]
-    };
+        this.state = {sales: null};
+    }
 
-    const completeSales = [saleExample, saleExample];
+    componentDidMount = () => {
+        getCompleteSales().then(newSales => this.setState({sales: newSales}));
+    }
 
-    const handleViewDeliveryNote = () => {
+    handleViewDeliveryNote = (sale) => {
         //TODO
     }
 
-    return (
-        <Tabel>
-            <TabelHeader headers={tabelHeaders}/>
-            {
-                completeSales.map((sale, index) => {
+    renderSales = () => {
+        if (this.state.sales !== null) {
+            return (
+                this.state.sales.map((sale, index) => {
                     return (
-                        <TabelRow subHeaders={subTabelHeaders} data={sale.saleData} key={index} 
-                            actionComponent={<ViewDeliveryNoteAction onClick={handleViewDeliveryNote}/>}>
+                        <TabelRow subHeaders={this.subTabelHeaders} data={parseSaleInfo(sale)} key={index} 
+                            actionComponent={<ViewDeliveryNoteAction onClick={this.handleViewDeliveryNote.bind(this, sale)}/>}>
                             {
                                 sale.products.map((product, index) => {
                                     return (
-                                        <TabelRowSubRow data={product} key={index}/>
+                                        <TabelRowSubRow data={parseCompleteProduct(product)} key={index}/>
                                     )
                                 })
                             }
                         </TabelRow>
                     )
                 })
-            }
-        </Tabel>
-    )
+            )
+        }
+    }
+
+    render = () => {
+        return (
+            <Tabel>
+                <TabelHeader headers={this.tabelHeaders}/>
+                { this.renderSales() }
+            </Tabel>
+        )
+    }
 }

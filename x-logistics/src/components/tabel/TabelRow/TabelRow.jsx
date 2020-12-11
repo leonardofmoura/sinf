@@ -1,11 +1,12 @@
 import React from "react";
 import { useState } from "react";
-import {Collapse} from 'react-collapse';
+import { Collapse } from 'react-collapse';
 import TabelRowSubHeader from "../TabelRowSubHeader/TabelRowSubHeader.jsx";
 import styles from "./TabelRow.module.css";
 
 export default function TabelRow(props) {
     const [isExpanded, setIsExpanded] = useState(false);
+    const itemWidth = (1 / (props.data.length + props.actionComponent !== undefined ? 1 : 0)) * 100 + "%";
 
     const handleClickRow = () => {
         if (props.subHeaders && props.children.length > 0) {
@@ -16,7 +17,7 @@ export default function TabelRow(props) {
     const showActionComponent = () => {
         if (props.actionComponent) {
             return (
-                <div className={styles.tableRowItem}>
+                <div className={styles.tableRowItem} style={{width: itemWidth}}>
                     {props.actionComponent}
                 </div>
             );
@@ -42,7 +43,7 @@ export default function TabelRow(props) {
                 {
                     props.data.map((item, index) => {
                         return (
-                            <div className={styles.tableRowItem} key={index}>
+                            <div className={styles.tableRowItem} style={{width: itemWidth}} key={index}>
                                 {item}
                             </div>
                         )

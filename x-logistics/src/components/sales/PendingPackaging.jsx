@@ -1,3 +1,7 @@
+import { Component } from "react";
+import { withRouter } from "react-router-dom";
+import { getPendingPackaging, processSale } from "../../jasmin/sales.js";
+import { parseSaleInfo, parsePendingPackagingProduct } from "../../parsers/saleParsers";
 import Tabel from "../tabel/Tabel/Tabel.jsx";
 import TabelHeader from "../tabel/TabelHeader/TabelHeader.jsx";
 import TabelRow from "../tabel/TabelRow/TabelRow.jsx";
@@ -5,54 +9,65 @@ import TabelRowSubRow from "../tabel/TabelRowSubRow/TabelRowSubRow.jsx";
 import PackagingAction from "./PackagingAction/PackagingAction.jsx";
 import ProductStatus from "./ProductStatus/ProductStatus.jsx";
 
-export default function PendingPackaging() {
+class PendingPackaging extends Component {
+    constructor(props) {
+        super(props);
 
-    const tabelHeaders = ["ID", "Customer", "Date", "Summary", "Packaging"];
-    const subTabelHeaders = ["Product ID", "Quantity", "Item Name", "Category", "Status"];
+        this.tabelHeaders = ["ID", "Customer", "Date", "Summary", "Packaging"];
+        this.subTabelHeaders = ["Product ID", "Name", "Category", "Sale", "Picked", "Status"];
 
-    const saleExample = {
-        saleData: ["0000001", "L Moura", "11/11/2020", "2080 Ti Graphics cards"],
-        products: [
-            ["0000001", "37", "NVIDIA 2080 Ti", "Graphics cards"],
-            ["0000001", "37", "NVIDIA 2080 Ti", "Graphics cards"],
-        ]
-    };
-
-    const pendingPackaging = [saleExample, saleExample];
-
-    const handleConfirmPackaging = () => {
-        //TODO
+        this.state = {sales: null};
     }
 
-    const calcProductStatus = (productIndex) => {
-        //TODO
-        return true;
+    componentDidMount = () => {
+        getPendingPackaging().then(newSales => this.setState({sales: newSales}));
+    }
+    
+    handleConfirmPackaging = (sale) => {
+        processSale(sale).then(() => this.props.histoy.push("/sales/complete"));
     }
 
-    const calcSaleStatus = (saleIndex) => {
-        //TODO
-        return true;
+    calcSaleStatus = (sale) => {
+        let saleStatus = true; //saleStatus = true => Ready to package
+
+        for (const product of sale.products) {
+            if (!product.packagingStatus) {
+                saleStatus = false;
+            }
+        }
+
+        return saleStatus;
     }
 
-    return (
-        <Tabel>
-            <TabelHeader headers={tabelHeaders}/>
-            {
-                pendingPackaging.map((sale, index) => {
+    renderSales = () => {
+        if (this.state.sales !== null) {
+            return (
+                this.state.sales.map((sale, index) => {
                     return (
-                        <TabelRow subHeaders={subTabelHeaders} data={sale.saleData} key={index} 
-                            actionComponent={<PackagingAction isReady={calcSaleStatus(index)} onConfirm={handleConfirmPackaging}/>}>
+                        <TabelRow subHeaders={this.subTabelHeaders} data={parseSaleInfo(sale)} key={index} 
+                            actionComponent={<PackagingAction isReady={this.calcSaleStatus(sale)} onConfirm={this.handleConfirmPackaging.bind(this, sale)}/>}>
                             {
                                 sale.products.map((product, index) => {
                                     return (
-                                        <TabelRowSubRow data={product} key={index} actionComponent={<ProductStatus isReady={calcProductStatus(index)} />} />
+                                        <TabelRowSubRow data={parsePendingPackagingProduct(product)} key={index} actionComponent={<ProductStatus isReady={product.packagingStatus} />} />
                                     )
                                 })
                             }
                         </TabelRow>
                     )
                 })
-            }
-        </Tabel>
-    )
+            )
+        }
+    }
+
+    render = () => {
+        return (
+            <Tabel>
+                <TabelHeader headers={this.tabelHeaders}/>
+                { this.renderSales() }
+            </Tabel>
+        )
+    }
 }
+
+export default withRouter(PendingPackaging);
