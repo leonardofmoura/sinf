@@ -4,7 +4,7 @@ import TabsHeader from "../components/tabs/TabsHeader";
 
 export default function TabsLayout(props) {
     const addExtraRoutes = () => {
-        if (props.ExtraRoutes) {
+        if (props.extraRoutes) {
             return (
                 props.extraRoutes.map((route) => {
                     return (

@@ -4,12 +4,9 @@ import { useParams } from "react-router-dom";
 
 const WarehousePage = (props) => {
     const {id} = useParams();
-    
-    console.log("cona");
 
     return (
         <div>
-            <GoBackButton url={props.url} />
             <WarehousePageComponent id={id}/>
         </div>
     )

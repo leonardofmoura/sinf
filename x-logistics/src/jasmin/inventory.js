@@ -67,4 +67,9 @@ const getWarehouseItems = async (warehouseId) => {
     return info;
 }
 
-export {getInventory, getWarehouses, getWarehouseItems};
+const getMaterialsItem = async (itemId) => {
+    const response = await sendJasminRequest("/materialsCore/materialsItems/" + itemId);
+    return response.data;
+}
+
+export {getInventory, getWarehouses, getWarehouseItems, getMaterialsItem};
