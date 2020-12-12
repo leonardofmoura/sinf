@@ -1,7 +1,7 @@
 import WarehouseHeader from "./WarehouseHeader/WarehouseHeader";
 import Tabel from "../tabel/Tabel/Tabel.jsx";
 import TabelHeader from "../tabel/TabelHeader/TabelHeader.jsx";
-import TabelRow from "../tabel/TabelRow/TabelRow.jsx";;
+import TabelRow from "../tabel/TabelRow/TabelRow.jsx";
 
 const WarehousePage = () => {
     const tabelHeaders = ["ID", "Item Name", "Quantity", "Category"];

@@ -1,47 +1,44 @@
 const axios = require('axios');
-const FormData = require('form-data');
-
-const ACCOUNT = process.env.REACT_APP_ACCOUNT;
-const SUBSCRIPTION = process.env.REACT_APP_SUBSCRIPTION;
 
 const headers = {
-    "Accept": "application/json",
-    "Content-Type": "application/json; charset=utf-8",
+	"Accept": "application/json",
+	"Content-Type": "application/json; charset=utf-8",
 }
 
-const getBodyData = (formObj) => {
-    let bodyData = new FormData();
-    for (const key in formObj) {
-        bodyData.append(key, formObj[key]);
-    }
-    return bodyData;
-};
-
 const sendRequest = async (url, method, data) => {
-    const response = await axios(
-    {
-        baseURL: url,
-        method: method,
-        data: getBodyData(data),
-        headers: headers
-    });
-    return response;
+	let body = {
+		url: url,
+		method: method,
+		data: data
+	}
+	await axios(
+		{
+			url: "http://localhost:3001/api/sendRequest",
+			method: "POST",
+			data: body,
+			headers: headers
+		}).then(response => {
+		return response
+	})
 }
 
 const sendJasminRequest = async (resourcePath, method, data) => {
-    let requestInfo = {
-        url: resourcePath,
-        baseURL: `https://my.jasminsoftware.com/api/${ACCOUNT}/${SUBSCRIPTION}/`,
-        method: method,
-        headers: headers
-    }
-
-    if (data !== undefined && data !== null) {
-        requestInfo.data = data;
-    }
-
-    const response = axios(requestInfo);
-    return response;
+	let body = {
+		resourcePath: resourcePath,
+		method: method,
+		data: data
+	}
+	let requestInfo = {
+		url: "http://localhost:3001/api/sendJasmineRequest",
+		method: method,
+		data: body,
+		headers: headers
+	}
+	
+	await axios(requestInfo).then(response => {
+			return response
+		}
+	)
 }
 
-export { sendRequest, sendJasminRequest }
+export {sendRequest, sendJasminRequest}

@@ -47,6 +47,10 @@ export default function Purchases() {
 								temp ? "No" : "Yes"]}
 							key={index}/>)
 					})
+					if (items.length === 0)
+						subrows = <div className="spinner-border" role="status">
+							<span className="sr-only">Loading...</span>
+						</div>
 					return (
 						<TabelRow key={index} subHeaders={subTabelHeaders}
 											data={[purchase.naturalKey, purchase.sellerSupplierPartyName, date, completed ? "Yes" : "No"]}>

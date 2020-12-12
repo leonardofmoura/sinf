@@ -1,7 +1,7 @@
 import Tabel from "../tabel/Tabel/Tabel.jsx";
 import TabelHeader from "../tabel/TabelHeader/TabelHeader.jsx";
 import TabelRow from "../tabel/TabelRow/TabelRow.jsx";import ViewWarehouse from "./ViewWarehouse/ViewWarehouse.jsx";
-;
+
 
 const Warehouses = () => {
     const tabelHeaders = ["Warehouse", "Description", "Total Number of items", "Action"];
