@@ -25,6 +25,8 @@ const PendingReception = (props) => {
             const uniqueOrdersToProcess = itemsResponse.data.map(item => item.sourceDocKey);
             const filteredOrders = ordersResponse.data.filter(item => uniqueOrdersToProcess.includes(item.naturalKey));
 
+            console.log('ITEMS:'); console.log(itemsResponse);
+
             setOrders(filteredOrders.map(order => {
                 return {
                     data: [
@@ -33,11 +35,18 @@ const PendingReception = (props) => {
                         order.documentDate,
                     ],
                     items: itemsResponse.data.filter(item => item.sourceDocKey === order.naturalKey).map(item => {
-                        return [
-                            item.item,
-                            item.description,
-                            item.quantity,
-                        ]
+                        return {
+                            tableData: [
+                                item.item,
+                                item.description,
+                                item.quantity,
+                            ],
+                            requestData: {
+                                item: item.item,
+                                sourceDocLineNumber: item.sourceDocLineNumber,
+                                quantity: item.quantity,
+                            }
+                        }
                     }),
                 }
             }));
@@ -62,11 +71,11 @@ const PendingReception = (props) => {
                                 order.items.map((item, index) => {
                                     return(
                                         <TabelRowSubRow
-                                            data={item}
+                                            data={item.tableData}
                                             key={index}
                                             actionComponent={
                                                 <Popup trigger={open => (<button>Confirm</button>)} modal='true'>
-                                                    <ConfirmReceptionPopup/>
+                                                    <ConfirmReceptionPopup order={order.data} item={item}/>
                                                 </Popup>}
                                         />
                                     )
@@ -81,16 +90,32 @@ const PendingReception = (props) => {
 };
 
 const ConfirmReceptionPopup = (props) => {
+    console.log('ITEM SOURCE DOC LINE NUMBER: ');
+    console.log(props.item.requestData.sourceDocLineNumber);
+
     const _confirmItemReception = async () => {
-        const body = {
-            
-        }
+        const body = [
+            {
+                sourceDocKey: props.order[0],
+                quantity: props.item.requestData.quantity,
+                sourceDocLineNumber: props.item.requestData.sourceDocLineNumber,
+            }
+        ];
+
+        const response = await sendJasminRequest(
+            'goodsReceipt/processOrders/GXSA',
+            'POST',
+            body,
+        );
+
+        console.log('RESPONSE: ');
+        console.log(response);
     }
 
     return(
         <div>
-            <span>Do you wish to confirm reception?</span>
-            <button>Confirm</button>
+            <span>{`Do you wish to confirm reception of ${props.item.tableData[2]} ${props.item.tableData[0]}s of order ${props.order[0]}?`}</span>
+            <button onClick={_confirmItemReception}>Confirm</button>
         </div>
     )
 }

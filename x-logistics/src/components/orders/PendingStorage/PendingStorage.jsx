@@ -92,7 +92,7 @@ const ItemsStoragePopup = (props) => {
             `materialsManagement/stockTransferOrders`,
             'POST',
             body,
-            );
+        );
 
         console.log('RESPONSE: ');
         console.log(response);
