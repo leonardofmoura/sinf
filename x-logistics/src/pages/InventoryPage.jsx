@@ -2,7 +2,7 @@ import SidebarLayout from "../layouts/SidebarLayout";
 import Inventory from "../components/inventory/Inventory";
 import TabsLayout from "../layouts/TabsLayout";
 import Warehouses from "../components/inventory/Warehouses";
-import WarehousePage from "../components/inventory/WarehousePage";
+import WarehousePage from "./WarehousePage";
 
 const InventoryPage = () => {
 

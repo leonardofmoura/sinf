@@ -13,8 +13,6 @@ const getAllSales = async () => {
     const response = await sendJasminRequest(resource, "get");
 
     for (const sale of response.data) {
-
-        console.log(sale);
         
         let products = [];
         for (const product of sale.documentLines) {
@@ -50,6 +48,7 @@ const getAllSales = async () => {
         
         let saleInfo = {
             id: sale.serie + ("" + sale.seriesNumber).padStart(4, "0"),
+            jasminId: sale.id,
             key: sale.naturalKey,
             customer: sale.buyerCustomerPartyDescription,
             date: moment(sale.documentDate).format("YYYY-MM-DD"),
@@ -61,6 +60,11 @@ const getAllSales = async () => {
     }
     
     return sales;
+}
+
+const getSale = async (saleId) => {
+    const response = await sendJasminRequest('sales/orders/' + saleId, 'GET');
+    return response.data;
 }
 
 const getSalesItem = async (salesItemId) => {
@@ -210,14 +214,13 @@ const processSale = async (sale) => {
         orderLines.push(orderLine);
     }
 
-    console.log(orderLines)
-
     const response = await sendJasminRequest('shipping/processOrders/' + companyName, "POST", orderLines);
     return response;
 }
 
 export { 
     getAllSales, 
+    getSale,
     getPendingPicking, 
     getPendingPackaging,
     getCompleteSales, 

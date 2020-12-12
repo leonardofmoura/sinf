@@ -1,6 +1,6 @@
 const parsePendingPickingProduct = (product) => {
     return [
-        product.id, 
+        product.nameId, 
         product.name, 
         product.category, 
         product.saleQuantity + " " + product.unit, 
@@ -11,7 +11,7 @@ const parsePendingPickingProduct = (product) => {
 
 const parsePendingPackagingProduct = (product) => {
     return [
-        product.id, 
+        product.nameId, 
         product.name, 
         product.category, 
         product.saleQuantity + " " + product.unit, 
@@ -21,7 +21,7 @@ const parsePendingPackagingProduct = (product) => {
 
 const parseCompleteProduct = (product) => {
     return [
-        product.id, 
+        product.nameId, 
         product.name, 
         product.category, 
         product.saleQuantity + " " + product.unit, 

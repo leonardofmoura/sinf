@@ -2,7 +2,7 @@ const { sendJasminRequest } = require("./request")
 
 
 const getInventory = async () => {
-    let response = await sendJasminRequest("materialscore/materialsitems","GET");
+    let response = await sendJasminRequest("materialscore/materialsitems", "GET");
 
     const items = response.data.map((item) =>{
         return {

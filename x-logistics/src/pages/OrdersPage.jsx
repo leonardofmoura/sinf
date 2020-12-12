@@ -1,7 +1,6 @@
 import SidebarLayout from "../layouts/SidebarLayout";
 
 const OrdersPage = () => {
-    
     return (
         <SidebarLayout>
             TODO
