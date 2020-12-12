@@ -12,6 +12,7 @@ import TransactionsPage from './pages/TransactionsPage';
 import IndexPage from './pages/IndexPage';
 import WarehousePage from './components/inventory/WarehousePage';
 import SidebarLayout from './layouts/SidebarLayout';
+require("bootstrap/dist/css/bootstrap.css")
 
 function App() {
   return (

@@ -1,11 +1,9 @@
 import { useState } from 'react';
 import { useCookies } from 'react-cookie';
 import { Redirect } from "react-router-dom";
-import { setAutoToken} from "../jasmin/token";
 import Login from '../components/login/Login/Login';
 
 const LoginPage = () => {
-    setAutoToken();
 
     const [, setCookie] = useCookies(['loginState']);
     const [login, setLogin] = useState(false);
