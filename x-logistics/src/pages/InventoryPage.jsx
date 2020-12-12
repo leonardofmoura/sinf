@@ -1,12 +1,10 @@
 import SidebarLayout from "../layouts/SidebarLayout";
-import { setAutoToken} from "../jasmin/token";
 import Inventory from "../components/inventory/Inventory";
 import WarehousePage from "../components/inventory/WarehousePage";
 import TabsLayout from "../layouts/TabsLayout";
 import Warehouses from "../components/inventory/Warehouses";
 
 const InventoryPage = () => {
-    setAutoToken();
 
     const tabs = [
         {

@@ -1,6 +1,7 @@
 const request = require("./request")
 
 const axios = require("axios");
+require('dotenv').config()
 
 let isTokenSet = false;
 
@@ -18,9 +19,8 @@ module.exports = {
 			scope: "application"
 		};
 		
-		await request.sendRequest(url, 'post', body).then(response => {
-			return response.data.access_token
-		})
+		const response = await request.sendRequest(url, 'POST', body)
+		return response.access_token
 	},
 	
 	async setToken(token) {
@@ -28,7 +28,7 @@ module.exports = {
 	},
 	
 	async updateToken() {
-		this.getToken().then((token) => {
+		await this.getToken().then((token) => {
 			this.setToken(token);
 		})
 	},
@@ -40,7 +40,7 @@ module.exports = {
 			isTokenSet = true;
 		}
 		
-		axios.interceptors.response.use((response) => (response),
+		/*axios.interceptors.response.use((response) => (response),
 			(error) => {
 				// Return any error which is not due to authentication back to the calling service
 				if (error.response.status !== 401 && error.response.status !== 400) {
@@ -72,6 +72,6 @@ module.exports = {
 						Promise.reject(error);
 					});
 			},
-		);
+		);*/
 	}
 }
