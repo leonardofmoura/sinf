@@ -1,4 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, Button } from 'react';
+
+import Popup from 'reactjs-popup';
+import 'reactjs-popup/dist/index.css';
 
 import Tabel from '../../tabel/Tabel/Tabel';
 import TabelHeader from '../../tabel/TabelHeader/TabelHeader';
@@ -10,8 +13,8 @@ import { sendJasminRequest } from '../../../jasmin/request';
 
 const PendingReception = (props) => {
     const tableHeaders = ['ID', 'Supplier', 'Date'];
-    const subTableHeaders = ['Item', 'Description', 'Quantity'];
-    
+    const subTableHeaders = ['Item', 'Description', 'Quantity', 'Reception'];
+
     const [orders, setOrders] = useState([]);
 
     useEffect(() => {
@@ -61,6 +64,10 @@ const PendingReception = (props) => {
                                         <TabelRowSubRow
                                             data={item}
                                             key={index}
+                                            actionComponent={
+                                                <Popup trigger={open => (<button>Confirm</button>)} modal='true'>
+                                                    <ConfirmReceptionPopup/>
+                                                </Popup>}
                                         />
                                     )
                                 })
@@ -72,5 +79,20 @@ const PendingReception = (props) => {
         </Tabel>
     )
 };
+
+const ConfirmReceptionPopup = (props) => {
+    const _confirmItemReception = async () => {
+        const body = {
+            
+        }
+    }
+
+    return(
+        <div>
+            <span>Do you wish to confirm reception?</span>
+            <button>Confirm</button>
+        </div>
+    )
+}
 
 export default PendingReception;
