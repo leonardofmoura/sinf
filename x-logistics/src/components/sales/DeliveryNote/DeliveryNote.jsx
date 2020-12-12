@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import React from "react";
 import { useParams } from "react-router-dom";
 import { getSale } from "../../../jasmin/sales";
-import { updateToken } from "../../../jasmin/token";
 import SidebarLayout from "../../../layouts/SidebarLayout";
 import Tabel from "../../tabel/Tabel/Tabel";
 import TabelHeader from "../../tabel/TabelHeader/TabelHeader";

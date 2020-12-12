@@ -6,7 +6,6 @@ import reportWebVitals from './reportWebVitals';
 import {setAutoToken} from "./jasmin/token";
 
 setAutoToken().then(() =>
-	
 	ReactDOM.render(
 		<React.StrictMode>
 			<App/>

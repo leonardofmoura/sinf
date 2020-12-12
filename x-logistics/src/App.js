@@ -1,7 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { CookiesProvider } from 'react-cookie';
-import { setAutoToken } from "./jasmin/token";
 import './App.css';
 
 import LoginPage from './pages/LoginPage';
@@ -15,7 +14,6 @@ import DeliveryNote from "./components/sales/DeliveryNote/DeliveryNote";
 require("bootstrap/dist/css/bootstrap.css")
 
 function App() {
-  setAutoToken();
   return (
     <CookiesProvider>
       <Router>
