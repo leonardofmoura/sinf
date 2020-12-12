@@ -22,8 +22,14 @@ export default function Purchases() {
 	}, []);
 	
 	if (items.length === 0) {
-		console.log('Returning null');
-		return null;
+		console.log('Returning loader');
+		return (
+			<div className="d-flex justify-content-center mt-5">
+				<div className="spinner-border" style={{width: "15rem", height: "15rem", }} role="status">
+					<span className="sr-only">Loading...</span>
+				</div>
+			</div>
+		)
 	}
 	
 	return (
@@ -47,10 +53,6 @@ export default function Purchases() {
 								temp ? "No" : "Yes"]}
 							key={index}/>)
 					})
-					if (items.length === 0)
-						subrows = <div className="spinner-border" role="status">
-							<span className="sr-only">Loading...</span>
-						</div>
 					return (
 						<TabelRow key={index} subHeaders={subTabelHeaders}
 											data={[purchase.naturalKey, purchase.sellerSupplierPartyName, date, completed ? "Yes" : "No"]}>

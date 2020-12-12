@@ -9,6 +9,7 @@ import OrdersPage from './pages/OrdersPage';
 import SalesPage from './pages/SalesPage';
 import TransactionsPage from './pages/TransactionsPage';
 import IndexPage from './pages/IndexPage';
+require("bootstrap/dist/css/bootstrap.css")
 
 function App() {
   return (
