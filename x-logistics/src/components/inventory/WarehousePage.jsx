@@ -1,5 +1,4 @@
 import WarehousePageComponent from "./WarehousePageComponent/WarehousePageComponent";
-import GoBackButton from "./WarehousePageComponent/GoBackButton";
 import { useParams } from "react-router-dom";
 
 const WarehousePage = (props) => {
