@@ -26,21 +26,22 @@ const setToken = (token) => {
     axios.defaults.headers.common = { "Authorization": `bearer ${token}` };
 };
 
-const updateToken = () => {
-    getToken().then((token) => {
-        setToken(token);
-    })
+const updateToken = async () => {
+    const token = await getToken();
+    setToken(token);
 }
 
 // Intercept request in case of unauthorized error and request new token
 const setAutoToken = () => {
     if (!isTokenSet) {
         updateToken();
+        return;
         isTokenSet = true;
     }
 
     axios.interceptors.response.use((response) => (response),
         (error) => {
+            console.log(error)
             // Return any error which is not due to authentication back to the calling service
             if (error.response.status !== 401) {
                 return new Promise((_resolve, reject) => {

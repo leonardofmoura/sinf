@@ -9,18 +9,19 @@ import OrdersPage from './pages/OrdersPage';
 import SalesPage from './pages/SalesPage';
 import TransactionsPage from './pages/TransactionsPage';
 import IndexPage from './pages/IndexPage';
-import DeliveryNote from './components/sales/DeliveryNote';
+import DeliveryNote from './components/sales/DeliveryNote/DeliveryNote';
+import history from "./services/history";
 
 function App() {
   return (
     <CookiesProvider>
-      <Router>
+      <Router history={history}>
           <Switch>
             <Route exact path="/" component={IndexPage} />
             <Route path="/login" component={LoginPage} />
             <Route path="/inventory" component={InventoryPage} />
             <Route path="/orders" component={OrdersPage} />
-            <Route exact path="/sales/delivery_note/:id" component={DeliveryNote} />
+            <Route exact path="/delivery_note/:id" component={DeliveryNote} />
             <Route path="/sales" component={SalesPage} />
             <Route path="/transactions" component={TransactionsPage} />
           </Switch>

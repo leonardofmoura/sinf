@@ -13,8 +13,6 @@ const getAllSales = async () => {
     const response = await sendJasminRequest(resource, "get");
 
     for (const sale of response.data) {
-
-        console.log(sale);
         
         let products = [];
         for (const product of sale.documentLines) {
@@ -215,8 +213,6 @@ const processSale = async (sale) => {
 
         orderLines.push(orderLine);
     }
-
-    console.log(orderLines)
 
     const response = await sendJasminRequest('shipping/processOrders/' + companyName, "POST", orderLines);
     return response;

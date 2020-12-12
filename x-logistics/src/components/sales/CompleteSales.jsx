@@ -23,7 +23,7 @@ class CompleteSales extends Component {
     }
 
     handleViewDeliveryNote = (sale) => {
-        this.props.history.push('/sales/delivery_note/' + sale.info.jasminId);
+        this.props.history.push('/delivery_note/' + sale.info.jasminId);
     }
 
     renderSales = () => {

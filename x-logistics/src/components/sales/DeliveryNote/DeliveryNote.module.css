@@ -1,0 +1,72 @@
+.deliveryNoteHeader {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin: 1.5em 4em 0em;
+}
+
+.deliveryNoteHeaderId {
+    font-size: 1.3rem;
+}
+
+.deliveryNoteHeaderDate {
+    font-size: 1.2rem;
+}
+
+.movementSection {
+    display: flex;
+    align-items: center;
+    margin: 0rem 4rem 1rem;
+    font-size: 1.2rem;
+}
+
+.productsSectionHeader {
+    margin: 0em 4em;
+    font-size: 1.2rem;
+}
+
+.loadingSection,
+.unloadingSection {
+    width: 50%;
+}
+
+.loadingSection {
+    border-right: thin solid black;
+}
+
+.loadingSectionInfo, 
+.unloadingSectionInfo {
+    margin: 0.5rem auto;
+    width: max-content;
+}
+
+.saleInfoSection {
+    margin: 0em 4em 1rem;
+    font-size: 1.1rem;
+}
+
+.saleInfoSectionItem {
+    padding-left: 0;
+}
+
+.saleInfoSectionItemVerBar {
+    padding: 0 1rem;
+}
+
+.loadingSectionInfoLabel,
+.unloadingSectionInfoLabel {
+    padding-right: 0.5rem;
+}
+
+.loadingSectionInfoItem,
+.unloadingSectionInfoItem {
+    padding: 0.15rem;
+}
+
+.loadingSectionHeader,
+.unloadingSectionHeader {
+    text-align: center;
+    padding: 1rem;
+    margin: 0;
+}

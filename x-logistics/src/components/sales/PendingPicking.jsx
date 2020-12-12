@@ -73,46 +73,6 @@ class PendingPicking extends Component {
         this.props.history.push("/sales/picking_waves");
     }
 
-    /* filterSales = (sales) => {
-        let pickingWaves = localStorage.getItem("picking_waves") ? JSON.parse(localStorage.getItem("picking_waves")) : [];
-
-        if (pickingWaves.length === 0) {
-            return sales;
-        }
-
-        let waveProductsInfo = [];
-        for (const wave of pickingWaves) {
-            for (const productKey in wave.products) {
-
-                if (waveProductsInfo.hasOwnProperty(productKey)) {
-                    waveProductsInfo[productKey] += wave.products[productKey].quantity;
-                } else {
-                    waveProductsInfo[productKey] = wave.products[productKey].quantity;
-                }
-            }
-        }
-
-        for (const sale of sales) {
-            for (const product of sale.products) {
-                let oldQuantity = product.quantity;
-                if (waveProductsInfo.hasOwnProperty(product.id)) {
-                    product.isInPickingWave = true;
-                    product.quantity -= waveProductsInfo[product.id];
-
-                    if (product.quantity > 0) {
-                        product.waveQuantity = waveProductsInfo[product.id];
-                        waveProductsInfo[product.id] = 0;
-                    } else {
-                        waveProductsInfo[product.id] = Math.abs(product.quantity);
-                        product.waveQuantity = oldQuantity;
-                    }
-                }
-            }
-        } 
-
-        return sales;
-    }*/
-
     renderSales = () => {
         if (this.state.sales !== null) {
             return (
