@@ -21,7 +21,6 @@ const PendingStorage = (props) => {
     useEffect(() => {
         const fetchData = async () => {
             const response = await getWarehouseItems('RECEPTION');
-            console.log(response);
 
             setItems(response.items.map(item => {
                 return [
@@ -47,7 +46,7 @@ const PendingStorage = (props) => {
                             data={item}
                             actionComponent={
                                 <Popup trigger={open => (<button>Confirm</button>)} modal='true'>
-                                    <ItemsStoragePopup/>
+                                    <ItemsStoragePopup item={item}/>
                                 </Popup>}
                         />
                     )
@@ -75,18 +74,19 @@ const ItemsStoragePopup = (props) => {
             loadingBuildingNumber: '1',
             loadingPostalZone: '4200-465',
             loadingCityName: 'Porto',
-            loadingCountry: 'PT',
             company: 'GXSA',
+            loadingCountry: 'PT',
+            unloadingCountry: 'PT',
             sourceWarehouse: 'RECEPTION',
             targetWarehouse: selectedRow + selectedCol,
             documentLines: [
                 {
-                    quantity: props.item.quantity,
-                    materialsItem: props.item.purchasesItem,
+                    quantity: props.item[3],
+                    materialsItem: props.item[0],
                 }
             ],
         };
-        console.log(props.item);
+        console.log(body);
         
         const response = await sendJasminRequest(
             `materialsManagement/stockTransferOrders`,
