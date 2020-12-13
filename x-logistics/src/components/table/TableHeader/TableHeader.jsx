@@ -1,6 +1,6 @@
-import styles from "./TabelHeader.module.css";
+import styles from "./TableHeader.module.css";
 
-export default function TabelHeader(props) {
+export default function tableHeader(props) {
     const itemWidth = (1 / props.headers.length) * 100 + "%";
 
     return (

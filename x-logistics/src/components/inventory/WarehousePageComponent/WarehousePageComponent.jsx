@@ -1,7 +1,7 @@
 import WarehouseHeader from "../WarehouseHeader/WarehouseHeader";
-import Tabel from "../../tabel/Tabel/Tabel.jsx";
-import TabelHeader from "../../tabel/TabelHeader/TabelHeader.jsx";
-import TabelRow from "../../tabel/TabelRow/TabelRow.jsx";
+import Table from "../../table/Table/Table.jsx";
+import TableHeader from "../../table/TableHeader/TableHeader.jsx";
+import TableRow from "../../table/TableRow/TableRow.jsx";
 import { Component } from "react";
 import { getWarehouseItems } from "../../../jasmin/inventory";
 
@@ -9,7 +9,7 @@ class WarehousePageComponent extends Component {
     constructor(props) {
         super(props);
 
-        this.tabelHeaders = ["ID", "Item Name", "Quantity", "Category"];
+        this.tableHeaders = ["ID", "Item Name", "Quantity", "Category"];
 
         this.state = {
             warehouse: null,
@@ -42,20 +42,20 @@ class WarehousePageComponent extends Component {
                         description={this.state.warehouse.description}
                         stock={this.state.warehouse.stock} 
                     />
-                    <Tabel>
-                        <TabelHeader headers={this.tabelHeaders}/>
+                    <Table>
+                        <TableHeader headers={this.tableHeaders}/>
                         {
                             this.state.warehouse.items.map((item, index) => {
                                 return (
-                                    <TabelRow 
+                                    <TableRow 
                                         key={index} 
                                         data={item} 
                                     >
-                                    </TabelRow>
+                                    </TableRow>
                                 )
                             })
                         }
-                    </Tabel>
+                    </Table>
                 </div>
             )
         }

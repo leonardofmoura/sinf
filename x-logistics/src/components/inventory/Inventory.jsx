@@ -1,7 +1,7 @@
-import Tabel from "../tabel/Tabel/Tabel.jsx";
-import TabelHeader from "../tabel/TabelHeader/TabelHeader.jsx";
-import TabelRow from "../tabel/TabelRow/TabelRow.jsx";
-import TabelRowSubRow from "../tabel/TabelRowSubRow/TabelRowSubRow.jsx";
+import Table from "../table/Table/Table.jsx";
+import TableHeader from "../table/TableHeader/TableHeader.jsx";
+import TableRow from "../table/TableRow/TableRow.jsx";
+import TableRowSubRow from "../table/TableRowSubRow/TableRowSubRow.jsx";
 import ViewWarehouse from "./ViewWarehouse/ViewWarehouse.jsx";
 import { Component } from "react";
 import {getInventory} from "../../jasmin/inventory.js"
@@ -10,8 +10,8 @@ class Inventory extends Component {
     constructor (props) {
         super(props);
 
-        this.tabelHeaders = ["ID", "Item Name", "Quantity", "Category"];
-        this.subTabelHeaders = ["Quantity", "Warehouse", "Action"];
+        this.tableHeaders = ["ID", "Item Name", "Quantity", "Category"];
+        this.subtableHeaders = ["Quantity", "Warehouse", "Action"];
 
         this.state = {
             items: null,
@@ -40,20 +40,20 @@ class Inventory extends Component {
     render() {
         if (this.state.items) {
             return (
-                <Tabel>
-                    <TabelHeader headers={this.tabelHeaders}/>
+                <Table>
+                    <TableHeader headers={this.tableHeaders}/>
                     {
                         this.state.items.map((item, index) => {
                             return (
-                                <TabelRow 
+                                <TableRow 
                                     key={index} 
-                                    subHeaders={this.subTabelHeaders} 
+                                    subHeaders={this.subtableHeaders} 
                                     data={item.data} 
                                 >
                                     {
                                         item.warehouses.map((item,index) => {
                                             return (
-                                                <TabelRowSubRow 
+                                                <TableRowSubRow 
                                                     data={item} 
                                                     key={index} 
                                                     actionComponent={<ViewWarehouse id={item[1]}/>}
@@ -61,11 +61,11 @@ class Inventory extends Component {
                                             )
                                         })
                                     }
-                                </TabelRow>
+                                </TableRow>
                             )
                         })
                     }
-                </Tabel>
+                </Table>
             )
         }
         else {

@@ -1,9 +1,9 @@
 import { getPendingPicking } from "../../jasmin/sales.js";
 import { parseSaleInfo, parsePendingPickingProduct } from "../../parsers/saleParsers";
-import Tabel from "../tabel/Tabel/Tabel.jsx";
-import TabelHeader from "../tabel/TabelHeader/TabelHeader.jsx";
-import TabelRow from "../tabel/TabelRow/TabelRow.jsx";
-import TabelRowSubRow from "../tabel/TabelRowSubRow/TabelRowSubRow.jsx";
+import Table from "../table/Table/Table.jsx";
+import TableHeader from "../table/TableHeader/TableHeader.jsx";
+import TableRow from "../table/TableRow/TableRow.jsx";
+import TableRowSubRow from "../table/TableRowSubRow/TableRowSubRow.jsx";
 import CreatePickingWaveButton from "./CreatePickingWaveButton/CreatePickingWaveButton.jsx";
 import PickingAction from "./PickingAction/PickingAction.jsx";
 import { Component  } from "react";
@@ -14,8 +14,8 @@ class PendingPicking extends Component {
     constructor(props) {
         super(props);
 
-        this.tabelHeaders = ["ID", "Customer", "Date", "Summary"];
-        this.subTabelHeaders = ["Product ID", "Name", "Category", "Sale", "In Wave", "Picked", "Picking"];
+        this.tableHeaders = ["ID", "Customer", "Date", "Summary"];
+        this.subtableHeaders = ["Product ID", "Name", "Category", "Sale", "In Wave", "Picked", "Picking"];
 
         this.selectedItems = [];
 
@@ -80,11 +80,11 @@ class PendingPicking extends Component {
             return (
                 this.state.sales.map((sale, index) => {     
                     return (
-                        <TabelRow key={index} subHeaders={this.subTabelHeaders} data={parseSaleInfo(sale)}>
+                        <TableRow key={index} subHeaders={this.subtableHeaders} data={parseSaleInfo(sale)}>
                             {
                                 sale.products.map((product, index) => {
                                     return (
-                                        <TabelRowSubRow data={parsePendingPickingProduct(product)} key={index} 
+                                        <TableRowSubRow data={parsePendingPickingProduct(product)} key={index} 
                                             actionComponent={<PickingAction 
                                                                 product={product}
                                                                 saleId={sale.info.id}
@@ -95,7 +95,7 @@ class PendingPicking extends Component {
                                     )
                                 })
                             }
-                        </TabelRow>
+                        </TableRow>
                     )
                 })
             )
@@ -104,11 +104,11 @@ class PendingPicking extends Component {
 
     render = () => {
         return (
-            <Tabel>
-                <TabelHeader headers={this.tabelHeaders}/>
+            <Table>
+                <TableHeader headers={this.tableHeaders}/>
                 { this.renderSales() }
                 <CreatePickingWaveButton onClick={this.handleCreatePickingWave} />
-            </Tabel>
+            </Table>
         )
     }
 }

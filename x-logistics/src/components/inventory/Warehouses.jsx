@@ -1,7 +1,7 @@
 import { Component } from "react";
-import Tabel from "../tabel/Tabel/Tabel.jsx";
-import TabelHeader from "../tabel/TabelHeader/TabelHeader.jsx";
-import TabelRow from "../tabel/TabelRow/TabelRow.jsx";
+import Table from "../table/Table/Table.jsx";
+import TableHeader from "../table/TableHeader/TableHeader.jsx";
+import TableRow from "../table/TableRow/TableRow.jsx";
 import ViewWarehouse from "./ViewWarehouse/ViewWarehouse.jsx";
 import { getWarehouses } from "../../jasmin/inventory";
 
@@ -9,7 +9,7 @@ class Warehouses extends Component {
     constructor(props) {
         super(props);
         
-        this.tabelHeaders = ["Warehouse", "Description", "Total Number of items", "Action"];
+        this.tableHeaders = ["Warehouse", "Description", "Total Number of items", "Action"];
         this.wareHouseName = "RECEPTION"
     
         this.state = {
@@ -35,21 +35,21 @@ class Warehouses extends Component {
         if (this.state.warehouses) {
             return (
                 <div>
-                    <Tabel>
-                        <TabelHeader headers={this.tabelHeaders}/>
+                    <Table>
+                        <TableHeader headers={this.tableHeaders}/>
                         {
                             this.state.warehouses.map((item, index) => {
                                 return (
-                                    <TabelRow 
+                                    <TableRow 
                                         key={index} 
                                         data={item.data} 
                                         actionComponent={<ViewWarehouse id={item.data[0]}/>}
                                     >
-                                    </TabelRow>
+                                    </TableRow>
                                 )
                             })
                         }
-                    </Tabel>
+                    </Table>
                 </div>
             )
         }

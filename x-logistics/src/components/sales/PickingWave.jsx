@@ -1,14 +1,14 @@
 import { parseWaveInfo, parseWaveProduct } from "../../parsers/waveParsers.js";
-import Tabel from "../tabel/Tabel/Tabel.jsx";
-import TabelHeader from "../tabel/TabelHeader/TabelHeader.jsx";
-import TabelRow from "../tabel/TabelRow/TabelRow.jsx";
-import TabelRowSubRow from "../tabel/TabelRowSubRow/TabelRowSubRow.jsx";
+import Table from "../table/Table/Table.jsx";
+import TableHeader from "../table/TableHeader/TableHeader.jsx";
+import TableRow from "../table/TableRow/TableRow.jsx";
+import TableRowSubRow from "../table/TableRowSubRow/TableRowSubRow.jsx";
 import ConfirmPickingWaveAction from "./ConfirmPickingWaveAction/ConfirmPickingWaveAction.jsx";
 
 export default function PickingWave() {
     
-    const tabelHeaders = ["Wave ID", "Created On", "Summary", "Confirm"];
-    const subTabelHeaders = ["Product ID", "Name", "Category", "Shelf", "Quantity"];
+    const tableHeaders = ["Wave ID", "Created On", "Summary", "Confirm"];
+    const subtableHeaders = ["Product ID", "Name", "Category", "Shelf", "Quantity"];
 
     const pickingWaves = localStorage.getItem("picking_waves") ? JSON.parse(localStorage.getItem("picking_waves")) : [];
 
@@ -17,16 +17,16 @@ export default function PickingWave() {
             return (
                 pickingWaves.map((wave, index) => {
                     return (
-                        <TabelRow subHeaders={subTabelHeaders} data={parseWaveInfo(wave.info)} key={index} 
+                        <TableRow subHeaders={subtableHeaders} data={parseWaveInfo(wave.info)} key={index} 
                             actionComponent={<ConfirmPickingWaveAction wave={wave}/>} >
                             {
                                 Object.keys(wave.products).map((productKey, index) => {
                                     return (
-                                        <TabelRowSubRow data={parseWaveProduct(wave.products[productKey])} key={index} />
+                                        <TableRowSubRow data={parseWaveProduct(wave.products[productKey])} key={index} />
                                     )
                                 })
                             }
-                        </TabelRow>
+                        </TableRow>
                     )
                 })
             )
@@ -34,9 +34,9 @@ export default function PickingWave() {
     }
 
     return (
-        <Tabel>
-            <TabelHeader headers={tabelHeaders}/>
+        <Table>
+            <TableHeader headers={tableHeaders}/>
             { renderWaves() }
-        </Tabel>
+        </Table>
     )
 }

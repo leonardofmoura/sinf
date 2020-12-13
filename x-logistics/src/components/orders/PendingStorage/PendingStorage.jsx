@@ -3,10 +3,10 @@ import React, { useEffect, useState } from 'react';
 import Popup from 'reactjs-popup';
 import 'reactjs-popup/dist/index.css';
 
-import Tabel from '../../tabel/Tabel/Tabel';
-import TabelHeader from '../../tabel/TabelHeader/TabelHeader';
-import TabelRow from '../../tabel/TabelRow/TabelRow';
-import TabelRowSubRow from '../../tabel/TabelRowSubRow/TabelRowSubRow';
+import Table from '../../table/Table/Table';
+import TableHeader from '../../table/TableHeader/TableHeader';
+import TableRow from '../../table/TableRow/TableRow';
+import TableRowSubRow from '../../table/TableRowSubRow/TableRowSubRow';
 
 import { sendJasminRequest } from '../../../jasmin/request';
 import { getWarehouseItems } from '../../../jasmin/inventory';
@@ -36,12 +36,12 @@ const PendingStorage = (props) => {
     }, [])
 
     return(
-        <Tabel>
-            <TabelHeader headers={tableHeaders}/>
+        <Table>
+            <TableHeader headers={tableHeaders}/>
             {
                 items.map((item, index) => {
                     return(
-                        <TabelRow
+                        <TableRow
                             key={index}
                             data={item}
                             actionComponent={
@@ -52,7 +52,7 @@ const PendingStorage = (props) => {
                     )
                 })
             }
-        </Tabel>
+        </Table>
     )
 }
 

@@ -35,7 +35,7 @@
     margin: 0 1rem;
 }
 
-.tabelRowExpansion {
+.tableRowExpansion {
     background-color: var(--background-color-lighter);
     border-bottom: 0.1rem solid #bebebe;
     border-left: 0.1rem solid #bebebe;

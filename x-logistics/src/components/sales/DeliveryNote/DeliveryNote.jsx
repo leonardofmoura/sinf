@@ -1,11 +1,9 @@
 import { useEffect, useState } from "react";
 import React from "react";
-import { useParams } from "react-router-dom";
 import { getSale } from "../../../jasmin/sales";
-import SidebarLayout from "../../../layouts/SidebarLayout";
-import Tabel from "../../tabel/Tabel/Tabel";
-import TabelHeader from "../../tabel/TabelHeader/TabelHeader";
-import TabelRow from "../../tabel/TabelRow/TabelRow";
+import Table from "../../table/Table/Table";
+import TableHeader from "../../table/TableHeader/TableHeader";
+import TableRow from "../../table/TableRow/TableRow";
 import styles from "./DeliveryNote.module.css";
 
 const DeliveryNote = (props) => {    
@@ -37,6 +35,8 @@ const DeliveryNote = (props) => {
                     { renderProducts(sale.documentLines) }
                 </React.Fragment>
             )
+        } else {
+            
         }
     }
 
@@ -60,14 +60,14 @@ const DeliveryNote = (props) => {
         return (
             <section className={styles.productsSection}>
                 <h2 className={styles.productsSectionHeader}>Products</h2>
-                <Tabel>
-                    <TabelHeader headers={tableHeaders}/>
+                <Table>
+                    <TableHeader headers={tableHeaders}/>
                     {
                         products.map((product, index) => {
-                            return <TabelRow data={parseProductInfo(product)} key={index} /> 
+                            return <TableRow data={parseProductInfo(product)} key={index} /> 
                         })
                     }
-                </Tabel>
+                </Table>
             </section>
         ) 
     }
@@ -119,9 +119,8 @@ const DeliveryNote = (props) => {
         )
     }
 
-    return (
-        renderDeliveryNote()
-    )
+    return renderDeliveryNote()
+
 }   
 
 export default DeliveryNote;

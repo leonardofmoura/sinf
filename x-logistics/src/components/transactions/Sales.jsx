@@ -1,16 +1,17 @@
-import Tabel from "../tabel/Tabel/Tabel.jsx";
-import TabelHeader from "../tabel/TabelHeader/TabelHeader.jsx";
-import TabelRow from "../tabel/TabelRow/TabelRow.jsx";
-import TabelRowSubRow from "../tabel/TabelRowSubRow/TabelRowSubRow.jsx";
+import Table from "../table/Table/Table.jsx";
+import TableHeader from "../table/TableHeader/TableHeader.jsx";
+import TableRow from "../table/TableRow/TableRow.jsx";
+import TableRowSubRow from "../table/TableRowSubRow/TableRowSubRow.jsx";
 import {useEffect, useState} from "react";
 import {sendJasminRequest} from "../../jasmin/request";
+import Loader from "../utils/Loader.jsx";
 
 export default function Sales() {
 	
 	const [items, setItems] = useState([]);
 	
-	const tabelHeaders = ["ID", "Customer", "Date", "Completed"];
-	const subTabelHeaders = ["Product ID", "Item Name", "Quantity", "Delivered Quantity", "Completed"];
+	const tableHeaders = ["ID", "Customer", "Date", "Completed"];
+	const subtableHeaders = ["Product ID", "Item Name", "Quantity", "Delivered Quantity", "Completed"];
 	
 	useEffect(() => {
 		const fetchData = async () => {
@@ -22,17 +23,12 @@ export default function Sales() {
 	}, []);
 	
 	if (items.length === 0) {
-		console.log('Returning loader');
-		return (<div className="d-flex justify-content-center mt-5">
-			<div className="spinner-border" style={{width: "15rem", height: "15rem", }} role="status">
-				<span className="sr-only">Loading...</span>
-			</div>
-		</div>)
+		return ( <Loader/> )
 	}
 	
 	return (
-		<Tabel>
-			<TabelHeader headers={tabelHeaders}/>
+		<Table>
+			<TableHeader headers={tableHeaders}/>
 			{
 				items.map((sale, index) => {
 					let completed = true
@@ -43,7 +39,7 @@ export default function Sales() {
 						let temp = product.quantity !== product.deliveredQuantity
 						if (temp)
 							completed = false
-						subrows.push(<TabelRowSubRow
+						subrows.push(<TableRowSubRow
 							data={[product.salesItem,
 								product.description,
 								product.quantity + " (" + product.unit + ")", product.deliveredQuantity + " (" + product.unit + ")",
@@ -51,13 +47,13 @@ export default function Sales() {
 							key={index}/>)
 					})
 					return (
-						<TabelRow key={index} subHeaders={subTabelHeaders}
+						<TableRow key={index} subHeaders={subtableHeaders}
 											data={[sale.naturalKey, sale.buyerCustomerPartyName, date, completed ? "Yes" : "No"]}>
 							{subrows}
-						</TabelRow>
+						</TableRow>
 					)
 				})
 			}
-		</Tabel>
+		</Table>
 	)
 }

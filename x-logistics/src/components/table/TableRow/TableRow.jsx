@@ -1,10 +1,10 @@
 import React from "react";
 import { useState } from "react";
 import { Collapse } from 'react-collapse';
-import TabelRowSubHeader from "../TabelRowSubHeader/TabelRowSubHeader.jsx";
-import styles from "./TabelRow.module.css";
+import TableRowSubHeader from "../TableRowSubHeader/TableRowSubHeader.jsx";
+import styles from "./TableRow.module.css";
 
-export default function TabelRow(props) {
+export default function tableRow(props) {
     const [isExpanded, setIsExpanded] = useState(false);
     const itemWidth = (1 / (props.data.length + props.actionComponent !== undefined ? 1 : 0)) * 100 + "%";
 
@@ -28,8 +28,8 @@ export default function TabelRow(props) {
         if (props.subHeaders && props.children.length > 0) {
             return (
                 <Collapse isOpened={isExpanded}>
-                    <div className={styles.tabelRowExpansion}>
-                        <TabelRowSubHeader headers={props.subHeaders} />
+                    <div className={styles.tableRowExpansion}>
+                        <TableRowSubHeader headers={props.subHeaders} />
                         {props.children}
                     </div>
                 </Collapse>

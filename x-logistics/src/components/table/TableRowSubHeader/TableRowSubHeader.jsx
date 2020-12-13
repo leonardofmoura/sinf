@@ -1,7 +1,7 @@
 import React from "react";
-import styles from "./TabelRowSubHeader.module.css";
+import styles from "./TableRowSubHeader.module.css";
 
-export default function TabelRowSubHeader(props) {
+export default function tableRowSubHeader(props) {
     const itemWidth = (1 / props.headers.length) * 100 + "%";
 
     return (

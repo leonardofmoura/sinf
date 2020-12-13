@@ -2,18 +2,18 @@ import { Component } from "react";
 import { withRouter } from "react-router-dom";
 import { getCompleteSales } from "../../jasmin/sales.js";
 import { parseCompleteProduct, parseSaleInfo } from "../../parsers/saleParsers.js";
-import Tabel from "../tabel/Tabel/Tabel.jsx";
-import TabelHeader from "../tabel/TabelHeader/TabelHeader.jsx";
-import TabelRow from "../tabel/TabelRow/TabelRow.jsx";
-import TabelRowSubRow from "../tabel/TabelRowSubRow/TabelRowSubRow.jsx";
+import Table from "../table/Table/Table.jsx";
+import TableHeader from "../table/TableHeader/TableHeader.jsx";
+import TableRow from "../table/TableRow/TableRow.jsx";
+import TableRowSubRow from "../table/TableRowSubRow/TableRowSubRow.jsx";
 import ViewDeliveryNoteAction from "./ViewDeliveryNoteAction/ViewDeliveryNoteAction.jsx";
 
 class CompleteSales extends Component {
     constructor(props) {
         super(props);
 
-        this.tabelHeaders = ["ID", "Customer", "Date", "Summary", "Delivery Note"];
-        this.subTabelHeaders = ["Product ID", "Name", "Category", "Quantity"];
+        this.tableHeaders = ["ID", "Customer", "Date", "Summary", "Delivery Note"];
+        this.subtableHeaders = ["Product ID", "Name", "Category", "Quantity"];
 
         this.state = {sales: null};
     }
@@ -27,16 +27,16 @@ class CompleteSales extends Component {
             return (
                 this.state.sales.map((sale, index) => {
                     return (
-                        <TabelRow subHeaders={this.subTabelHeaders} data={parseSaleInfo(sale)} key={index} 
+                        <TableRow subHeaders={this.subtableHeaders} data={parseSaleInfo(sale)} key={index} 
                             actionComponent={<ViewDeliveryNoteAction id={sale.info.jasminId}/>}>
                             {
                                 sale.products.map((product, index) => {
                                     return (
-                                        <TabelRowSubRow data={parseCompleteProduct(product)} key={index}/>
+                                        <TableRowSubRow data={parseCompleteProduct(product)} key={index}/>
                                     )
                                 })
                             }
-                        </TabelRow>
+                        </TableRow>
                     )
                 })
             )
@@ -45,10 +45,10 @@ class CompleteSales extends Component {
 
     render = () => {
         return (
-            <Tabel>
-                <TabelHeader headers={this.tabelHeaders}/>
+            <Table>
+                <TableHeader headers={this.tableHeaders}/>
                 { this.renderSales() }
-            </Tabel>
+            </Table>
         )
     }
 }

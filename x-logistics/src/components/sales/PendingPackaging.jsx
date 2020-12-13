@@ -2,10 +2,10 @@ import { Component } from "react";
 import { withRouter } from "react-router-dom";
 import { getPendingPackaging, processSale } from "../../jasmin/sales.js";
 import { parseSaleInfo, parsePendingPackagingProduct } from "../../parsers/saleParsers";
-import Tabel from "../tabel/Tabel/Tabel.jsx";
-import TabelHeader from "../tabel/TabelHeader/TabelHeader.jsx";
-import TabelRow from "../tabel/TabelRow/TabelRow.jsx";
-import TabelRowSubRow from "../tabel/TabelRowSubRow/TabelRowSubRow.jsx";
+import Table from "../table/Table/Table.jsx";
+import TableHeader from "../table/TableHeader/TableHeader.jsx";
+import TableRow from "../table/TableRow/TableRow.jsx";
+import TableRowSubRow from "../table/TableRowSubRow/TableRowSubRow.jsx";
 import PackagingAction from "./PackagingAction/PackagingAction.jsx";
 import ProductStatus from "./ProductStatus/ProductStatus.jsx";
 
@@ -13,8 +13,8 @@ class PendingPackaging extends Component {
     constructor(props) {
         super(props);
 
-        this.tabelHeaders = ["ID", "Customer", "Date", "Summary", "Packaging"];
-        this.subTabelHeaders = ["Product ID", "Name", "Category", "Sale", "Picked", "Status"];
+        this.tableHeaders = ["ID", "Customer", "Date", "Summary", "Packaging"];
+        this.subtableHeaders = ["Product ID", "Name", "Category", "Sale", "Picked", "Status"];
 
         this.state = {sales: null};
     }
@@ -45,16 +45,16 @@ class PendingPackaging extends Component {
             return (
                 this.state.sales.map((sale, index) => {
                     return (
-                        <TabelRow subHeaders={this.subTabelHeaders} data={parseSaleInfo(sale)} key={index} 
+                        <TableRow subHeaders={this.subtableHeaders} data={parseSaleInfo(sale)} key={index} 
                             actionComponent={<PackagingAction isReady={this.calcSaleStatus(sale)} onConfirm={this.handleConfirmPackaging.bind(this, sale)}/>}>
                             {
                                 sale.products.map((product, index) => {
                                     return (
-                                        <TabelRowSubRow data={parsePendingPackagingProduct(product)} key={index} actionComponent={<ProductStatus isReady={product.packagingStatus} />} />
+                                        <TableRowSubRow data={parsePendingPackagingProduct(product)} key={index} actionComponent={<ProductStatus isReady={product.packagingStatus} />} />
                                     )
                                 })
                             }
-                        </TabelRow>
+                        </TableRow>
                     )
                 })
             )
@@ -63,10 +63,10 @@ class PendingPackaging extends Component {
 
     render = () => {
         return (
-            <Tabel>
-                <TabelHeader headers={this.tabelHeaders}/>
+            <Table>
+                <TableHeader headers={this.tableHeaders}/>
                 { this.renderSales() }
-            </Tabel>
+            </Table>
         )
     }
 }

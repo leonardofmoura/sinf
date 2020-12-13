@@ -1,7 +1,7 @@
 import React from "react";
-import styles from "./TabelRowSubRow.module.css";
+import styles from "./TableRowSubRow.module.css";
 
-export default function TabelRowSubRow(props) {
+export default function tableRowSubRow(props) {
     const numItems = props.data.length + (props.actionComponent !== undefined ? 1 : 0);
     const itemWidth = (1 / numItems) * 100 + "%";
 

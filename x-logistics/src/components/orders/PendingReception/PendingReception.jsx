@@ -3,13 +3,12 @@ import React, { useEffect, useState, Button } from 'react';
 import Popup from 'reactjs-popup';
 import 'reactjs-popup/dist/index.css';
 
-import Tabel from '../../tabel/Tabel/Tabel';
-import TabelHeader from '../../tabel/TabelHeader/TabelHeader';
-import TabelRow from '../../tabel/TabelRow/TabelRow';
-import TabelRowSubRow from '../../tabel/TabelRowSubRow/TabelRowSubRow';
+import Table from '../../table/Table/Table';
+import TableHeader from '../../table/TableHeader/TableHeader';
+import TableRow from '../../table/TableRow/TableRow';
+import TableRowSubRow from '../../table/TableRowSubRow/TableRowSubRow';
 
 import { sendJasminRequest } from '../../../jasmin/request';
-
 
 const PendingReception = (props) => {
     const tableHeaders = ['ID', 'Supplier', 'Date'];
@@ -57,12 +56,12 @@ const PendingReception = (props) => {
     }, []);
 
     return (
-        <Tabel>
-            <TabelHeader headers={tableHeaders}/>
+        <Table>
+            <TableHeader headers={tableHeaders}/>
             {
                 orders.map((order, index) => {
                     return(
-                        <TabelRow
+                        <TableRow
                             key={index}
                             subHeaders={subTableHeaders}
                             data={order.data}
@@ -70,7 +69,7 @@ const PendingReception = (props) => {
                             {
                                 order.items.map((item, index) => {
                                     return(
-                                        <TabelRowSubRow
+                                        <TableRowSubRow
                                             data={item.tableData}
                                             key={index}
                                             actionComponent={
@@ -81,11 +80,11 @@ const PendingReception = (props) => {
                                     )
                                 })
                             }
-                        </TabelRow>
+                        </TableRow>
                     )
                 })
             }
-        </Tabel>
+        </Table>
     )
 };
 
