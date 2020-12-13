@@ -22,7 +22,6 @@ export default function InternalsTable(props) {
 						<TableRow key={index} subHeaders={subtableHeaders}
 											data={[transaction.naturalKey, transaction.sourceWarehouse, transaction.targetWarehouse, date]}>
 							{transaction.documentLines.map((product, index) => {
-								//if (product.itemTypeDescription === "Service") return
 								return (<TableRowSubRow
 									data={[product.materialsItem,
 										product.description,
