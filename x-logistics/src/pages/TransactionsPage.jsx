@@ -25,9 +25,21 @@ export default function SalesPage() {
 			key: 3
 		}
 	]
+	const extraRoutes = [
+		{
+			path:'/transactions/internals/shipping',
+			component: <Internals />,
+			key: 4,
+		},
+		{
+			path:'/transactions/internals/shelves',
+			component: <Internals />,
+			key: 5,
+		}
+	]
 	return (
 		<SidebarLayout>
-			<TabsLayout tabs={tabs}/>
+			<TabsLayout tabs={tabs} extraRoutes={extraRoutes}/>
 		</SidebarLayout>
 	)
 }

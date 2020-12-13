@@ -9,6 +9,7 @@ export default function TabsLayout(props) {
                 props.extraRoutes.map((route) => {
                     return (
                         <Route path={route.path} key={route.key}>
+                          <TabsHeader tabs={props.tabs}/>
                             {route.component}
                         </Route>
                     );
