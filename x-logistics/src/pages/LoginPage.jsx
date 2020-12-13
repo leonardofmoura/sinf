@@ -14,7 +14,7 @@ const LoginPage = () => {
     }
 
     if (login) {
-        return <Redirect to="/inventory" />
+        return <Redirect to="/inventory/list" />
     } else {
         return <Login onClick={handleLogin} />
     }
