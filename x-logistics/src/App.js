@@ -9,8 +9,7 @@ import OrdersPage from './pages/OrdersPage';
 import SalesPage from './pages/SalesPage';
 import TransactionsPage from './pages/TransactionsPage';
 import IndexPage from './pages/IndexPage';
-import WarehousePage from './pages/WarehousePage';
-import DeliveryNotePage from './pages/DeliveryNotePage';
+import DeliveryNote from "./components/sales/DeliveryNote/DeliveryNote";
 require("bootstrap/dist/css/bootstrap.css")
 require("bootstrap-icons/font/bootstrap-icons.css")
 
@@ -25,8 +24,7 @@ function App() {
             <Route path="/orders" component={OrdersPage} />
             <Route path="/sales" component={SalesPage} />
             <Route path="/transactions" component={TransactionsPage} />
-            <Route path="/inventory/warehouse/:id" component={WarehousePage} />
-            <Route path="/sales/delivery_note/:id" component={DeliveryNotePage} />
+            <Route path="/delivery_note/:id" component={DeliveryNote} />
           </Switch>
       </Router>
     </CookiesProvider>
