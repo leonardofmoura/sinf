@@ -1,5 +1,5 @@
 .viewWarehouse {
-    color: var(--primary-color);
+    color: var(--primary-color) !important;
 }
 
 .viewWarehouse:hover {

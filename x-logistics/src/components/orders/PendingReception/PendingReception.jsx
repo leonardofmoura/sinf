@@ -9,12 +9,13 @@ import TableRow from '../../table/TableRow/TableRow';
 import TableRowSubRow from '../../table/TableRowSubRow/TableRowSubRow';
 
 import { sendJasminRequest } from '../../../jasmin/request';
+import Loader from '../../utils/Loader';
 
 const PendingReception = (props) => {
     const tableHeaders = ['ID', 'Supplier', 'Date'];
     const subTableHeaders = ['Item', 'Description', 'Quantity', 'Reception'];
 
-    const [orders, setOrders] = useState([]);
+    const [orders, setOrders] = useState(null);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -55,12 +56,13 @@ const PendingReception = (props) => {
         fetchData();
     }, []);
 
-    return (
-        <Table>
-            <TableHeader headers={tableHeaders}/>
-            {
+    const renderOrders = () => {
+        if (orders === null) {
+            return <Loader />
+        } else if (orders.length > 0) {
+            return (
                 orders.map((order, index) => {
-                    return(
+                    return (
                         <TableRow
                             key={index}
                             subHeaders={subTableHeaders}
@@ -83,7 +85,16 @@ const PendingReception = (props) => {
                         </TableRow>
                     )
                 })
-            }
+            )
+        } else if (orders.length === 0) {
+            return ( <span>No orders found</span> )
+        }
+    }
+
+    return (
+        <Table>
+            <TableHeader headers={tableHeaders}/>
+            { renderOrders() }
         </Table>
     )
 };

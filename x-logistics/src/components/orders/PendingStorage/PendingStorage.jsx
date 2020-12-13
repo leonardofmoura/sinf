@@ -6,17 +6,17 @@ import 'reactjs-popup/dist/index.css';
 import Table from '../../table/Table/Table';
 import TableHeader from '../../table/TableHeader/TableHeader';
 import TableRow from '../../table/TableRow/TableRow';
-import TableRowSubRow from '../../table/TableRowSubRow/TableRowSubRow';
 
 import { sendJasminRequest } from '../../../jasmin/request';
 import { getWarehouseItems } from '../../../jasmin/inventory';
 
 import styles from './PendingStorage.module.css';
+import Loader from '../../utils/Loader';
 
 const PendingStorage = (props) => {
     const tableHeaders = ['ID', 'Name', 'Category', 'Quantity', 'Storage'];
 
-    const [items, setItems] = useState([]);
+    const [items, setItems] = useState(null);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -35,10 +35,11 @@ const PendingStorage = (props) => {
         fetchData();
     }, [])
 
-    return(
-        <Table>
-            <TableHeader headers={tableHeaders}/>
-            {
+    const renderItems = () => {
+        if (items === null) {
+            return <Loader />
+        } else if (items.length > 0) {
+            return (
                 items.map((item, index) => {
                     return(
                         <TableRow
@@ -51,7 +52,16 @@ const PendingStorage = (props) => {
                         />
                     )
                 })
-            }
+            )
+        } else if (items.length === 0) {
+            return <span>No orders found</span>
+        }
+    }
+
+    return (
+        <Table>
+            <TableHeader headers={tableHeaders}/>
+            { renderItems() }
         </Table>
     )
 }
@@ -106,7 +116,7 @@ const ItemsStoragePopup = (props) => {
         '1', '2', '3', '4', '5', '6', '7'
     ];
 
-    return(
+    return (
         <div>
             <span className={styles.storagePopup}>Choose storage section:</span>
             <select value={selectedRow} onChange={_handleRowChange}>

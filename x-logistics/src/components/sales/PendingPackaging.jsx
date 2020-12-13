@@ -6,6 +6,7 @@ import Table from "../table/Table/Table.jsx";
 import TableHeader from "../table/TableHeader/TableHeader.jsx";
 import TableRow from "../table/TableRow/TableRow.jsx";
 import TableRowSubRow from "../table/TableRowSubRow/TableRowSubRow.jsx";
+import Loader from "../utils/Loader.jsx";
 import PackagingAction from "./PackagingAction/PackagingAction.jsx";
 import ProductStatus from "./ProductStatus/ProductStatus.jsx";
 
@@ -41,23 +42,27 @@ class PendingPackaging extends Component {
     }
 
     renderSales = () => {
-        if (this.state.sales !== null) {
+        if (this.state.sales === null) {
+            return <Loader />
+        } else if (this.state.sales.length > 0) {
             return (
                 this.state.sales.map((sale, index) => {
                     return (
                         <TableRow subHeaders={this.subtableHeaders} data={parseSaleInfo(sale)} key={index} 
-                            actionComponent={<PackagingAction isReady={this.calcSaleStatus(sale)} onConfirm={this.handleConfirmPackaging.bind(this, sale)}/>}>
+                        actionComponent={<PackagingAction isReady={this.calcSaleStatus(sale)} onConfirm={this.handleConfirmPackaging.bind(this, sale)}/>}>
                             {
                                 sale.products.map((product, index) => {
                                     return (
                                         <TableRowSubRow data={parsePendingPackagingProduct(product)} key={index} actionComponent={<ProductStatus isReady={product.packagingStatus} />} />
-                                    )
-                                })
+                                        )
+                                    })
                             }
                         </TableRow>
                     )
                 })
             )
+        } else if (this.state.sales.length === 0) {
+            return ( <span>No sales found</span> )
         }
     }
 

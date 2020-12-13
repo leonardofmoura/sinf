@@ -5,6 +5,7 @@ import TableRowSubRow from "../table/TableRowSubRow/TableRowSubRow.jsx";
 import ViewWarehouse from "./ViewWarehouse/ViewWarehouse.jsx";
 import { Component } from "react";
 import {getInventory} from "../../jasmin/inventory.js"
+import Loader from "../utils/Loader.jsx";
 
 class Inventory extends Component {
     constructor (props) {
@@ -23,7 +24,8 @@ class Inventory extends Component {
             const items = resp.map((item) => {
                 return {
                     data: [
-                        item["id"], item["name"], 
+                        item["id"], 
+                        item["name"], 
                         item["warehouses"].reduce((acc, val) => acc + val.stock, 0),
                         item["category"],
                     ],
@@ -37,40 +39,45 @@ class Inventory extends Component {
         })
     }
 
-    render() {
-        if (this.state.items) {
+    renderItems() {
+        if (this.state.items === null) {
+            return <Loader />
+        } else if (this.state.items.length > 0) {
             return (
-                <Table>
-                    <TableHeader headers={this.tableHeaders}/>
-                    {
-                        this.state.items.map((item, index) => {
-                            return (
-                                <TableRow 
-                                    key={index} 
-                                    subHeaders={this.subtableHeaders} 
-                                    data={item.data} 
-                                >
-                                    {
-                                        item.warehouses.map((item,index) => {
-                                            return (
-                                                <TableRowSubRow 
-                                                    data={item} 
-                                                    key={index} 
-                                                    actionComponent={<ViewWarehouse id={item[1]}/>}
-                                                />
-                                            )
-                                        })
-                                    }
-                                </TableRow>
-                            )
-                        })
-                    }
-                </Table>
+                this.state.items.map((item, index) => {
+                    return (
+                        <TableRow 
+                            key={index} 
+                            subHeaders={this.subtableHeaders} 
+                            data={item.data} 
+                        >
+                            {
+                                item.warehouses.map((item,index) => {
+                                    return (
+                                        <TableRowSubRow 
+                                            data={item} 
+                                            key={index} 
+                                            actionComponent={<ViewWarehouse id={item[1]}/>}
+                                        />
+                                    )
+                                })
+                            }
+                        </TableRow>
+                    )
+                })
             )
+        } else if (this.state.items.length === 0) {
+            return ( <spans>No items found</spans> )
         }
-        else {
-            return (<h1>todo -{'>'} waiting for request</h1>)
-        }
+    }    
+
+    render() {
+        return (
+            <Table>
+                <TableHeader headers={this.tableHeaders}/>
+                { this.renderItems() }
+            </Table>
+        )
     }
 }
 

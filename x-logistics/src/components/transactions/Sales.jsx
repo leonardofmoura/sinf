@@ -8,7 +8,7 @@ import Loader from "../utils/Loader.jsx";
 
 export default function Sales() {
 	
-	const [items, setItems] = useState([]);
+	const [items, setItems] = useState(null);
 	
 	const tableHeaders = ["ID", "Customer", "Date", "Completed"];
 	const subtableHeaders = ["Product ID", "Item Name", "Quantity", "Delivered Quantity", "Completed"];
@@ -21,21 +21,20 @@ export default function Sales() {
 		
 		fetchData();
 	}, []);
-	
-	if (items.length === 0) {
-		return ( <Loader/> )
-	}
-	
-	return (
-		<Table>
-			<TableHeader headers={tableHeaders}/>
-			{
+
+	const renderItems = () => {
+		if (items === null) {
+			return <Loader />
+		} else if (items.length > 0) {
+			return (
 				items.map((sale, index) => {
 					let completed = true
-					let date = sale.documentDate.split("T")[0]//.split("-")
+					let date = sale.documentDate.split("T")[0]
 					let subrows = []
 					sale.documentLines.forEach((product, index) => {
-						if (product.itemTypeDescription === "Service") return
+						if (product.itemTypeDescription === "Service") 
+							return;
+
 						let temp = product.quantity !== product.deliveredQuantity
 						if (temp)
 							completed = false
@@ -48,12 +47,21 @@ export default function Sales() {
 					})
 					return (
 						<TableRow key={index} subHeaders={subtableHeaders}
-											data={[sale.naturalKey, sale.buyerCustomerPartyName, date, completed ? "Yes" : "No"]}>
+									data={[sale.naturalKey, sale.buyerCustomerPartyName, date, completed ? "Yes" : "No"]}>
 							{subrows}
 						</TableRow>
 					)
 				})
-			}
+			)
+		} else if (items.length === 0) {
+			return ( <spans>No items found</spans> )
+		}
+	}
+	
+	return (
+		<Table>
+			<TableHeader headers={tableHeaders}/>
+			{ renderItems() }
 		</Table>
 	)
 }

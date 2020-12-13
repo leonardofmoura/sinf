@@ -8,6 +8,7 @@ import CreatePickingWaveButton from "./CreatePickingWaveButton/CreatePickingWave
 import PickingAction from "./PickingAction/PickingAction.jsx";
 import { Component  } from "react";
 import { withRouter } from "react-router-dom";
+import Loader from "../utils/Loader.jsx";
 const moment = require("moment");
 
 class PendingPicking extends Component {
@@ -76,7 +77,9 @@ class PendingPicking extends Component {
     }
 
     renderSales = () => {
-        if (this.state.sales !== null) {
+        if (this.state.sales === null) {
+            return <Loader />
+        } else if (this.state.sales.length > 0) {
             return (
                 this.state.sales.map((sale, index) => {     
                     return (
@@ -85,12 +88,12 @@ class PendingPicking extends Component {
                                 sale.products.map((product, index) => {
                                     return (
                                         <TableRowSubRow data={parsePendingPickingProduct(product)} key={index} 
-                                            actionComponent={<PickingAction 
-                                                                product={product}
-                                                                saleId={sale.info.id}
-                                                                onPick={this.handleItemPick}
-                                                                onUnpick={this.handleItemUnpick}
-                                                            />}
+                                        actionComponent={<PickingAction 
+                                                product={product}
+                                                saleId={sale.info.id}
+                                                onPick={this.handleItemPick}
+                                                onUnpick={this.handleItemUnpick}
+                                            />}
                                         />
                                     )
                                 })
@@ -99,6 +102,8 @@ class PendingPicking extends Component {
                     )
                 })
             )
+        } else if (this.state.sales.length === 0) {
+            return ( <span>No sales found</span> )
         }
     }
 

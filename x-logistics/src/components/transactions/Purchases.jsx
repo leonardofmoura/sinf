@@ -8,7 +8,7 @@ import Loader from "../utils/Loader.jsx";
 
 export default function Purchases() {
 	
-	const [items, setItems] = useState([]);
+	const [items, setItems] = useState(null);
 	
 	const tableHeaders = ["ID", "Seller", "Date", "Completed"];
 	const subtableHeaders = ["Product ID", "Item Name", "Quantity", "Received Quantity", "Completed"];
@@ -21,19 +21,16 @@ export default function Purchases() {
 		
 		fetchData();
 	}, []);
-	
-	if (items.length === 0) {
-		return ( <Loader/> )
-	}
-	
-	return (
-		<Table>
-			<TableHeader headers={tableHeaders}/>
-			{
+
+	const renderItems = () => {
+		if (items === null) {
+			return <Loader/>
+		} else if (items.length > 0) {
+			return (
 				items.map((purchase, index) => {
 					let completed = true
-					let date = purchase.documentDate.split("T")[0]//.split("-")
-					let subrows = []
+					let date = purchase.documentDate.split("T")[0]
+					let subrows = [];
 					purchase.documentLines.forEach((product, index) => {
 						if (product.itemTypeDescription === "Service") return
 						let temp = product.quantity !== product.receivedQuantity
@@ -54,7 +51,16 @@ export default function Purchases() {
 						</TableRow>
 					)
 				})
-			}
+			)
+		} else if (items.length === 0) {
+			return (<span>No items found</span>)
+		}
+	}
+	
+	return (
+		<Table>
+			<TableHeader headers={tableHeaders}/>
+			{ renderItems() }
 		</Table>
 	)
 }
