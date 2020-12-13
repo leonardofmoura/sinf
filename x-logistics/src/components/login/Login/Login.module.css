@@ -4,13 +4,29 @@
     min-height: 100vh !important; 
     justify-content: center;
     align-items: center;
+    background-color: var(--primary-color);
 }
 
-.loginButton {
+.loginMessage {
+    font-size: 2rem;
+    margin-bottom: 2rem;
+    color: white;
+    font-weight: bold;
+}
+
+.loginCard {
     padding: 2rem;
     font-size: 2rem;
+    color: black;
+    background-color: var(--background-color);
+    text-align: center;
 }
 
-.loginButton:hover {
+.companyCard {
+    padding: 1rem;
+    margin: 2rem;
+}
+
+.companyCard:hover {
     cursor: pointer;
 }

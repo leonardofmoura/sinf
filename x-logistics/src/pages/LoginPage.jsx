@@ -10,7 +10,7 @@ const LoginPage = () => {
 
     const handleLogin = () => {
         setCookie('loginState', true, { path: '/' });
-       setLogin(true);
+        setLogin(true);
     }
 
     if (login) {

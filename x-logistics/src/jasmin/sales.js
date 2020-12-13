@@ -1,4 +1,4 @@
-import { companyAddress, companyName } from "./companyInfo";
+import { companyAddress, companyKey } from "./companyInfo";
 import { getMaterialsItem } from "./inventory";
 import { sendJasminRequest } from "./request";
 import { WAREHOUSE } from "./warehouse";
@@ -186,7 +186,7 @@ const confirmPickedProduct = async (product, productQuantity) => {
         loadingPostalZone: companyAddress.postalZone,
         loadingCityName: companyAddress.cityName,
         loadingCountry: companyAddress.country,
-        company: companyName,
+        company: companyKey,
         sourceWarehouse: product.warehouse,
         targetWarehouse: WAREHOUSE.SHIPPING,
         documentLines: [
@@ -214,7 +214,7 @@ const processSale = async (sale) => {
         orderLines.push(orderLine);
     }
 
-    const response = await sendJasminRequest('shipping/processOrders/' + companyName, "POST", orderLines);
+    const response = await sendJasminRequest('shipping/processOrders/' + companyKey, "POST", orderLines);
     return response;
 }
 
