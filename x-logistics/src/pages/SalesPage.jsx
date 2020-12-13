@@ -3,11 +3,9 @@ import PendingPackaging from "../components/sales/PendingPackaging";
 import PendingPicking from "../components/sales/PendingPicking";
 import SidebarLayout from "../layouts/SidebarLayout";
 import TabsLayout from "../layouts/TabsLayout";
-import { setAutoToken } from "../jasmin/token";
 import PickingWave from "../components/sales/PickingWave";
 
 export default function SalesPage() {
-    setAutoToken();
 
     const tabs = [
         {

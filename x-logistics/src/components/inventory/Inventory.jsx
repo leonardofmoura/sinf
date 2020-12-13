@@ -7,7 +7,6 @@ import { Component } from "react";
 import {getInventory} from "../../jasmin/inventory.js"
 
 class Inventory extends Component {
-
     constructor (props) {
         super(props);
 

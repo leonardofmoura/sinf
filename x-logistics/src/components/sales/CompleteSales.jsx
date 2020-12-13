@@ -1,4 +1,5 @@
 import { Component } from "react";
+import { withRouter } from "react-router-dom";
 import { getCompleteSales } from "../../jasmin/sales.js";
 import { parseCompleteProduct, parseSaleInfo } from "../../parsers/saleParsers.js";
 import Tabel from "../tabel/Tabel/Tabel.jsx";
@@ -7,7 +8,7 @@ import TabelRow from "../tabel/TabelRow/TabelRow.jsx";
 import TabelRowSubRow from "../tabel/TabelRowSubRow/TabelRowSubRow.jsx";
 import ViewDeliveryNoteAction from "./ViewDeliveryNoteAction/ViewDeliveryNoteAction.jsx";
 
-export default class CompleteSales extends Component {
+class CompleteSales extends Component {
     constructor(props) {
         super(props);
 
@@ -22,7 +23,7 @@ export default class CompleteSales extends Component {
     }
 
     handleViewDeliveryNote = (sale) => {
-        //TODO
+        this.props.history.push('/delivery_note/' + sale.info.jasminId);
     }
 
     renderSales = () => {
@@ -55,3 +56,5 @@ export default class CompleteSales extends Component {
         )
     }
 }
+
+export default withRouter(CompleteSales);

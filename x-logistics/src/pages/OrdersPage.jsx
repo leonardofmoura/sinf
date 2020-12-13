@@ -3,10 +3,8 @@ import TabsLayout from "../layouts/TabsLayout";
 //import OrdersLayout from '../layouts/OrdersLayout';
 import PendingReception from '../components/orders/PendingReception/PendingReception';
 import PendingStorage from '../components/orders/PendingStorage/PendingStorage';
-import { setAutoToken } from "../jasmin/token";
 
 const OrdersPage = () => {
-    setAutoToken();
 
     const tabs = [
         {
