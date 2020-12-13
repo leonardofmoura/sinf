@@ -12,7 +12,7 @@ const getAllSales = async () => {
     return response.data;
 }
 
-const parseSales = async (originalSales, wantPickedQuantity) => {
+const parseSales = async (originalSales, wantPickedQuantity, wantOnlyComplete) => {
     let sales = [];
 
     for (const sale of originalSales) {
@@ -21,6 +21,10 @@ const parseSales = async (originalSales, wantPickedQuantity) => {
         for (const product of sale.documentLines) {
 
             if (product.itemTypeDescription  === "Service") {
+                continue;
+            }
+
+            if (wantOnlyComplete && product.deliveredQuantity < product.quantity) {
                 continue;
             }
 
@@ -170,7 +174,7 @@ const getCompleteSales = async () => {
     let completeSales = [];
 
     const allSales = await getAllSales();
-    const sales = await parseSales(allSales, false);
+    const sales = await parseSales(allSales, false, true);
 
     for (const sale of sales) {
         let isComplete = true;
