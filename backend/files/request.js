@@ -11,7 +11,7 @@ const headers = {
 }
 module.exports = {
 	async sendRequest(url, method, data) {
-		console.log(data);
+		//console.log(data);
 		let formData = new FormData()
 		for (const key in data)
 			if (data.hasOwnProperty(key)) {
