@@ -3,11 +3,10 @@ import styles from './ViewWarehouse.module.css';
 
 const ViewWarehouse = (props) => {
     return (
-        <Link to={`/warehouses/${props.id}`} className={styles.viewWarehouse}>
+        <Link to={`/inventory/warehouse/${props.id}`} className={styles.viewWarehouse}>
             View Warehouse
         </Link>
     )
 }
-
 
 export default ViewWarehouse;

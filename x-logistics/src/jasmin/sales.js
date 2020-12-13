@@ -8,11 +8,14 @@ const moment = require('moment');
 
 const getAllSales = async () => {
     const resource = "sales/orders";
-    let sales = []; 
-
     const response = await sendJasminRequest(resource, "get");
+    return response.data;
+}
 
-    for (const sale of response.data) {
+const parseSales = async (originalSales, wantPickedQuantity) => {
+    let sales = [];
+
+    for (const sale of originalSales) {
         
         let products = [];
         for (const product of sale.documentLines) {
@@ -34,7 +37,7 @@ const getAllSales = async () => {
                 saleQuantity:  product.quantity,
                 deliveredQuantity: product.deliveredQuantity,
                 waveQuantity: getWaveQuantity(product.salesItemId),
-                pickedQuantity: await getPickedQuantity(salesItem.itemKey),
+                pickedQuantity: wantPickedQuantity ? await getPickedQuantity(salesItem.itemKey) : 0,
                 unit: product.unit,
 
                 warehouse: product.warehouse,
@@ -58,7 +61,7 @@ const getAllSales = async () => {
         
         sales.push(parsedSale);
     }
-    
+
     return sales;
 }
 
@@ -103,12 +106,18 @@ const getPickedQuantity = async (itemKey) => {
     return shippingWarehouse.stockBalance;
 }
 
+const getPendingSales = async () => {
+    let response = await sendJasminRequest("/sales/orders/getPendingSalesOrders");
+    return response.data;
+}
+
 const getPendingPicking = async () => {
     let pendingPicking = [];
 
-    const allSales = await getAllSales();
+    const pendingSales = await getPendingSales();
+    const sales = await parseSales(pendingSales, true);
 
-    for (const sale of allSales) {
+    for (const sale of sales) {
         let pendingPickingProducts = [];
 
         for (const product of sale.products) {
@@ -130,9 +139,10 @@ const getPendingPicking = async () => {
 const getPendingPackaging = async () => {
     let pendingPackaging = [];
 
-    const allSales = await getAllSales();
+    const pendingSales = await getPendingSales();
+    const sales = await parseSales(pendingSales, true);
 
-    for (const sale of allSales) {
+    for (const sale of sales) {
         let pendingProducts = [];
         let hasPickedProducts = false;
 
@@ -160,8 +170,9 @@ const getCompleteSales = async () => {
     let completeSales = [];
 
     const allSales = await getAllSales();
+    const sales = await parseSales(allSales, false);
 
-    for (const sale of allSales) {
+    for (const sale of sales) {
         let isComplete = true;
 
         for (const product of sale.products) {

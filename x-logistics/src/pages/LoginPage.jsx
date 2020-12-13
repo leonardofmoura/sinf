@@ -9,7 +9,7 @@ const LoginPage = () => {
     const [login, setLogin] = useState(false);
 
     const handleLogin = () => {
-        setCookie('loginState', true, { path: '/' });
+        setCookie('loginState', true, { path: '/', maxAge: 3600 });
         setLogin(true);
     }
 

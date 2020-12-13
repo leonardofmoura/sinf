@@ -12,7 +12,7 @@ export default function SideNav(props) {
             key: 1
         },
         {
-            path: '/orders/pending_storage',
+            path: '/orders/pending_reception',
             title:'Orders',
             key: 2
         },

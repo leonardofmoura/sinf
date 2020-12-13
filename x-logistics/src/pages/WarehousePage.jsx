@@ -2,7 +2,7 @@ import WarehousePageComponent from "../components/inventory/WarehousePageCompone
 import { useParams } from "react-router-dom";
 
 const WarehousePage = () => {
-    const {id} = useParams();
+    const { id } = useParams();
 
     return (
         <WarehousePageComponent id={id}/>

@@ -5,41 +5,22 @@ import Table from "../../table/Table/Table";
 import TableHeader from "../../table/TableHeader/TableHeader";
 import TableRow from "../../table/TableRow/TableRow";
 import styles from "./DeliveryNote.module.css";
+import Loader from "../../utils/Loader";
 
 const DeliveryNote = (props) => {    
     const [sale, setSale] = useState(null);
-    const id = props.id;
 
     useEffect(() => {
             const fetchData = async () => {
-                const sale = await getSale(id);
+                const sale = await getSale(props.id);
                 setSale(sale);
             };
 
             fetchData();
-        }, []);
+        }, 
+        []
+    );
     
-    const renderDeliveryNote = () => {
-        if (sale !== null) {
-            const deliveryId = "DV" + sale.serie + ("" + sale.seriesNumber).padStart(4, "0");
-            const deliveryDate = sale.documentLines[0].deliveryDate.split("T")[0];
-
-            return (
-                <React.Fragment>
-                    <div className={styles.deliveryNoteHeader}>
-                        <h1 className={styles.deliveryNoteHeaderId}>Delivery Note {deliveryId}</h1>
-                        <span className={styles.deliveryNoteHeaderDate}>Delivery Date: {deliveryDate}</span>
-                    </div>
-                    { renderSaleInfo() }
-                    { renderSaleMovement() }
-                    { renderProducts(sale.documentLines) }
-                </React.Fragment>
-            )
-        } else {
-            
-        }
-    }
-
     const renderSaleInfo = () => {
         return (
             <section className={styles.saleInfoSection}>
@@ -119,7 +100,24 @@ const DeliveryNote = (props) => {
         )
     }
 
-    return renderDeliveryNote()
+    if (sale !== null) {
+        const deliveryId = "DV" + sale.serie + ("" + sale.seriesNumber).padStart(4, "0");
+        const deliveryDate = sale.documentLines[0].deliveryDate.split("T")[0];
+
+        return (
+            <React.Fragment>
+                <div className={styles.deliveryNoteHeader}>
+                    <h1 className={styles.deliveryNoteHeaderId}>Delivery Note {deliveryId}</h1>
+                    <span className={styles.deliveryNoteHeaderDate}>Delivery Date: {deliveryDate}</span>
+                </div>
+                { renderSaleInfo() }
+                { renderSaleMovement() }
+                { renderProducts(sale.documentLines) }
+            </React.Fragment>
+        )
+    } else {
+        return <Loader />
+    }
 
 }   
 

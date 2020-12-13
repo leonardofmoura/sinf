@@ -23,7 +23,7 @@ const InventoryPage = () => {
 
     const extraRoutes = [
         {
-            path:'/warehouses/:id',
+            path: '/inventory/warehouse/:id',
             component: <WarehousePage />,
             key: 3,
         }
