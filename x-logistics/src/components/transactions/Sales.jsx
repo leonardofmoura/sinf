@@ -32,22 +32,23 @@ export default function Sales() {
 					let date = sale.documentDate.split("T")[0]
 					let subrows = []
 					sale.documentLines.forEach((product, index) => {
-						if (product.itemTypeDescription === "Service") 
-							return;
-
-						let temp = product.quantity !== product.deliveredQuantity
-						if (temp)
+						if (product.itemTypeDescription === "Service") return
+						let temp = product.quantity === product.deliveredQuantity
+						if (!temp)
 							completed = false
 						subrows.push(<TableRowSubRow
 							data={[product.salesItem,
 								product.description,
 								product.quantity + " (" + product.unit + ")", product.deliveredQuantity + " (" + product.unit + ")",
-								temp ? "No" : "Yes"]}
+								temp ? <i className="bi bi-check-circle-fill text-success" style={{fontSize:"2rem"}} />
+									: <i className="bi bi-x-circle-fill text-warning" style={{fontSize:"2rem"}}/>]}
 							key={index}/>)
 					})
 					return (
 						<TableRow key={index} subHeaders={subtableHeaders}
-									data={[sale.naturalKey, sale.buyerCustomerPartyName, date, completed ? "Yes" : "No"]}>
+											data={[sale.naturalKey, sale.buyerCustomerPartyName, date, completed ?
+												<i className="bi bi-check-circle-fill text-success" style={{fontSize:"2.2rem"}} />
+												: <i className="bi bi-x-circle-fill text-warning" style={{fontSize:"2.2rem"}}/>]}>
 							{subrows}
 						</TableRow>
 					)

@@ -12,6 +12,7 @@ import IndexPage from './pages/IndexPage';
 import WarehousePage from './pages/WarehousePage';
 import DeliveryNote from "./components/sales/DeliveryNote/DeliveryNote";
 require("bootstrap/dist/css/bootstrap.css")
+require("bootstrap-icons/font/bootstrap-icons.css")
 
 function App() {
   return (

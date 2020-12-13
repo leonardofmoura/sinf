@@ -4,7 +4,7 @@ import { Collapse } from 'react-collapse';
 import TableRowSubHeader from "../TableRowSubHeader/TableRowSubHeader.jsx";
 import styles from "./TableRow.module.css";
 
-export default function tableRow(props) {
+export default function TableRow(props) {
     const [isExpanded, setIsExpanded] = useState(false);
     const itemWidth = (1 / (props.data.length + props.actionComponent !== undefined ? 1 : 0)) * 100 + "%";
 
