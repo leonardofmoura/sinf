@@ -13,7 +13,9 @@ module.exports = {
 	async sendRequest(url, method, data) {
 		let formData = new FormData()
 		for (const key in data)
-			formData.append(key, data[key])
+			if (data.hasOwnProperty(key)) {
+				formData.append(key, data[key])
+			}
 		const requestInfo = {
 			baseURL: url,
 			method: method,
