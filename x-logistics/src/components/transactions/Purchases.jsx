@@ -36,20 +36,23 @@ export default function Purchases() {
 					let subrows = []
 					purchase.documentLines.forEach((product, index) => {
 						if (product.itemTypeDescription === "Service") return
-						let temp = product.quantity !== product.receivedQuantity
-						if (temp)
+						let temp = product.quantity === product.receivedQuantity
+						if (!temp)
 							completed = false
 						subrows.push(<TableRowSubRow
 							data={[product.purchasesItem,
 								product.description,
 								product.quantity + " (" + product.unit + ")",
 								product.receivedQuantity + " (" + product.unit + ")",
-								temp ? "No" : "Yes"]}
+								temp ? 	<i className="bi bi-check-circle-fill text-success" style={{fontSize:"2rem"}} />
+									: <i className="bi bi-x-circle-fill text-warning" style={{fontSize:"2rem"}}/>]}
 							key={index}/>)
 					})
 					return (
 						<TableRow key={index} subHeaders={subtableHeaders}
-											data={[purchase.naturalKey, purchase.sellerSupplierPartyName, date, completed ? "Yes" : "No"]}>
+											data={[purchase.naturalKey, purchase.sellerSupplierPartyName, date, completed ? 
+												<i className="bi bi-check-circle-fill text-success" style={{fontSize:"2.2rem"}} />
+												: <i className="bi bi-x-circle-fill text-warning" style={{fontSize:"2.2rem"}}/>]}>
 							{subrows}
 						</TableRow>
 					)
