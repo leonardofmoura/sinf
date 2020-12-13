@@ -17,29 +17,26 @@ class Internals extends Component {
 		let receptions = [],
 			shipping = [],
 			shelves = []
-		const json = await
-		/*return */sendJasminRequest('materialsmanagement/stockTransferOrders', 'GET')
-		//	.then(json => {
-				//console.log(json)
-				json.data.forEach(item => {
-					if (item.sourceWarehouse === "RECEPTION") receptions.push(item)
-					else if (item.targetWarehouse === "SHIPPING") shipping.push(item)
-					else shelves.push(item)
-				})
-				return [receptions, shipping, shelves]
-			//})
+		const json = await sendJasminRequest('materialsmanagement/stockTransferOrders', 'GET')
+		json.data.forEach(item => {
+			if (item.sourceWarehouse === "RECEPTION") receptions.push(item)
+			else if (item.targetWarehouse === "SHIPPING") shipping.push(item)
+			else shelves.push(item)
+		})
+		return [receptions, shipping, shelves]
+	}
+	
+	componentDidMount() {
+		this.fetchData().then(response => {
+			this.setState({
+				receptions: response[0],
+				shipping: response[1],
+				shelves: response[2]
+			})
+		})
 	}
 	
 	render() {
-		if (this.state.receptions.length === 0)
-			this.fetchData().then(response => {
-				this.setState({
-					receptions: response[0],
-					shipping: response[1],
-					shelves: response[2]
-				})
-			})
-		
 		return (<TabsLayout tabs={[
 			{
 				path: '/transactions/internals/receptions',

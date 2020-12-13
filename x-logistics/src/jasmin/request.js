@@ -17,9 +17,7 @@ const sendJasminRequest = async (resourcePath, method, data) => {
 		data: JSON.stringify(body),
 		headers: headers
 	}
-	console.log(resourcePath)
 	const response = await axios(requestInfo)
-	console.log(resourcePath+" 2")
 	return response
 }
 
