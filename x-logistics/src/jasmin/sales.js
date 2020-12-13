@@ -54,9 +54,8 @@ const parseSales = async (originalSales, wantPickedQuantity, wantOnlyComplete) =
         }
         
         let saleInfo = {
-            id: sale.serie + ("" + sale.seriesNumber).padStart(4, "0"),
+            id: sale.naturalKey,
             jasminId: sale.id,
-            key: sale.naturalKey,
             customer: sale.buyerCustomerPartyDescription,
             date: moment(sale.documentDate).format("YYYY-MM-DD"),
         };
@@ -221,7 +220,7 @@ const processSale = async (sale) => {
 
     for (const product of sale.products) {
         const orderLine = {
-            sourceDocKey: sale.info.key,
+            sourceDocKey: sale.info.id,
             sourceDocLineNumber: product.index + 1,
             quantity: product.saleQuantity,
         };
