@@ -6,9 +6,7 @@ const WarehousePage = () => {
     const {id} = useParams();
 
     return (
-        <SidebarLayout>
-            <WarehousePageComponent id={id}/>
-        </SidebarLayout>
+        <WarehousePageComponent id={id}/>
     )
 }
 

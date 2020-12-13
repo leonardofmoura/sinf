@@ -4,6 +4,7 @@ import PendingPicking from "../components/sales/PendingPicking";
 import SidebarLayout from "../layouts/SidebarLayout";
 import TabsLayout from "../layouts/TabsLayout";
 import PickingWave from "../components/sales/PickingWave";
+import DeliveryNote from "../components/sales/DeliveryNote/DeliveryNote";
 
 export default function SalesPage() {
 
@@ -34,9 +35,17 @@ export default function SalesPage() {
         }, 
     ]
 
+    const extraRoutes = [
+        {
+            path:'/delivery_note/:id',
+            component: <DeliveryNote />,
+            key: 5,
+        }
+    ]
+
     return (
         <SidebarLayout>
-            <TabsLayout tabs={tabs} />
+            <TabsLayout tabs={tabs} extraRoutes={extraRoutes}/>
         </SidebarLayout>
     )
 }

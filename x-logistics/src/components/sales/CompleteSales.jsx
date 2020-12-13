@@ -22,17 +22,13 @@ class CompleteSales extends Component {
         getCompleteSales().then(newSales => this.setState({sales: newSales}));
     }
 
-    handleViewDeliveryNote = (sale) => {
-        this.props.history.push('/delivery_note/' + sale.info.jasminId);
-    }
-
     renderSales = () => {
         if (this.state.sales !== null) {
             return (
                 this.state.sales.map((sale, index) => {
                     return (
                         <TabelRow subHeaders={this.subTabelHeaders} data={parseSaleInfo(sale)} key={index} 
-                            actionComponent={<ViewDeliveryNoteAction onClick={this.handleViewDeliveryNote.bind(this, sale)}/>}>
+                            actionComponent={<ViewDeliveryNoteAction id={sale.info.jasminId}/>}>
                             {
                                 sale.products.map((product, index) => {
                                     return (

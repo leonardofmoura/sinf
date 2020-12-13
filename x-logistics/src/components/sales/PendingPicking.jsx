@@ -23,7 +23,9 @@ class PendingPicking extends Component {
     }
 
     componentDidMount() {
-        getPendingPicking().then(newSales => this.setState({ sales: newSales }));
+        getPendingPicking().then((newSales) => {
+            this.setState({ sales: newSales });
+        });
     }
     
     handleItemPick = (saleId, product, quantity) => {

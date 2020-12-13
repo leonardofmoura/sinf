@@ -22,10 +22,10 @@ function App() {
             <Route path="/login" component={LoginPage} />
             <Route path="/inventory" component={InventoryPage} />
             <Route path="/orders" component={OrdersPage} />
-            <Route exact path="/delivery_note/:id" component={DeliveryNote} />
             <Route path="/sales" component={SalesPage} />
             <Route path="/transactions" component={TransactionsPage} />
             <Route path="/warehouses/:id" component={WarehousePage} />
+            <Route path="/delivery_note/:id" component={DeliveryNote} />
           </Switch>
       </Router>
     </CookiesProvider>

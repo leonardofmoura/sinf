@@ -8,9 +8,9 @@ import TabelHeader from "../../tabel/TabelHeader/TabelHeader";
 import TabelRow from "../../tabel/TabelRow/TabelRow";
 import styles from "./DeliveryNote.module.css";
 
-const DeliveryNote = () => {    
+const DeliveryNote = (props) => {    
     const [sale, setSale] = useState(null);
-    const id = useParams();
+    const id = props.id;
 
     useEffect(() => {
             const fetchData = async () => {
@@ -18,6 +18,7 @@ const DeliveryNote = () => {
                 setSale(sale);
             };
 
+            fetchData();
         }, []);
     
     const renderDeliveryNote = () => {
@@ -119,9 +120,7 @@ const DeliveryNote = () => {
     }
 
     return (
-        <SidebarLayout>
-            { renderDeliveryNote() }
-        </SidebarLayout>
+        renderDeliveryNote()
     )
 }   
 

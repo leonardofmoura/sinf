@@ -11,6 +11,7 @@ const headers = {
 }
 module.exports = {
 	async sendRequest(url, method, data) {
+		console.log(data);
 		let formData = new FormData()
 		for (const key in data)
 			if (data.hasOwnProperty(key)) {
@@ -41,9 +42,13 @@ module.exports = {
 			console.log("Response is ok")
 			return response.data
 		} catch (error) {
-			if (error.response.status === 401)
+			if (error.response.status === 401) {
 				console.log("Not logged in")
-			else console.log("Other error in jasmin request")
+			}
+			else {
+				console.log("Other error in jasmin request")
+				console.log(error)
+			}
 		}
 	}
 }

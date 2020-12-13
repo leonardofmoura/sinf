@@ -13,12 +13,12 @@ export default function SideNav(props) {
         },
         {
             path: '/orders/pending_storage',
-            title:'Order List',
+            title:'Orders',
             key: 2
         },
         {
             path: '/sales/pending_picking',
-            title:'Sale List',
+            title:'Sales',
             key: 3
         },
         {
