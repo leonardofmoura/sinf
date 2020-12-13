@@ -10,7 +10,7 @@ const WarehouseHeader = (props) => {
                 Description: {props.description}
             </h1>
             <h1 className={styles.info}>
-                Total Stock:{props.stock}
+                Total Stock: {props.stock}
             </h1>
         </div>
     );
