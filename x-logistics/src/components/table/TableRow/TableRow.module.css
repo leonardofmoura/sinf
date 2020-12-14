@@ -35,6 +35,13 @@
     margin: 0 1rem;
 }
 
+.centered {
+    font-size: 1.15rem;
+    flex-grow: 1;
+    margin: 0 1rem;
+    text-align: center;
+}
+
 .tableRowExpansion {
     background-color: var(--background-color-lighter);
     border-bottom: 0.1rem solid #bebebe;

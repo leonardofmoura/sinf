@@ -11,6 +11,13 @@
     margin: 0 1rem;
 }
 
+.lastItem {
+    font-size: 1.15rem;
+    flex-grow: 1;
+    margin: 0 1rem;
+    text-align: center;
+}
+
 .headerLine {
     margin: 0.4rem 2rem 0.5rem 2rem;
 }

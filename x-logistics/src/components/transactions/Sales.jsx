@@ -5,6 +5,7 @@ import TableRowSubRow from "../table/TableRowSubRow/TableRowSubRow.jsx";
 import {useEffect, useState} from "react";
 import {sendJasminRequest} from "../../jasmin/request";
 import Loader from "../utils/Loader.jsx";
+import CompleteStatus from "./CompleteStatus/CompleteStatus.jsx";
 
 export default function Sales() {
 	
@@ -37,18 +38,18 @@ export default function Sales() {
 						if (!temp)
 							completed = false
 						subrows.push(<TableRowSubRow
-							data={[product.salesItem,
+							data={[
+								product.salesItem,
 								product.description,
-								product.quantity + " (" + product.unit + ")", product.deliveredQuantity + " (" + product.unit + ")",
-								temp ? <i className="bi bi-check-circle-fill text-success" style={{fontSize:"2rem"}} />
-									: <i className="bi bi-x-circle-fill text-warning" style={{fontSize:"2rem"}}/>]}
+								product.quantity + " (" + product.unit + ")", product.deliveredQuantity + " (" + product.unit + ")"
+							]}
+							actionComponent={<CompleteStatus isComplete={temp}/>}
 							key={index}/>)
 					})
 					return (
-						<TableRow key={index} subHeaders={subtableHeaders}
-											data={[sale.naturalKey, sale.buyerCustomerPartyName, date, completed ?
-												<i className="bi bi-check-circle-fill text-success" style={{fontSize:"2.2rem"}} />
-												: <i className="bi bi-x-circle-fill text-warning" style={{fontSize:"2.2rem"}}/>]}>
+						<TableRow key={index} subHeaders={subtableHeaders} 
+							data={[sale.naturalKey, sale.buyerCustomerPartyName, date]}
+							actionComponent={<CompleteStatus isComplete={completed}/>}>
 							{subrows}
 						</TableRow>
 					)

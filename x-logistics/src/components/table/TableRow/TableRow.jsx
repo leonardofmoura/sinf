@@ -42,9 +42,10 @@ export default function TableRow(props) {
             <div className={isExpanded ? styles.tableRowExpanded : styles.tableRowCollapsed} onClick={handleClickRow}>
                 {
                     props.data.map((item, index) => {
+                        const isLastItem = index === props.data.length - 1;
                         return (
-                            <div className={styles.tableRowItem} style={{width: itemWidth}} key={index}>
-                                {item}
+                            <div className={(isLastItem && props.center) ? styles.centered : styles.tableRowItem} style={{width: itemWidth}} key={index}>
+                                <span>{item}</span>
                             </div>
                         )
                     })

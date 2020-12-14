@@ -5,6 +5,7 @@ import TableRowSubRow from "../table/TableRowSubRow/TableRowSubRow.jsx";
 import {useEffect, useState} from "react";
 import {sendJasminRequest} from "../../jasmin/request";
 import Loader from "../utils/Loader.jsx";
+import CompleteStatus from "./CompleteStatus/CompleteStatus.jsx";
 
 export default function Purchases() {
 	
@@ -37,19 +38,20 @@ export default function Purchases() {
 						if (!temp)
 							completed = false
 						subrows.push(<TableRowSubRow
-							data={[product.purchasesItem,
+							data={[
+								product.purchasesItem,
 								product.description,
 								product.quantity + " (" + product.unit + ")",
-								product.receivedQuantity + " (" + product.unit + ")",
-								temp ? 	<i className="bi bi-check-circle-fill text-success" style={{fontSize:"2rem"}} />
-									: <i className="bi bi-x-circle-fill text-warning" style={{fontSize:"2rem"}}/>]}
+								product.receivedQuantity + " (" + product.unit + ")"
+							]}
+							actionComponent={<CompleteStatus isComplete={temp}/>}
 							key={index}/>)
 					})
 					return (
 						<TableRow key={index} subHeaders={subtableHeaders}
-											data={[purchase.naturalKey, purchase.sellerSupplierPartyName, date, completed ? 
-												<i className="bi bi-check-circle-fill text-success" style={{fontSize:"2.2rem"}} />
-												: <i className="bi bi-x-circle-fill text-warning" style={{fontSize:"2.2rem"}}/>]}>
+							data={[purchase.naturalKey, purchase.sellerSupplierPartyName, date]}
+							actionComponent={<CompleteStatus isComplete={completed}/>}
+						>			
 							{subrows}
 						</TableRow>
 					)
