@@ -24,7 +24,7 @@ const DeliveryNote = (props) => {
     const renderSaleInfo = () => {
         return (
             <section className={styles.saleInfoSection}>
-                <span className={styles.saleInfoSectionItem}>Delivery ID: {sale.serie + ("" + sale.seriesNumber).padStart(4, "0")}</span>
+                <span className={styles.saleInfoSectionItem}>Delivery ID: {sale.naturalKey}</span>
                 <span className={styles.saleInfoSectionItemVerBar}>|</span>
                 <span className={styles.saleInfoSectionItem}>Customer: {sale.buyerCustomerPartyDescription}</span>
             </section>
@@ -99,11 +99,14 @@ const DeliveryNote = (props) => {
             </section>
         )
     }
-
-    if (sale !== null) {
-        const deliveryId = "DV" + sale.serie + ("" + sale.seriesNumber).padStart(4, "0");
+    if (sale === null) {
+        return <Loader />
+    } else if (sale === "") {
+        return <span>Delivery Note not found</span>
+    } else {
+        const deliveryId = "GR" + sale.naturalKey.substr(3, sale.naturalKey.length - 3);
         const deliveryDate = sale.documentLines[0].deliveryDate.split("T")[0];
-
+        
         return (
             <React.Fragment>
                 <div className={styles.deliveryNoteHeader}>
@@ -115,10 +118,7 @@ const DeliveryNote = (props) => {
                 { renderProducts(sale.documentLines) }
             </React.Fragment>
         )
-    } else {
-        return <Loader />
     }
-
 }   
 
 export default DeliveryNote;

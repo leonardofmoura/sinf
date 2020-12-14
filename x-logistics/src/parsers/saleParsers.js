@@ -3,9 +3,9 @@ const parsePendingPickingProduct = (product) => {
         product.nameId, 
         product.name, 
         product.category, 
-        product.saleQuantity + " " + product.unit, 
-        product.waveQuantity + " " + product.unit, 
-        product.pickedQuantity + " " + product.unit
+        product.saleQuantity + " (" + product.unit + ")", 
+        product.waveQuantity + " (" + product.unit + ")", 
+        product.pickedQuantity + " (" + product.unit + ")"
     ];
 }
 
@@ -14,8 +14,8 @@ const parsePendingPackagingProduct = (product) => {
         product.nameId, 
         product.name, 
         product.category, 
-        product.saleQuantity + " " + product.unit, 
-        product.pickedQuantity + " " + product.unit,
+        product.saleQuantity + " (" + product.unit + ")", 
+        product.pickedQuantity + " (" + product.unit + ")",
     ];
 }
 
@@ -24,7 +24,7 @@ const parseCompleteProduct = (product) => {
         product.nameId, 
         product.name, 
         product.category, 
-        product.saleQuantity + " " + product.unit, 
+        product.saleQuantity + " (" + product.unit + ")", 
     ];
 }
 

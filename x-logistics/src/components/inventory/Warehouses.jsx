@@ -10,7 +10,7 @@ class Warehouses extends Component {
     constructor(props) {
         super(props);
         
-        this.tableHeaders = ["Warehouse", "Description", "Total Number of items", "Action"];
+        this.tableHeaders = ["Shelf / Section", "Description", "Total Number of items", "Action"];
         this.wareHouseName = "RECEPTION"
     
         this.state = {
@@ -38,14 +38,16 @@ class Warehouses extends Component {
         } else if (this.state.warehouses.length > 0) {
             return (
                 this.state.warehouses.map((item, index) => {
-                    return (
-                        <TableRow 
-                            key={index} 
-                            data={item.data} 
-                            actionComponent={<ViewWarehouse id={item.data[0]}/>}
-                        >
-                        </TableRow>
-                    )
+                    if (item.data[0] !== "A0") {
+                        return (
+                            <TableRow 
+                                key={index} 
+                                data={item.data} 
+                                actionComponent={<ViewWarehouse id={item.data[0]}/>}
+                            >
+                            </TableRow>
+                        )
+                    }
                 })
             )
         } else if (this.state.warehouses.length === 0) {

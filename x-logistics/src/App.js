@@ -24,7 +24,6 @@ function App() {
             <Route path="/orders" component={OrdersPage} />
             <Route path="/sales" component={SalesPage} />
             <Route path="/transactions" component={TransactionsPage} />
-            <Route path="/delivery_note/:id" component={DeliveryNote} />
           </Switch>
       </Router>
     </CookiesProvider>

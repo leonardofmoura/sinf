@@ -8,6 +8,7 @@ import { getWarehouseItems } from "../../../jasmin/inventory";
 import { sendJasminRequest } from '../../../jasmin/request';
 import Popup from 'reactjs-popup';
 import 'reactjs-popup/dist/index.css';
+import Loader from '../../utils/Loader';
 
 class WarehousePageComponent extends Component {
     constructor(props) {
@@ -28,7 +29,10 @@ class WarehousePageComponent extends Component {
                 stock: resp.stock,
                 items: resp.items.map((item) => {
                     return [
-                        item.id,item.name,item.stock,item.category
+                        item.id,
+                        item.name,
+                        item.stock + " (" + item.unit + ")",
+                        item.category
                     ];
                 })
             };
@@ -69,7 +73,7 @@ class WarehousePageComponent extends Component {
             )
         }
         else {
-            return (<h1>todo -{'>'} waiting for request</h1>);
+            return <Loader />;
         }
     }
 }

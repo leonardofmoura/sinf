@@ -18,8 +18,8 @@ const InventoryPage = () => {
 			key: 1
 		},
 		{
-			path: '/inventory/warehouses',
-			title: 'Warehouses',
+			path: '/inventory/warehouse',
+			title: 'Warehouse',
 			component: <Warehouses/>,
 			key: 2
 		},
@@ -27,7 +27,7 @@ const InventoryPage = () => {
 	
 	const extraRoutes = [
 		{
-			path: '/inventory/warehouse/:id',
+			path: '/inventory/section/:id',
 			component: <WarehousePage/>,
 			key: 3,
 		}

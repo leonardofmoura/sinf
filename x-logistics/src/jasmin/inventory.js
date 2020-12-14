@@ -9,6 +9,7 @@ const getInventory = async () => {
             id: item["itemKey"],
             name: item["description"],
             category: item["assortment"],
+            unit: item["baseUnit"],
             warehouses: item["materialsItemWarehouses"].map((warehouse) => {
                 return {
                     stock: warehouse["stockBalance"],
@@ -58,6 +59,7 @@ const getWarehouseItems = async (warehouseId) => {
             return {
                 id: item.id,
                 name: item.name,
+                unit: item.unit,
                 category: item.category,
                 stock: item.warehouses.find((w) => w.name === warehouseId).stock
             }
