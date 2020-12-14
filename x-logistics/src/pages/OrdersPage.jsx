@@ -1,10 +1,12 @@
 import SidebarLayout from "../layouts/SidebarLayout";
 import TabsLayout from "../layouts/TabsLayout";
-//import OrdersLayout from '../layouts/OrdersLayout';
 import PendingReception from '../components/orders/PendingReception/PendingReception';
 import PendingStorage from '../components/orders/PendingStorage/PendingStorage';
+import { useCookies } from 'react-cookie';
+import { Redirect } from "react-router-dom";
 
 const OrdersPage = () => {
+    const [cookies, ] = useCookies(['loginState']);
 
     const tabs = [
         {
@@ -20,18 +22,16 @@ const OrdersPage = () => {
             key: 2,
         }
     ]
-    /*
-    return (
-        <SidebarLayout>
-            <OrdersLayout/>
-        </SidebarLayout>
-    );
-    */
-   return (
-       <SidebarLayout>
-           <TabsLayout tabs={tabs}/>
-       </SidebarLayout>
-   )
+
+    if (cookies.loginState) {
+        return (
+			<SidebarLayout>
+                <TabsLayout tabs={tabs}/>
+            </SidebarLayout>
+		)
+    } else {
+        return <Redirect to="/login" />;
+    }
 };
 
 export default OrdersPage;
