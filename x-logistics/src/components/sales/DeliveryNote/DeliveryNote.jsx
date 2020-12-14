@@ -13,6 +13,7 @@ const DeliveryNote = (props) => {
     useEffect(() => {
             const fetchData = async () => {
                 const sale = await getSale(props.id);
+                console.log(sale)
                 setSale(sale);
             };
 

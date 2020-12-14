@@ -26,7 +26,7 @@ class PendingPackaging extends Component {
     
     handleConfirmPackaging = async (sale) => {
         await processSale(sale);
-        this.props.histoy.push("/sales/complete");
+        this.props.history.push("/sales/complete");
     }
 
     calcSaleStatus = (sale) => {
