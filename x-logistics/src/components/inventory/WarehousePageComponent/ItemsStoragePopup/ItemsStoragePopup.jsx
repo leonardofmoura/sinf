@@ -1,3 +1,4 @@
+import { max } from 'moment';
 import { useState } from 'react';
 import Popup from 'reactjs-popup';
 import { sendJasminRequest } from '../../../../jasmin/request';
@@ -7,6 +8,7 @@ const ItemsStoragePopup = (props) => {
     const [selectedRow, setRow] = useState('A');
     const [selectedCol, setCol] = useState('1');
     const [selectedQuantity, setQuantity] = useState(0);
+    const maxQuantity = parseInt(props.item[2].substr(0, props.item[2].length-4));    
 
     const _handleRowChange = (event) => {
         setRow(event.target.value);
@@ -39,17 +41,15 @@ const ItemsStoragePopup = (props) => {
                 }
             ],
         };
-        console.log(props.item[2]);
 
-        if (0 <= selectedQuantity <= props.item[2]) {
-            const response = await sendJasminRequest(
+        if (0 <= selectedQuantity <= maxQuantity) {
+            await sendJasminRequest(
                 `materialsManagement/stockTransferOrders`,
                 'POST',
                 body,
             );
     
-            console.log('RESPONSE: ');
-            console.log(response);
+            window.location.reload(false);
         }
     }
 
@@ -63,9 +63,7 @@ const ItemsStoragePopup = (props) => {
 
     return (
         <Popup trigger={open => (
-                <div className={styles.buttonSection}>
-                    <button>Move</button>
-                </div>
+                <button>Move</button>
             )} modal>
             <div>
                 <span>Choose storage section: </span>
@@ -88,7 +86,7 @@ const ItemsStoragePopup = (props) => {
                         }
                 </select>
                 <span>Choose quantity:</span>
-                <input type="number" min="0" max={props.item[2]} value={selectedQuantity} onChange={_handleQuantityChange}/>
+                <input type="number" min="0" max={maxQuantity} value={selectedQuantity} onChange={_handleQuantityChange}/>
                 <button onClick = {_confirmItemStorage}>Confirm</button>
             </div>
         </Popup>
