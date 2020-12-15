@@ -9,12 +9,15 @@ export default function tableHeader(props) {
 				props.headers.map((header, index) => {
 					const isLastItem = index === props.headers.length - 1;
 					const classes = `${isLastItem && props.center ? styles.lastItem : styles.headerItem} ${styles.clickable}`
+					let tempFunction
+					if (props.parent) tempFunction = props.parent.reorder
+					else tempFunction = props.reorder
 					if (props.reorderProperties && props.reorderProperties.length > index) {//maybe add skip option
 						if (props.orderSelected[1] === props.reorderProperties[index])
 							return (
 								<div className={classes}
 										 style={{width: itemWidth}} key={index}
-										 onClick={(e) => props.parent.reorder(props.reorderProperties[index])}
+										 onClick={(e) => tempFunction(props.reorderProperties[index])}
 								>
 									{header} {props.orderSelected[0] ? <i className="bi bi-arrow-up"/> :
 									<i className="bi bi-arrow-down"/>}
@@ -23,7 +26,7 @@ export default function tableHeader(props) {
 						else return (
 							<div className={classes}
 									 style={{width: itemWidth}} key={index}
-									 onClick={(e) => props.parent.reorder(props.reorderProperties[index])}>
+									 onClick={(e) => tempFunction(props.reorderProperties[index])}>
 								{header}
 							</div>
 						)
