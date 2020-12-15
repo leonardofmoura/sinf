@@ -1,4 +1,4 @@
-import { companyAddress, companyKey } from "./companyInfo";
+import { companyAddress, companyKey, companyName } from "./companyInfo";
 import { getMaterialsItem } from "./inventory";
 import { sendJasminRequest } from "./request";
 import { WAREHOUSE } from "./warehouse";
@@ -81,6 +81,8 @@ const parseSales = async (originalSales, wantPickedQuantity, wantOnlyComplete, w
             id: sale.naturalKey,
             jasminId: sale.id,
             customer: sale.buyerCustomerPartyDescription,
+            customerId: sale.buyerCustomerParty,
+            deliveryTerm: sale.deliveryTerm,
             date: moment(sale.documentDate).format("YYYY-MM-DD"),
         };
         
@@ -217,14 +219,37 @@ const confirmPickedProduct = async (product, productQuantity) => {
     return response;
 }
 
-const processSale = async (sale) => {
-    let orderLines = [];
+const createSale = async (sale) => {
+    const request = {
+        company: companyKey,
+        buyerCustomerParty: sale.info.customerId,
+        deliveryTerm: sale.info.deliveryTerm,
+        documentLines: [],
+    }
 
     for (const product of sale.products) {
-        const orderLine = {
-            sourceDocKey: sale.info.id,
-            sourceDocLineNumber: product.index + 1,
+        request.documentLines.push({
+            salesItem: product.nameId,
             quantity: product.saleQuantity,
+            warehouse: WAREHOUSE.SHIPPING,
+        });
+    }
+
+    const response = await sendJasminRequest(`/sales/orders/`, "POST", request);
+    return response;
+}
+
+const processSale = async (sale) => {
+    const resp = await createSale(sale);
+    const newSale = await getSale(resp.data);
+    let orderLines = [];
+
+    for (const product of newSale.documentLines) {
+        const orderLine = {
+            sourceDocKey: newSale.naturalKey,
+            sourceDocLineNumber: product.index + 1,
+            quantity: product.quantity,
+            warehouse: WAREHOUSE.SHIPPING,
         };
 
         orderLines.push(orderLine);
