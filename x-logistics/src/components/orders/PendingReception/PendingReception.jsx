@@ -130,7 +130,7 @@ const ConfirmReceptionPopup = (props) => {
                 <button type="button" className="btn" onClick={_confirmItemReception}>Confirm</button>
             </div>
             <div class={styles.loaderSection}>
-                { loading && <Loader size="5em"/> }
+                { loading && <Loader size="5em" /> }
             </div>
         </div>
     );
