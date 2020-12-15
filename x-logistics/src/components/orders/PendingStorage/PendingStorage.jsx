@@ -12,7 +12,9 @@ import {getWarehouseItems} from '../../../jasmin/inventory';
 
 import styles from './PendingStorage.module.css';
 import Loader from '../../utils/Loader';
-import {reorder as reorder2} from "../../../utils/reoder";import { Button } from '@material-ui/core';
+import {reorder as reorder2} from "../../../utils/reoder";
+import {Button} from '@material-ui/core';
+
 ;
 
 const PendingStorage = (props) => {
@@ -71,7 +73,7 @@ const PendingStorage = (props) => {
 	return (
 		<Table>
 			<TableHeader headers={tableHeaders} reorder={reorder}
-									 reorderProperties={[0, 1, 2,3]}
+									 reorderProperties={[0, 1, 2, 3]}
 									 orderSelected={[reversed.current, lastTarget.current]}/>
 			{renderItems()}
 		</Table>
@@ -82,7 +84,7 @@ const ItemsStoragePopup = (props) => {
 	const [selectedRow, setRow] = useState('A');
 	const [selectedCol, setCol] = useState('1');
 	const [loading, setLoading] = useState(false);
-    const [done, setDone] = useState(false);
+	const [done, setDone] = useState(false);
 	
 	const _handleRowChange = (event) => {
 		setRow(event.target.value);
@@ -111,16 +113,16 @@ const ItemsStoragePopup = (props) => {
 			],
 		};
 		console.log(body);
-
+		
 		setLoading(true);
 		
-		const response = await sendJasminRequest(
+		await sendJasminRequest(
 			`materialsManagement/stockTransferOrders`,
 			'POST',
 			body,
 		);
 		
-        setLoading(false);
+		setLoading(false);
 		setDone(true);
 		window.location.reload(false);
 	}
@@ -135,33 +137,33 @@ const ItemsStoragePopup = (props) => {
 	
 	return (
 		<div>
-		<div className={styles.popUp}>
-			<span className={styles.storagePopup}>Choose storage section:</span>
-			<div className={styles.selectors}>
-				<select value={selectedRow} onChange={_handleRowChange}>
-					{
-						rowOptions.map((option) => {
-							return (
-								<option key={option}>{option}</option>
-							)
-						})
-					}
-				</select>
-				<select value={selectedCol} onChange={_handleColChange}>
-					{
-						columnOptions.map((option) => {
-							return (
-								<option key={option}>{option}</option>
-							)
-						})
-					}
-				</select>
+			<div className={styles.popUp}>
+				<span className={styles.storagePopup}>Choose storage section:</span>
+				<div className={styles.selectors}>
+					<select value={selectedRow} onChange={_handleRowChange}>
+						{
+							rowOptions.map((option) => {
+								return (
+									<option key={option}>{option}</option>
+								)
+							})
+						}
+					</select>
+					<select value={selectedCol} onChange={_handleColChange}>
+						{
+							columnOptions.map((option) => {
+								return (
+									<option key={option}>{option}</option>
+								)
+							})
+						}
+					</select>
+				</div>
+				<button disabled={done} type="button" className="btn" onClick={_confirmItemStorage}>Confirm</button>
 			</div>
-			<button disabled={done} type="button" className="btn" onClick={_confirmItemStorage}>Confirm</button>
-		</div>
-		<div class={styles.loaderSection}>
-			{ loading && <Loader size="5em" marginTop="0"/> }
-		</div>
+			<div class={styles.loaderSection}>
+				{loading && <Loader size="5em" marginTop="0"/>}
+			</div>
 		</div>
 	)
 };
