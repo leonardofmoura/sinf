@@ -5,7 +5,7 @@ import TableRow from "../table/TableRow/TableRow.jsx";
 import ViewWarehouse from "./ViewWarehouse/ViewWarehouse.jsx";
 import { getWarehouses } from "../../jasmin/inventory";
 import Loader from "../utils/Loader.jsx";
-import {reorderDoubleArray} from "../utils/Reoder";
+import {reorderDoubleArray} from "../../utils/reoder";
 
 class Warehouses extends Component {
     constructor(props) {

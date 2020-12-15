@@ -6,7 +6,7 @@ import {Component} from "react";
 import {sendJasminRequest} from "../../jasmin/request";
 import Loader from "../utils/Loader.jsx";
 import CompleteStatus from "./CompleteStatus/CompleteStatus.jsx";
-import {reorder} from "../utils/Reoder";
+import {reorder} from "../../utils/reoder";
 
 class Purchases extends Component {
 	constructor(props) {

@@ -7,7 +7,7 @@ import {getWarehouseItems} from "../../../jasmin/inventory";
 import 'reactjs-popup/dist/index.css';
 import Loader from '../../utils/Loader';
 import ItemsStoragePopup from './ItemsStoragePopup/ItemsStoragePopup';
-import {reorder} from "../../utils/Reoder";
+import {reorder} from "../../../utils/reoder";
 
 class WarehousePageComponent extends Component {
 	constructor(props) {

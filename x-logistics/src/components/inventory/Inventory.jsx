@@ -6,7 +6,7 @@ import ViewWarehouse from "./ViewWarehouse/ViewWarehouse.jsx";
 import {Component} from "react";
 import {getInventory} from "../../jasmin/inventory.js"
 import Loader from "../utils/Loader.jsx";
-import {reorderDoubleArray} from "../utils/Reoder";
+import {reorderDoubleArray} from "../../utils/reoder";
 
 class Inventory extends Component {
 	constructor(props) {
