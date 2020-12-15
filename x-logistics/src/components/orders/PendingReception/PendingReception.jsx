@@ -129,7 +129,7 @@ const ConfirmReceptionPopup = (props) => {
         const response = await sendJasminRequest(
             'goodsReceipt/processOrders/GXSA',
             'POST',
-            //body,
+            body,
         );
 
         setLoading(false);
