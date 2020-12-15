@@ -1,4 +1,4 @@
-import React, { useEffect, useState, Button } from 'react';
+import React, { useEffect, useState} from 'react';
 
 import Popup from 'reactjs-popup';
 import 'reactjs-popup/dist/index.css';
@@ -25,14 +25,12 @@ const PendingReception = (props) => {
             const uniqueOrdersToProcess = itemsResponse.data.map(item => item.sourceDocKey);
             const filteredOrders = ordersResponse.data.filter(item => uniqueOrdersToProcess.includes(item.naturalKey));
 
-            console.log('ITEMS:'); console.log(itemsResponse);
-
             setOrders(filteredOrders.map(order => {
                 return {
                     data: [
                         order.naturalKey,
                         order.sellerSupplierPartyName,
-                        order.documentDate,
+                        order.documentDate.split("T")[0],
                     ],
                     items: itemsResponse.data.filter(item => item.sourceDocKey === order.naturalKey).map(item => {
                         return {

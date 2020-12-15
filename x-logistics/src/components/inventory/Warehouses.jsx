@@ -5,6 +5,7 @@ import TableRow from "../table/TableRow/TableRow.jsx";
 import ViewWarehouse from "./ViewWarehouse/ViewWarehouse.jsx";
 import { getWarehouses } from "../../jasmin/inventory";
 import Loader from "../utils/Loader.jsx";
+import {reorderDoubleArray} from "../utils/Reoder";
 
 class Warehouses extends Component {
     constructor(props) {
@@ -16,6 +17,8 @@ class Warehouses extends Component {
         this.state = {
             warehouses: null,
         }
+        this.lastTarget = 0
+        this.reversed = true
     }
     
     componentDidMount() {
@@ -28,8 +31,16 @@ class Warehouses extends Component {
                 }
             })
     
-            this.setState({warehouses: warehouses});
+            this.setState({warehouses: reorderDoubleArray(this.lastTarget,warehouses,this.reversed,"data")});
         })
+    }
+    
+    reorder = (target) => {
+        if (this.lastTarget === target)
+            this.reversed = !this.reversed
+        const sorted = reorderDoubleArray(target, this.state.warehouses, this.reversed,"data")
+        this.lastTarget = target //used for reverting order if clicked twice in succession
+        this.setState({warehouses: sorted})
     }
 
     renderWarehouses() {
@@ -58,7 +69,9 @@ class Warehouses extends Component {
     render() {
         return (
             <Table>
-                <TableHeader headers={this.tableHeaders}/>
+                <TableHeader headers={this.tableHeaders}  parent={this}
+                             reorderProperties={[0,1,2]}
+                             orderSelected={[this.reversed, this.lastTarget]}/>
                 { this.renderWarehouses() }
             </Table>
         )
