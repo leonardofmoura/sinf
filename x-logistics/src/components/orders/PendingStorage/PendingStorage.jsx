@@ -117,27 +117,29 @@ const ItemsStoragePopup = (props) => {
     ];
 
     return (
-        <div>
+        <div className={styles.popUp}>
             <span className={styles.storagePopup}>Choose storage section:</span>
-            <select value={selectedRow} onChange={_handleRowChange}>
-                {
-                    rowOptions.map((option) => {
-                        return(
-                            <option key={option}>{option}</option>
-                        )
-                    })
-                }
-            </select>
-            <select value={selectedCol} onChange={_handleColChange}>
-                {
-                    columnOptions.map((option) => {
-                        return(
-                            <option key={option}>{option}</option>
-                        )
-                    })
-                }
-            </select>
-            <button onClick = {_confirmItemStorage}>Confirm</button>
+            <div className={styles.selectors}>
+                <select value={selectedRow} onChange={_handleRowChange}>
+                    {
+                        rowOptions.map((option) => {
+                            return(
+                                <option key={option}>{option}</option>
+                            )
+                        })
+                    }
+                </select>
+                <select value={selectedCol} onChange={_handleColChange}>
+                    {
+                        columnOptions.map((option) => {
+                            return(
+                                <option key={option}>{option}</option>
+                            )
+                        })
+                    }
+                </select>
+            </div>
+            <button type="button" className="btn" onClick = {_confirmItemStorage}>Confirm</button>
         </div>
     )
 };

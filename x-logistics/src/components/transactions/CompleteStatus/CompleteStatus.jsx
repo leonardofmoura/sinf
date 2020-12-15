@@ -6,7 +6,7 @@ export default function CompleteStatus(props) {
         if (props.isComplete) {
             return <i className="bi bi-check-circle-fill text-success" style={{fontSize:"2.2rem"}} />
         } else {
-            <i className="bi bi-x-circle-fill text-warning" style={{fontSize:"2.2rem"}}/>
+            return <i className="bi bi-x-circle-fill text-warning" style={{fontSize:"2.2rem"}}/>
         }
     }
 

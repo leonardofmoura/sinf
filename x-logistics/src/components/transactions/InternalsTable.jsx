@@ -4,6 +4,7 @@ import TableRowSubRow from "../table/TableRowSubRow/TableRowSubRow"
 import TableRow from "../table/TableRow/TableRow"
 import Loader from "../utils/Loader";
 import {Component} from "react";
+import {reorder} from "../utils/Reoder";
 
 class InternalsTable extends Component {
 	constructor(props) {
@@ -12,34 +13,21 @@ class InternalsTable extends Component {
 		this.items = []
 		this.tableHeaders = ["ID", "Source Shelf", "Target Shelf", "Date"]
 		this.subtableHeaders = ["Product ID", "Item Name", "Quantity"]
-		this.lastTarget = ""
+		this.lastTarget = "naturalKey"
 		this.reversed = false
 	}
 	
 	reorder = (target) => {
 		if (this.lastTarget === target)
 			this.reversed = !this.reversed
-		const sorted = [...this.items].sort((a, b) => {
-			if (this.reversed) {
-				if (a[target] < b[target])
-					return -1
-				if (a[target] > b[target])
-					return 1
-			} else {
-				if (a[target] < b[target])
-					return 1
-				if (a[target] > b[target])
-					return -1
-			}
-			return 0
-		})
+		const sorted = reorder(target, this.items, this.reversed)
 		this.lastTarget = target //used for reverting order if clicked twice in succession
 		this.items = sorted
 		this.setState({})
 	}
 	
 	render() {
-		if (this.items.length !== this.props.items.length) this.items = this.props.items
+		if (this.items.length !== this.props.items.length) this.items = reorder(this.lastTarget,this.props.items,this.reversed)
 		
 		if (this.items.length === 0) {
 			return (<Loader/>)

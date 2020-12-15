@@ -24,9 +24,8 @@ app.get('/api/getToken', (req, res) => {
 })
 
 app.post('/api/sendJasminRequest', (req, res) => {
-	console.log("sendJasminRequest")
+	console.log("sendJasminRequest "+req.body.resourcePathData)
 	request.sendJasminRequest(req.body.resourcePathData, req.body.methodData, req.body.dataData).then(function (response) {
-		//console.log(response)
 			res.send(response)
 		}
 	)
