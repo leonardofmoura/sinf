@@ -9,7 +9,6 @@ import OrdersPage from './pages/OrdersPage';
 import SalesPage from './pages/SalesPage';
 import TransactionsPage from './pages/TransactionsPage';
 import IndexPage from './pages/IndexPage';
-import DeliveryNote from "./components/sales/DeliveryNote/DeliveryNote";
 require("bootstrap/dist/css/bootstrap.css")
 require("bootstrap-icons/font/bootstrap-icons.css")
 

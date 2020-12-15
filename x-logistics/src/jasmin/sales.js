@@ -12,11 +12,14 @@ const getAllSales = async () => {
     return response.data;
 }
 
-const parseSales = async (originalSales, wantPickedQuantity, wantOnlyComplete) => {
+const parseSales = async (originalSales, wantPickedQuantity, wantOnlyComplete, wantOnlyPending) => {
     let sales = [];
 
     for (const sale of originalSales) {
         let isComplete = true;
+        let isPending = true;
+
+        let salesItems = [];
         
         let products = [];
         for (const product of sale.documentLines) {
@@ -30,7 +33,18 @@ const parseSales = async (originalSales, wantPickedQuantity, wantOnlyComplete) =
                 continue;
             }
 
-            let salesItem = await getSalesItem(product.salesItemId);
+            if (wantOnlyPending && product.deliveredQuantity >= product.quantity) {
+                isPending = false;
+                continue;
+            }
+
+            let salesItem;
+            if (!salesItems.hasOwnProperty(product.salesItemId)) {
+                salesItem = await getSalesItem(product.salesItemId);
+                salesItems[product.salesItemId] = salesItem;
+            } else {
+                salesItem = salesItems[product.salesItemId];
+            }
             
             let parsedProduct = {
                 id: product.salesItemId,
@@ -56,6 +70,10 @@ const parseSales = async (originalSales, wantPickedQuantity, wantOnlyComplete) =
         }
 
         if (wantOnlyComplete && !isComplete) {
+            continue;
+        }
+
+        if (wantOnlyPending && !isPending) {
             continue;
         }
         
@@ -119,7 +137,7 @@ const getPendingPicking = async () => {
     let pendingPicking = [];
 
     const allSales = await getAllSales();
-    const sales = await parseSales(allSales, true, false);
+    const sales = await parseSales(allSales, true, false, true);
 
     for (const sale of sales) {
         let pendingPickingProducts = [];
@@ -144,7 +162,7 @@ const getPendingPackaging = async () => {
     let pendingPackaging = [];
 
     const allSales = await getAllSales();
-    const sales = await parseSales(allSales, true);
+    const sales = await parseSales(allSales, true, false, true);
 
     for (const sale of sales) {
         let pendingProducts = [];
@@ -172,7 +190,7 @@ const getPendingPackaging = async () => {
 
 const getCompleteSales = async () => {
     const allSales = await getAllSales();
-    const completeSales = await parseSales(allSales, false, true);
+    const completeSales = await parseSales(allSales, false, true, false);
 
     return completeSales;
 }
