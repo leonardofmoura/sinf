@@ -1,4 +1,24 @@
-.buttonSection {
+.popUp {
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+    height: 15em;
+}
+
+.shelfSelectorsSection {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.quantitySelectorSection {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.popUp button {
+    background-color: var(--primary-color);
+    color: white;
 }
