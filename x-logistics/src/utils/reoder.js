@@ -15,10 +15,10 @@ const reorderDoubleArray = (target, items, reversed, index) => {
 }
 
 const baseReorder = (target, aCompare, bCompare, reversed) => {
-	if (target === "naturalKey") {
+	if (target === "naturalKey"||(target===0 && aCompare.split(".").length===3)) {//document id
 		aCompare = parseInt(aCompare.split(".")[2])
 		bCompare = parseInt(bCompare.split(".")[2])
-	} else if (target === 2 && ("" + aCompare).split(" ").length === 2) {
+	} else if (target === 2 && ("" + aCompare).split(" ").length === 2 && aCompare.split(" ")[1]===("(UN)")) {//units
 		aCompare = parseInt(aCompare.split(" ")[0])
 		bCompare = parseInt(bCompare.split(" ")[0])
 	}
