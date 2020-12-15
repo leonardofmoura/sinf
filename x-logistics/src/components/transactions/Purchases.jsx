@@ -6,6 +6,7 @@ import {Component} from "react";
 import {sendJasminRequest} from "../../jasmin/request";
 import Loader from "../utils/Loader.jsx";
 import CompleteStatus from "./CompleteStatus/CompleteStatus.jsx";
+import {reorder} from "../utils/Reoder";
 
 class Purchases extends Component {
 	constructor(props) {
@@ -15,7 +16,7 @@ class Purchases extends Component {
 		}
 		this.tableHeaders = ["ID", "Customer", "Date", "Completed"];
 		this.subtableHeaders = ["Product ID", "Item Name", "Quantity", "Received Quantity", "Completed"];
-		this.lastTarget = ""
+		this.lastTarget = "naturalKey"
 		this.reversed = false
 	}
 	
@@ -27,7 +28,7 @@ class Purchases extends Component {
 	componentDidMount() {
 		this.fetchData().then(response => {
 			this.setState({
-				items: response,
+				items: reorder(this.lastTarget,response,this.reversed),
 			})
 		})
 	}
@@ -73,20 +74,7 @@ class Purchases extends Component {
 	reorder = (target) => {
 		if (this.lastTarget === target)
 			this.reversed = !this.reversed
-		const sorted = [...this.state.items].sort((a, b) => {
-			if (this.reversed) {
-				if (a[target] < b[target])
-					return -1
-				if (a[target] > b[target])
-					return 1
-			} else {
-				if (a[target] < b[target])
-					return 1
-				if (a[target] > b[target])
-					return -1
-			}
-			return 0
-		})
+		const sorted = reorder(target, this.state.items, this.reversed)
 		this.lastTarget = target //used for reverting order if clicked twice in succession
 		this.setState({items: sorted})
 	}
