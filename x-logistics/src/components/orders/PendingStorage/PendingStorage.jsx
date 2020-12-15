@@ -117,11 +117,12 @@ const ItemsStoragePopup = (props) => {
 		const response = await sendJasminRequest(
 			`materialsManagement/stockTransferOrders`,
 			'POST',
-			//body,
+			body,
 		);
 		
         setLoading(false);
-        setDone(true);
+		setDone(true);
+		window.location.reload(false);
 	}
 	
 	const rowOptions = [

@@ -21,6 +21,10 @@ const parseSales = async (originalSales, wantPickedQuantity, wantOnlyComplete, w
     for (const sale of originalSales) {
         let isComplete = true;
         let isPending = true;
+
+        if (sale.isDeleted) {
+            continue;
+        }
         
         let products = [];
         for (const product of sale.documentLines) {
@@ -93,6 +97,7 @@ const parseSales = async (originalSales, wantPickedQuantity, wantOnlyComplete, w
             jasminId: sale.id,
             customer: sale.buyerCustomerPartyDescription,
             customerId: sale.buyerCustomerParty,
+            isDeleted: sale.isDeleted,
             deliveryTerm: sale.deliveryTerm,
             date: moment(sale.documentDate).format("YYYY-MM-DD"),
         };
@@ -250,8 +255,16 @@ const createSale = async (sale) => {
     return response;
 }
 
+const deleteSale = async (sale) => {
+    const response = await sendJasminRequest(`/sales/orders/${sale.info.jasminId}`, "DELETE");
+    return response;
+}
+
 const processSale = async (sale) => {
+    console.log(sale.jasminId);
     const resp = await createSale(sale);
+    const rep = await deleteSale(sale);
+    console.log(rep)
     const newSale = await getSale(resp.data);
     let orderLines = [];
 
@@ -265,6 +278,8 @@ const processSale = async (sale) => {
 
         orderLines.push(orderLine);
     }
+
+    console.log(orderLines);
 
     const response = await sendJasminRequest('shipping/processOrders/' + companyKey, "POST", orderLines);
     return response;
