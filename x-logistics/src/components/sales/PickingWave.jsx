@@ -82,7 +82,6 @@ export default function PickingWave() {
         lastTarget.current = target //used for reverting order if clicked twice in succession
         setPickingWaves(sorted)
     }
-    console.log(pickingWaves)
     return (
         <Table>
             <TableHeader headers={tableHeaders} reorder={reorder}
