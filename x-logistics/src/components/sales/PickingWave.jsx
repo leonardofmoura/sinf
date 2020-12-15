@@ -6,8 +6,9 @@ import TableRowSubRow from "../table/TableRowSubRow/TableRowSubRow.jsx";
 import ConfirmPickingWaveAction from "./ConfirmPickingWaveAction/ConfirmPickingWaveAction.jsx";
 import { useHistory } from "react-router-dom";
 import { confirmPickedProduct } from "../../jasmin/sales";
-import { useState } from "react";
+import React, {useRef, useState} from "react";
 import Loader from "../utils/Loader.jsx";
+import {reorderDoubleArray} from "../../utils/reoder";
 
 export default function PickingWave() {
     const history = useHistory();
@@ -15,9 +16,12 @@ export default function PickingWave() {
     
     const tableHeaders = ["Wave ID", "Created On", "Summary", "Confirm"];
     const subtableHeaders = ["Product ID", "Name", "Category", "Shelf", "Quantity"];
+  
+    let lastTarget = useRef("id")
+    let reversed = useRef(true)
+    const [pickingWaves,setPickingWaves] = useState(reorderDoubleArray(lastTarget.current,localStorage.getItem("picking_waves") ? JSON.parse(localStorage.getItem("picking_waves")) : [],reversed.current,"info"));
 
-    const pickingWaves = localStorage.getItem("picking_waves") ? JSON.parse(localStorage.getItem("picking_waves")) : [];
-
+    
     const handleConfirmWave = async (wave) => {
         setLoading(true);
 
@@ -71,10 +75,19 @@ export default function PickingWave() {
             return <span>No Active Picking Waves</span>
         }
     }
-
+    const reorder = (target) => {
+        if (lastTarget.current === target)
+            reversed.current = !reversed.current
+        const sorted = reorderDoubleArray(target, pickingWaves, reversed.current,"info")
+        lastTarget.current = target //used for reverting order if clicked twice in succession
+        setPickingWaves(sorted)
+    }
+    console.log(pickingWaves)
     return (
         <Table>
-            <TableHeader headers={tableHeaders}/>
+            <TableHeader headers={tableHeaders} reorder={reorder}
+                         reorderProperties={["id", "createdOn", "summary"]}
+                         orderSelected={[reversed.current, lastTarget.current]}/>
             { renderWaves() }
         </Table>
     )
