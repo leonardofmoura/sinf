@@ -11,6 +11,8 @@ import TableRowSubRow from '../../table/TableRowSubRow/TableRowSubRow';
 import { sendJasminRequest } from '../../../jasmin/request';
 import Loader from '../../utils/Loader';
 
+import styles from './PendingReception.module.css';
+
 const PendingReception = (props) => {
     const tableHeaders = ['ID', 'Supplier', 'Date'];
     const subTableHeaders = ['Item', 'Description', 'Quantity', 'Reception'];
@@ -121,9 +123,9 @@ const ConfirmReceptionPopup = (props) => {
     }
 
     return(
-        <div>
+        <div class={styles.confirmSection}>
             <span>{`Do you wish to confirm reception of ${props.item.tableData[2]} ${props.item.tableData[0]}s of order ${props.order[0]}?`}</span>
-            <button onClick={_confirmItemReception}>Confirm</button>
+            <button type="button" className="btn" onClick={_confirmItemReception}>Confirm</button>
         </div>
     )
 }
