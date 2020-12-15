@@ -12,7 +12,7 @@ export default function SideNav(props) {
             key: 1
         },
         {
-            path: '/orders/pending_storage',
+            path: '/orders/pending_reception',
             title:'Orders',
             key: 2
         },
@@ -33,9 +33,8 @@ export default function SideNav(props) {
     }
 
     function isActive(path) {
-        let currentPathStr = activePath.substring(0, activePath.lastIndexOf("/"));
-        let pathStr = path.substring(0, path.lastIndexOf("/"));
-
+        let currentPathStr = activePath.substring(0, 1+activePath.substr(1).indexOf("/"));
+        let pathStr = path.substring(0, 1+path.substr(1).indexOf("/"));
         return (currentPathStr === "" && activePath === path) || (currentPathStr !== "" && currentPathStr === pathStr);
     }
 

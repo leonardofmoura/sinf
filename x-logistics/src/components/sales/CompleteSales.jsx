@@ -51,7 +51,7 @@ class CompleteSales extends Component {
     render = () => {
         return (
             <Table>
-                <TableHeader headers={this.tableHeaders}/>
+                <TableHeader headers={this.tableHeaders} center={true}/>
                 { this.renderSales() }
             </Table>
         )

@@ -5,45 +5,27 @@ import Table from "../../table/Table/Table";
 import TableHeader from "../../table/TableHeader/TableHeader";
 import TableRow from "../../table/TableRow/TableRow";
 import styles from "./DeliveryNote.module.css";
+import Loader from "../../utils/Loader";
 
 const DeliveryNote = (props) => {    
     const [sale, setSale] = useState(null);
-    const id = props.id;
 
     useEffect(() => {
             const fetchData = async () => {
-                const sale = await getSale(id);
+                const sale = await getSale(props.id);
+                console.log(sale)
                 setSale(sale);
             };
 
             fetchData();
-        }, []);
+        }, 
+        []
+    );
     
-    const renderDeliveryNote = () => {
-        if (sale !== null) {
-            const deliveryId = "DV" + sale.serie + ("" + sale.seriesNumber).padStart(4, "0");
-            const deliveryDate = sale.documentLines[0].deliveryDate.split("T")[0];
-
-            return (
-                <React.Fragment>
-                    <div className={styles.deliveryNoteHeader}>
-                        <h1 className={styles.deliveryNoteHeaderId}>Delivery Note {deliveryId}</h1>
-                        <span className={styles.deliveryNoteHeaderDate}>Delivery Date: {deliveryDate}</span>
-                    </div>
-                    { renderSaleInfo() }
-                    { renderSaleMovement() }
-                    { renderProducts(sale.documentLines) }
-                </React.Fragment>
-            )
-        } else {
-            
-        }
-    }
-
     const renderSaleInfo = () => {
         return (
             <section className={styles.saleInfoSection}>
-                <span className={styles.saleInfoSectionItem}>Delivery ID: {sale.serie + ("" + sale.seriesNumber).padStart(4, "0")}</span>
+                <span className={styles.saleInfoSectionItem}>Delivery ID: {sale.naturalKey}</span>
                 <span className={styles.saleInfoSectionItemVerBar}>|</span>
                 <span className={styles.saleInfoSectionItem}>Customer: {sale.buyerCustomerPartyDescription}</span>
             </section>
@@ -118,9 +100,26 @@ const DeliveryNote = (props) => {
             </section>
         )
     }
-
-    return renderDeliveryNote()
-
+    if (sale === null) {
+        return <Loader />
+    } else if (sale === "") {
+        return <span>Delivery Note not found</span>
+    } else {
+        const deliveryId = "GR" + sale.naturalKey.substr(3, sale.naturalKey.length - 3);
+        const deliveryDate = sale.documentLines[0].deliveryDate.split("T")[0];
+        
+        return (
+            <React.Fragment>
+                <div className={styles.deliveryNoteHeader}>
+                    <h1 className={styles.deliveryNoteHeaderId}>Delivery Note {deliveryId}</h1>
+                    <span className={styles.deliveryNoteHeaderDate}>Delivery Date: {deliveryDate}</span>
+                </div>
+                { renderSaleInfo() }
+                { renderSaleMovement() }
+                { renderProducts(sale.documentLines) }
+            </React.Fragment>
+        )
+    }
 }   
 
 export default DeliveryNote;

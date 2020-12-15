@@ -9,8 +9,9 @@ export default function tableRowSubHeader(props) {
             <div className={styles.header}>
                 {
                     props.headers.map((header, index) => {
+                        const isLastItem = index === props.headers.length - 1;
                         return (
-                            <div className={styles.headerItem} style={{width: itemWidth}} key={index}>
+                            <div className={(isLastItem && props.center) ? styles.lastItem : styles.headerItem} style={{width: itemWidth}} key={index}>
                                 {header}
                             </div>
                         )

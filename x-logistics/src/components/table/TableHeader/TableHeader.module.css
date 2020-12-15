@@ -14,3 +14,10 @@
     flex-grow: 1;
     margin: 0 1rem;
 }
+
+.lastItem {
+    font-size: 1.15rem;
+    flex-grow: 1;
+    margin: 0 1rem;
+    text-align: center;
+}

@@ -1,4 +1,4 @@
-import { companyAddress, companyName } from "./companyInfo";
+import { companyAddress, companyKey } from "./companyInfo";
 import { getMaterialsItem } from "./inventory";
 import { sendJasminRequest } from "./request";
 import { WAREHOUSE } from "./warehouse";
@@ -8,11 +8,18 @@ const moment = require('moment');
 
 const getAllSales = async () => {
     const resource = "sales/orders";
-    let sales = []; 
-
     const response = await sendJasminRequest(resource, "get");
+    return response.data;
+}
 
-    for (const sale of response.data) {
+const parseSales = async (originalSales, wantPickedQuantity, wantOnlyComplete, wantOnlyPending) => {
+    let sales = [];
+
+    for (const sale of originalSales) {
+        let isComplete = true;
+        let isPending = true;
+
+        let salesItems = [];
         
         let products = [];
         for (const product of sale.documentLines) {
@@ -21,7 +28,23 @@ const getAllSales = async () => {
                 continue;
             }
 
-            let salesItem = await getSalesItem(product.salesItemId);
+            if (wantOnlyComplete && product.deliveredQuantity < product.quantity) {
+                isComplete = false;
+                continue;
+            }
+
+            if (wantOnlyPending && product.deliveredQuantity >= product.quantity) {
+                isPending = false;
+                continue;
+            }
+
+            let salesItem;
+            if (!salesItems.hasOwnProperty(product.salesItemId)) {
+                salesItem = await getSalesItem(product.salesItemId);
+                salesItems[product.salesItemId] = salesItem;
+            } else {
+                salesItem = salesItems[product.salesItemId];
+            }
             
             let parsedProduct = {
                 id: product.salesItemId,
@@ -34,7 +57,7 @@ const getAllSales = async () => {
                 saleQuantity:  product.quantity,
                 deliveredQuantity: product.deliveredQuantity,
                 waveQuantity: getWaveQuantity(product.salesItemId),
-                pickedQuantity: await getPickedQuantity(salesItem.itemKey),
+                pickedQuantity: wantPickedQuantity ? await getPickedQuantity(salesItem.itemKey) : 0,
                 unit: product.unit,
 
                 warehouse: product.warehouse,
@@ -45,11 +68,18 @@ const getAllSales = async () => {
             
             products.push(parsedProduct);
         }
+
+        if (wantOnlyComplete && !isComplete) {
+            continue;
+        }
+
+        if (wantOnlyPending && !isPending) {
+            continue;
+        }
         
         let saleInfo = {
-            id: sale.serie + ("" + sale.seriesNumber).padStart(4, "0"),
+            id: sale.naturalKey,
             jasminId: sale.id,
-            key: sale.naturalKey,
             customer: sale.buyerCustomerPartyDescription,
             date: moment(sale.documentDate).format("YYYY-MM-DD"),
         };
@@ -58,7 +88,7 @@ const getAllSales = async () => {
         
         sales.push(parsedSale);
     }
-    
+
     return sales;
 }
 
@@ -107,8 +137,9 @@ const getPendingPicking = async () => {
     let pendingPicking = [];
 
     const allSales = await getAllSales();
+    const sales = await parseSales(allSales, true, false, true);
 
-    for (const sale of allSales) {
+    for (const sale of sales) {
         let pendingPickingProducts = [];
 
         for (const product of sale.products) {
@@ -131,8 +162,9 @@ const getPendingPackaging = async () => {
     let pendingPackaging = [];
 
     const allSales = await getAllSales();
+    const sales = await parseSales(allSales, true, false, true);
 
-    for (const sale of allSales) {
+    for (const sale of sales) {
         let pendingProducts = [];
         let hasPickedProducts = false;
 
@@ -157,24 +189,8 @@ const getPendingPackaging = async () => {
 }
 
 const getCompleteSales = async () => {
-    let completeSales = [];
-
     const allSales = await getAllSales();
-
-    for (const sale of allSales) {
-        let isComplete = true;
-
-        for (const product of sale.products) {
-            if (product.deliveredQuantity < product.saleQuantity) { //Not complete
-                isComplete = false;
-                break;
-            } 
-        }
-
-        if (isComplete) {
-            completeSales.push(sale);
-        }
-    }
+    const completeSales = await parseSales(allSales, false, true, false);
 
     return completeSales;
 }
@@ -186,7 +202,7 @@ const confirmPickedProduct = async (product, productQuantity) => {
         loadingPostalZone: companyAddress.postalZone,
         loadingCityName: companyAddress.cityName,
         loadingCountry: companyAddress.country,
-        company: companyName,
+        company: companyKey,
         sourceWarehouse: product.warehouse,
         targetWarehouse: WAREHOUSE.SHIPPING,
         documentLines: [
@@ -206,7 +222,7 @@ const processSale = async (sale) => {
 
     for (const product of sale.products) {
         const orderLine = {
-            sourceDocKey: sale.info.key,
+            sourceDocKey: sale.info.id,
             sourceDocLineNumber: product.index + 1,
             quantity: product.saleQuantity,
         };
@@ -214,7 +230,7 @@ const processSale = async (sale) => {
         orderLines.push(orderLine);
     }
 
-    const response = await sendJasminRequest('shipping/processOrders/' + companyName, "POST", orderLines);
+    const response = await sendJasminRequest('shipping/processOrders/' + companyKey, "POST", orderLines);
     return response;
 }
 

@@ -4,9 +4,12 @@ import PendingPicking from "../components/sales/PendingPicking";
 import SidebarLayout from "../layouts/SidebarLayout";
 import TabsLayout from "../layouts/TabsLayout";
 import PickingWave from "../components/sales/PickingWave";
-import DeliveryNote from "../components/sales/DeliveryNote/DeliveryNote";
+import DeliveryNotePage from "./DeliveryNotePage";
+import { useCookies } from 'react-cookie';
+import { Redirect } from "react-router-dom";
 
 export default function SalesPage() {
+    const [cookies, ] = useCookies(['loginState']);
 
     const tabs = [
         {
@@ -37,15 +40,19 @@ export default function SalesPage() {
 
     const extraRoutes = [
         {
-            path:'/delivery_note/:id',
-            component: <DeliveryNote />,
+            path:'/sales/delivery_note/:id',
+            component: <DeliveryNotePage />,
             key: 5,
         }
     ]
 
-    return (
-        <SidebarLayout>
-            <TabsLayout tabs={tabs} extraRoutes={extraRoutes}/>
-        </SidebarLayout>
-    )
+    if (cookies.loginState) {
+        return (
+			<SidebarLayout>
+                <TabsLayout tabs={tabs} extraRoutes={extraRoutes}/>
+            </SidebarLayout>
+		)
+    } else {
+        return <Redirect to="/login" />;
+    }
 }

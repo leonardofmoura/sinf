@@ -12,7 +12,7 @@ class Inventory extends Component {
         super(props);
 
         this.tableHeaders = ["ID", "Item Name", "Quantity", "Category"];
-        this.subtableHeaders = ["Quantity", "Warehouse", "Action"];
+        this.subtableHeaders = ["Shelf / Section", "Quantity", "Action"];
 
         this.state = {
             items: null,
@@ -26,12 +26,14 @@ class Inventory extends Component {
                     data: [
                         item["id"], 
                         item["name"], 
-                        item["warehouses"].reduce((acc, val) => acc + val.stock, 0),
+                        item["warehouses"].reduce((acc, val) => acc + val.stock, 0) + " (" + item["unit"] + ")",
                         item["category"],
                     ],
                     warehouses: item["warehouses"].map((w) => {
-                        return [w.stock, w.name]
-                    }).filter((w) => { return (w[0] > 0)})    
+                        if (w.stock > 0) {
+                            return [w.name, w.stock + " (" + item["unit"] + ")"]
+                        } else return null;
+                    }).filter((w) => w)  
                 }
             })
 
@@ -52,12 +54,12 @@ class Inventory extends Component {
                             data={item.data} 
                         >
                             {
-                                item.warehouses.map((item,index) => {
+                                item.warehouses.map((item, index) => {
                                     return (
                                         <TableRowSubRow 
                                             data={item} 
                                             key={index} 
-                                            actionComponent={<ViewWarehouse id={item[1]}/>}
+                                            actionComponent={<ViewWarehouse id={item[0]}/>}
                                         />
                                     )
                                 })

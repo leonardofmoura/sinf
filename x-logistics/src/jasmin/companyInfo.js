@@ -6,6 +6,11 @@ const companyAddress = {
     country: 'PT',
 }
 
-const companyName = "GXSA";
+const companyKey = "GXSA";
+const companyName = "X Logistics Lda.";
 
-export { companyAddress, companyName };
+export { 
+    companyAddress, 
+    companyKey, 
+    companyName 
+};

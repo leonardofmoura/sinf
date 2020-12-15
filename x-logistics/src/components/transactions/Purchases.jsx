@@ -2,32 +2,43 @@ import Table from "../table/Table/Table.jsx";
 import TableHeader from "../table/TableHeader/TableHeader.jsx";
 import TableRow from "../table/TableRow/TableRow.jsx";
 import TableRowSubRow from "../table/TableRowSubRow/TableRowSubRow.jsx";
-import {useEffect, useState} from "react";
+import {Component} from "react";
 import {sendJasminRequest} from "../../jasmin/request";
 import Loader from "../utils/Loader.jsx";
+import CompleteStatus from "./CompleteStatus/CompleteStatus.jsx";
+import {reorder} from "../utils/Reoder";
 
-export default function Purchases() {
+class Purchases extends Component {
+	constructor(props) {
+		super(props);
+		this.state = {
+			items: null,
+		}
+		this.tableHeaders = ["ID", "Customer", "Date", "Completed"];
+		this.subtableHeaders = ["Product ID", "Item Name", "Quantity", "Received Quantity", "Completed"];
+		this.lastTarget = "naturalKey"
+		this.reversed = false
+	}
 	
-	const [items, setItems] = useState(null);
+	fetchData = async () => {
+		const json = await sendJasminRequest('purchases/orders', 'GET');
+		return json.data
+	};
 	
-	const tableHeaders = ["ID", "Seller", "Date", "Completed"];
-	const subtableHeaders = ["Product ID", "Item Name", "Quantity", "Received Quantity", "Completed"];
+	componentDidMount() {
+		this.fetchData().then(response => {
+			this.setState({
+				items: reorder(this.lastTarget,response,this.reversed),
+			})
+		})
+	}
 	
-	useEffect(() => {
-		const fetchData = async () => {
-			const json = await sendJasminRequest('purchases/orders', 'GET');
-			setItems(json.data);
-		};
-		
-		fetchData();
-	}, []);
-
-	const renderItems = () => {
-		if (items === null) {
+	renderItems = () => {
+		if (this.state.items === null) {
 			return <Loader/>
-		} else if (items.length > 0) {
+		} else if (this.state.items.length > 0) {
 			return (
-				items.map((purchase, index) => {
+				this.state.items.map((purchase, index) => {
 					let completed = true
 					let date = purchase.documentDate.split("T")[0]
 					let subrows = [];
@@ -37,33 +48,47 @@ export default function Purchases() {
 						if (!temp)
 							completed = false
 						subrows.push(<TableRowSubRow
-							data={[product.purchasesItem,
+							data={[
+								product.purchasesItem,
 								product.description,
 								product.quantity + " (" + product.unit + ")",
-								product.receivedQuantity + " (" + product.unit + ")",
-								temp ? 	<i className="bi bi-check-circle-fill text-success" style={{fontSize:"2rem"}} />
-									: <i className="bi bi-x-circle-fill text-warning" style={{fontSize:"2rem"}}/>]}
+								product.receivedQuantity + " (" + product.unit + ")"
+							]}
+							actionComponent={<CompleteStatus isComplete={temp}/>}
 							key={index}/>)
 					})
 					return (
-						<TableRow key={index} subHeaders={subtableHeaders}
-											data={[purchase.naturalKey, purchase.sellerSupplierPartyName, date, completed ? 
-												<i className="bi bi-check-circle-fill text-success" style={{fontSize:"2.2rem"}} />
-												: <i className="bi bi-x-circle-fill text-warning" style={{fontSize:"2.2rem"}}/>]}>
+						<TableRow key={index} subHeaders={this.subtableHeaders}
+											data={[purchase.naturalKey, purchase.sellerSupplierPartyName, date]}
+											actionComponent={<CompleteStatus isComplete={completed}/>}>
 							{subrows}
 						</TableRow>
 					)
 				})
 			)
-		} else if (items.length === 0) {
+		} else if (this.state.items.length === 0) {
 			return (<span>No items found</span>)
 		}
 	}
 	
-	return (
-		<Table>
-			<TableHeader headers={tableHeaders}/>
-			{ renderItems() }
-		</Table>
-	)
+	reorder = (target) => {
+		if (this.lastTarget === target)
+			this.reversed = !this.reversed
+		const sorted = reorder(target, this.state.items, this.reversed)
+		this.lastTarget = target //used for reverting order if clicked twice in succession
+		this.setState({items: sorted})
+	}
+	
+	render() {
+		return (
+			<Table>
+				<TableHeader headers={this.tableHeaders} parent={this}
+										 reorderProperties={["naturalKey", "sellerSupplierPartyName", "documentDate"]}
+										 orderSelected={[this.reversed, this.lastTarget]}/>
+				{this.renderItems()}
+			</Table>
+		)
+	}
 }
+
+export default Purchases

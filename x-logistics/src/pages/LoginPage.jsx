@@ -9,12 +9,12 @@ const LoginPage = () => {
     const [login, setLogin] = useState(false);
 
     const handleLogin = () => {
-        setCookie('loginState', true, { path: '/' });
-       setLogin(true);
+        setCookie('loginState', true, { path: '/', maxAge: 43200 });
+        setLogin(true);
     }
 
     if (login) {
-        return <Redirect to="/inventory" />
+        return <Redirect to="/inventory/list" />
     } else {
         return <Login onClick={handleLogin} />
     }

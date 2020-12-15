@@ -30,6 +30,8 @@ export default function PickingWave() {
                     )
                 })
             )
+        } else {
+            return <span>No Active Picking Waves</span>
         }
     }
 
