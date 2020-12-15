@@ -15,11 +15,12 @@ const getAllSales = async () => {
 const parseSales = async (originalSales, wantPickedQuantity, wantOnlyComplete, wantOnlyPending) => {
     let sales = [];
 
+    let salesItems = [];
+    let pickedQuantities = [];
+
     for (const sale of originalSales) {
         let isComplete = true;
         let isPending = true;
-
-        let salesItems = [];
         
         let products = [];
         for (const product of sale.documentLines) {
@@ -45,6 +46,16 @@ const parseSales = async (originalSales, wantPickedQuantity, wantOnlyComplete, w
             } else {
                 salesItem = salesItems[product.salesItemId];
             }
+
+            let pickedQuantity = 0;
+            if (wantPickedQuantity) {
+                if (!pickedQuantities.hasOwnProperty(salesItem.itemKey)) {
+                    pickedQuantity = await getPickedQuantity(salesItem.itemKey);
+                    pickedQuantities[salesItem.itemKey] = pickedQuantity;
+                } else {
+                    pickedQuantity = pickedQuantities[salesItem.itemKey];
+                }
+            }
             
             let parsedProduct = {
                 id: product.salesItemId,
@@ -57,7 +68,7 @@ const parseSales = async (originalSales, wantPickedQuantity, wantOnlyComplete, w
                 saleQuantity:  product.quantity,
                 deliveredQuantity: product.deliveredQuantity,
                 waveQuantity: getWaveQuantity(product.salesItemId),
-                pickedQuantity: wantPickedQuantity ? await getPickedQuantity(salesItem.itemKey) : 0,
+                pickedQuantity: pickedQuantity,
                 unit: product.unit,
 
                 warehouse: product.warehouse,
