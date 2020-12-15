@@ -12,7 +12,8 @@ import {getWarehouseItems} from '../../../jasmin/inventory';
 
 import styles from './PendingStorage.module.css';
 import Loader from '../../utils/Loader';
-import {reorder as reorder2} from "../../../utils/reoder";;
+import {reorder as reorder2} from "../../../utils/reoder";import { Button } from '@material-ui/core';
+;
 
 const PendingStorage = (props) => {
 	const tableHeaders = ['ID', 'Name', 'Category', 'Quantity', 'Storage'];
@@ -49,7 +50,7 @@ const PendingStorage = (props) => {
 							key={index}
 							data={item}
 							actionComponent={
-								<Popup trigger={open => (<button>Confirm</button>)} modal='true'>
+								<Popup trigger={open => (<Button className={styles.popupButton}>Confirm</Button>)} modal='true'>
 									<ItemsStoragePopup item={item}/>
 								</Popup>}
 						/>

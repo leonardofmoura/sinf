@@ -1,8 +1,7 @@
-.button {
+.actionButton {
     color: var(--primary-color);
 }
    
-.button:hover {
-    text-decoration: underline;
+.actionButton:hover {
     cursor: pointer;
 }

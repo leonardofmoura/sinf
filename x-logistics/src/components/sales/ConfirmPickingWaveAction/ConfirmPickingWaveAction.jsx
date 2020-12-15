@@ -1,3 +1,4 @@
+import { Button } from "@material-ui/core";
 import styles from "./ConfirmPickingWaveAction.module.css";
 
 export default function ConfirmPickingWaveAction(props) {
@@ -7,8 +8,8 @@ export default function ConfirmPickingWaveAction(props) {
     }
 
     return (
-        <div className={styles.button} onClick={handleClick}>
+        <Button className={styles.actionButton} onClick={handleClick}>
             Confirm Picking Wave
-        </div>
+        </Button>
     )
 }

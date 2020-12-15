@@ -1,3 +1,4 @@
+import { Button } from "@material-ui/core";
 import styles from "./PackagingAction.module.css";
 
 export default function PackagingAction(props) {
@@ -9,8 +10,8 @@ export default function PackagingAction(props) {
     }
 
     return (
-        <div className={props.isReady ? styles.confirm : styles.disabled} onClick={handleClick}>
+        <Button className={props.isReady ? styles.action : styles.disabled} onClick={handleClick}>
             Confirm
-        </div>
+        </Button>
     )
 }

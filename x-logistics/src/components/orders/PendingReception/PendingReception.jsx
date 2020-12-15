@@ -14,7 +14,7 @@ import Loader from '../../utils/Loader';
 import styles from './PendingReception.module.css';
 import {reorderDoubleArray} from "../../../utils/reoder";
 
-import { LinearProgress } from "@material-ui/core";
+import { Button, LinearProgress } from "@material-ui/core";
 
 const PendingReception = (props) => {
 	const tableHeaders = ['ID', 'Supplier', 'Date'];
@@ -79,7 +79,7 @@ const PendingReception = (props) => {
 											data={item.tableData}
 											key={index}
 											actionComponent={
-												<Popup trigger={open => (<button>Confirm</button>)} modal='true'>
+												<Popup trigger={open => (<Button className={styles.popupButton}>Confirm</Button>)} modal='true'>
 													<ConfirmReceptionPopup order={order.data} item={item}/>
 												</Popup>}
 										/>

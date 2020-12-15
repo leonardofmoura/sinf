@@ -1,9 +1,8 @@
-.confirm {
+.action {
     color: var(--primary-color);
 }
 
-.confirm:hover {
-    text-decoration: underline;
+.action:hover {
     cursor: pointer;
 }
 
