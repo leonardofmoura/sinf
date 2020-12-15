@@ -12,7 +12,7 @@ import {getWarehouseItems} from '../../../jasmin/inventory';
 
 import styles from './PendingStorage.module.css';
 import Loader from '../../utils/Loader';
-import {reorder as reorder2} from "../../utils/Reoder";
+import {reorder as reorder2} from "../../../utils/reoder";;
 
 const PendingStorage = (props) => {
 	const tableHeaders = ['ID', 'Name', 'Category', 'Quantity', 'Storage'];

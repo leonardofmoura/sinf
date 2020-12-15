@@ -4,7 +4,7 @@ import TableRowSubRow from "../table/TableRowSubRow/TableRowSubRow"
 import TableRow from "../table/TableRow/TableRow"
 import Loader from "../utils/Loader";
 import {Component} from "react";
-import {reorder} from "../utils/Reoder";
+import {reorder} from "../../utils/reoder";
 
 class InternalsTable extends Component {
 	constructor(props) {

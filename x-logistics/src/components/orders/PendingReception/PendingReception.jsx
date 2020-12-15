@@ -12,7 +12,7 @@ import {sendJasminRequest} from '../../../jasmin/request';
 import Loader from '../../utils/Loader';
 
 import styles from './PendingReception.module.css';
-import {reorderDoubleArray} from "../../utils/Reoder";
+import {reorderDoubleArray} from "../../../utils/reoder";
 
 const PendingReception = (props) => {
 	const tableHeaders = ['ID', 'Supplier', 'Date'];
@@ -110,34 +110,40 @@ const PendingReception = (props) => {
 };
 
 const ConfirmReceptionPopup = (props) => {
-	console.log('ITEM SOURCE DOC LINE NUMBER: ');
-	console.log(props.item.requestData.sourceDocLineNumber);
-	
-	const _confirmItemReception = async () => {
-		const body = [
-			{
-				sourceDocKey: props.order[0],
-				quantity: props.item.requestData.quantity,
-				sourceDocLineNumber: props.item.requestData.sourceDocLineNumber,
-			}
-		];
-		
-		const response = await sendJasminRequest(
-			'goodsReceipt/processOrders/GXSA',
-			'POST',
-			body,
-		);
-		
-		console.log('RESPONSE: ');
-		console.log(response);
-	}
-	
-	return (
-		<div class={styles.confirmSection}>
-			<span>{`Do you wish to confirm reception of ${props.item.tableData[2]} ${props.item.tableData[0]}s of order ${props.order[0]}?`}</span>
-			<button type="button" className="btn" onClick={_confirmItemReception}>Confirm</button>
-		</div>
-	)
-}
+    const [loading, setLoading] = useState(false);
+
+    const _confirmItemReception = async () => {
+        const body = [
+            {
+                sourceDocKey: props.order[0],
+                quantity: props.item.requestData.quantity,
+                sourceDocLineNumber: props.item.requestData.sourceDocLineNumber,
+            }
+        ];
+
+        setLoading(true);
+
+        const response = await sendJasminRequest(
+            'goodsReceipt/processOrders/GXSA',
+            'POST',
+            body,
+        );
+
+        console.log('RESPONSE: ');
+        console.log(response);
+    }
+
+    return(
+        <div>
+            <div class={styles.confirmSection}>
+                <span>{`Do you wish to confirm reception of ${props.item.tableData[2]} ${props.item.tableData[0]}s of order ${props.order[0]}?`}</span>
+                <button type="button" className="btn" onClick={_confirmItemReception}>Confirm</button>
+            </div>
+            <div class={styles.loaderSection}>
+                { loading && <Loader size="5em" /> }
+            </div>
+        </div>
+    );
+};
 
 export default PendingReception;

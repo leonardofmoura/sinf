@@ -17,7 +17,10 @@ class PendingPackaging extends Component {
         this.tableHeaders = ["ID", "Customer", "Date", "Summary", "Packaging"];
         this.subtableHeaders = ["Product ID", "Name", "Category", "Sale", "Picked", "Status"];
 
-        this.state = {sales: null};
+        this.state = {
+            sales: null,
+            loading: false,
+        };
     }
 
     componentDidMount = () => {
@@ -25,8 +28,10 @@ class PendingPackaging extends Component {
     }
     
     handleConfirmPackaging = async (sale) => {
+        this.setState({loading: true});
         await processSale(sale);
         this.props.history.push("/sales/complete");
+        this.setState({loading: false});
     }
 
     calcSaleStatus = (sale) => {
@@ -42,6 +47,10 @@ class PendingPackaging extends Component {
     }
 
     renderSales = () => {
+        if (this.state.loading) {
+            return <Loader />
+        }
+
         if (this.state.sales === null) {
             return <Loader />
         } else if (this.state.sales.length > 0) {
