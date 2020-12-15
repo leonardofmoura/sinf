@@ -8,6 +8,7 @@ import TableRow from "../table/TableRow/TableRow.jsx";
 import TableRowSubRow from "../table/TableRowSubRow/TableRowSubRow.jsx";
 import Loader from "../utils/Loader.jsx";
 import ViewDeliveryNoteAction from "./ViewDeliveryNoteAction/ViewDeliveryNoteAction.jsx";
+import {reorderDoubleArray} from "../../utils/reoder";
 
 class CompleteSales extends Component {
     constructor(props) {
@@ -17,10 +18,13 @@ class CompleteSales extends Component {
         this.subtableHeaders = ["Product ID", "Name", "Category", "Quantity"];
 
         this.state = {sales: null};
+        this.lastTarget = "id"
+        this.reversed = false
     }
 
     componentDidMount = () => {
-        getCompleteSales().then(newSales => this.setState({sales: newSales}));
+        getCompleteSales().then(newSales => {
+            this.setState({sales: reorderDoubleArray(this.lastTarget,newSales,this.reversed,"info")})});
     }
 
     renderSales = () => {
@@ -47,11 +51,19 @@ class CompleteSales extends Component {
             return (<span>No sales found</span>)
         }
     }
-
+    reorder = (target) => {
+        if (this.lastTarget === target)
+            this.reversed = !this.reversed
+        const sorted = reorderDoubleArray(target, this.state.sales, this.reversed,"info")
+        this.lastTarget = target //used for reverting order if clicked twice in succession
+        this.setState({sales: sorted})
+    }
     render = () => {
         return (
             <Table>
-                <TableHeader headers={this.tableHeaders} center={true}/>
+                <TableHeader headers={this.tableHeaders} center={true} parent={this}
+                             reorderProperties={["id", "customer", "date"]}
+                             orderSelected={[this.reversed, this.lastTarget]}/>
                 { this.renderSales() }
             </Table>
         )
