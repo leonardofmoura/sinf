@@ -65,29 +65,35 @@ const ItemsStoragePopup = (props) => {
         <Popup trigger={open => (
                 <button>Move</button>
             )} modal>
-            <div>
-                <span>Choose storage section: </span>
-                <select value={selectedRow} onChange={_handleRowChange}>
-                    {
-                        rowOptions.map((option) => {
-                            return(
-                                <option key={option}>{option}</option>
-                                )
-                            })
-                        }
-                </select>
-                <select value={selectedCol} onChange={_handleColChange}>
-                    {
-                        columnOptions.map((option) => {
-                            return(
-                                <option key={option}>{option}</option>
-                                )
-                            })
-                        }
-                </select>
-                <span>Choose quantity:</span>
-                <input type="number" min="0" max={maxQuantity} value={selectedQuantity} onChange={_handleQuantityChange}/>
-                <button onClick = {_confirmItemStorage}>Confirm</button>
+            <div className={styles.popUp}>
+                <div className={styles.shelfSelectorsSection}>
+                    <span>Choose storage section: </span>
+                    <div className={styles.shelfSelectors}>
+                        <select value={selectedRow} onChange={_handleRowChange}>
+                            {
+                                rowOptions.map((option) => {
+                                    return(
+                                        <option key={option}>{option}</option>
+                                        )
+                                    })
+                                }
+                        </select>
+                        <select value={selectedCol} onChange={_handleColChange}>
+                            {
+                                columnOptions.map((option) => {
+                                    return(
+                                        <option key={option}>{option}</option>
+                                        )
+                                    })
+                                }
+                        </select>
+                    </div>
+                </div>
+                <div className={styles.quantitySelectorSection}>
+                    <span>Choose quantity:</span>
+                    <input type="number" min="0" max={maxQuantity} value={selectedQuantity} onChange={_handleQuantityChange}/>
+                </div>
+                <button type="button" className="btn" onClick = {_confirmItemStorage}>Confirm</button>
             </div>
         </Popup>
     )
