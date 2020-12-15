@@ -116,7 +116,7 @@ const ItemsStoragePopup = (props) => {
 		const response = await sendJasminRequest(
 			`materialsManagement/stockTransferOrders`,
 			'POST',
-			//body,
+			body,
 		);
 		
         setLoading(false);
