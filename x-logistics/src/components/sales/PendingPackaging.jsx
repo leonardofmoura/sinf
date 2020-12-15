@@ -9,6 +9,7 @@ import TableRowSubRow from "../table/TableRowSubRow/TableRowSubRow.jsx";
 import Loader from "../utils/Loader.jsx";
 import PackagingAction from "./PackagingAction/PackagingAction.jsx";
 import ProductStatus from "./ProductStatus/ProductStatus.jsx";
+import {reorderDoubleArray} from "../../utils/reoder";
 
 class PendingPackaging extends Component {
     constructor(props) {
@@ -21,10 +22,13 @@ class PendingPackaging extends Component {
             sales: null,
             loading: false,
         };
+        this.lastTarget = "id"
+        this.reversed = true
     }
 
     componentDidMount = () => {
-        getPendingPackaging().then(newSales => this.setState({sales: newSales}));
+        getPendingPackaging().then(newSales => {
+            this.setState({sales: reorderDoubleArray(this.lastTarget,newSales,this.reversed,"info")})});
     }
     
     handleConfirmPackaging = async (sale) => {
@@ -74,11 +78,19 @@ class PendingPackaging extends Component {
             return ( <span>No sales found</span> )
         }
     }
-
+    reorder = (target) => {
+        if (this.lastTarget === target)
+            this.reversed = !this.reversed
+        const sorted = reorderDoubleArray(target, this.state.sales, this.reversed,"info")
+        this.lastTarget = target //used for reverting order if clicked twice in succession
+        this.setState({sales: sorted})
+    }
     render = () => {
         return (
             <Table>
-                <TableHeader headers={this.tableHeaders}/>
+                <TableHeader headers={this.tableHeaders} parent={this}
+                             reorderProperties={["id", "customer", "date"]}
+                             orderSelected={[this.reversed, this.lastTarget]}/>
                 { this.renderSales() }
             </Table>
         )

@@ -12,14 +12,14 @@
     text-decoration: none;
 }
 
-/* .activeItem:hover {
+.activeItem:hover {
     text-decoration: none;
     color: var(--primary-color-darker);
     background-color: var(--background-color-lighter);
-} */
+}
   
-/* .inactiveItem:hover {
+.inactiveItem:hover {
     text-decoration: none;
     color: var(--primary-color-darker);
     background-color: var(--background-color-lighter);
-} */
+}
