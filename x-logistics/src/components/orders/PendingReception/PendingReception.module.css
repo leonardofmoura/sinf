@@ -10,3 +10,7 @@
     background-color: var(--primary-color);
     color: white;
 }
+
+.loaderSection {
+    height: 1em;
+}

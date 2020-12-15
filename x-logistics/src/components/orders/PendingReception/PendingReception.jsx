@@ -100,8 +100,7 @@ const PendingReception = (props) => {
 };
 
 const ConfirmReceptionPopup = (props) => {
-    console.log('ITEM SOURCE DOC LINE NUMBER: ');
-    console.log(props.item.requestData.sourceDocLineNumber);
+    const [loading, setLoading] = useState(false);
 
     const _confirmItemReception = async () => {
         const body = [
@@ -111,6 +110,8 @@ const ConfirmReceptionPopup = (props) => {
                 sourceDocLineNumber: props.item.requestData.sourceDocLineNumber,
             }
         ];
+
+        setLoading(true);
 
         const response = await sendJasminRequest(
             'goodsReceipt/processOrders/GXSA',
@@ -123,11 +124,16 @@ const ConfirmReceptionPopup = (props) => {
     }
 
     return(
-        <div class={styles.confirmSection}>
-            <span>{`Do you wish to confirm reception of ${props.item.tableData[2]} ${props.item.tableData[0]}s of order ${props.order[0]}?`}</span>
-            <button type="button" className="btn" onClick={_confirmItemReception}>Confirm</button>
+        <div>
+            <div class={styles.confirmSection}>
+                <span>{`Do you wish to confirm reception of ${props.item.tableData[2]} ${props.item.tableData[0]}s of order ${props.order[0]}?`}</span>
+                <button type="button" className="btn" onClick={_confirmItemReception}>Confirm</button>
+            </div>
+            <div class={styles.loaderSection}>
+                { loading && <Loader size="5em"/> }
+            </div>
         </div>
-    )
-}
+    );
+};
 
 export default PendingReception;
