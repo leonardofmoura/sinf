@@ -69,8 +69,8 @@ const PendingStorage = (props) => {
 	}
 	return (
 		<Table>
-			<TableHeader headers={tableHeaders}  reorder={reorder}
-									 reorderProperties={[0, 1, 2]}
+			<TableHeader headers={tableHeaders} reorder={reorder}
+									 reorderProperties={[0, 1, 2,3]}
 									 orderSelected={[reversed.current, lastTarget.current]}/>
 			{renderItems()}
 		</Table>
