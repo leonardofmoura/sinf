@@ -14,6 +14,8 @@ import Loader from '../../utils/Loader';
 import styles from './PendingReception.module.css';
 import {reorderDoubleArray} from "../../../utils/reoder";
 
+import { LinearProgress } from "@material-ui/core";
+
 const PendingReception = (props) => {
 	const tableHeaders = ['ID', 'Supplier', 'Date'];
 	const subTableHeaders = ['Item', 'Description', 'Quantity', 'Reception'];
@@ -111,6 +113,7 @@ const PendingReception = (props) => {
 
 const ConfirmReceptionPopup = (props) => {
     const [loading, setLoading] = useState(false);
+    const [done, setDone] = useState(false);
 
     const _confirmItemReception = async () => {
         const body = [
@@ -126,18 +129,18 @@ const ConfirmReceptionPopup = (props) => {
         const response = await sendJasminRequest(
             'goodsReceipt/processOrders/GXSA',
             'POST',
-            body,
+            //body,
         );
 
-        console.log('RESPONSE: ');
-        console.log(response);
+        setLoading(false);
+        setDone(true);
     }
 
     return(
         <div>
             <div class={styles.confirmSection}>
                 <span>{`Do you wish to confirm reception of ${props.item.tableData[2]} ${props.item.tableData[0]}s of order ${props.order[0]}?`}</span>
-                <button type="button" className="btn" onClick={_confirmItemReception}>Confirm</button>
+                <button disabled={done} type="button" className="btn" onClick={_confirmItemReception}>Confirm</button>
             </div>
             <div class={styles.loaderSection}>
                 { loading && <Loader size="5em" marginTop="0"/> }
