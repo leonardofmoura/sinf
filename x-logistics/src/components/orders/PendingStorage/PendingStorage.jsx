@@ -80,6 +80,8 @@ const PendingStorage = (props) => {
 const ItemsStoragePopup = (props) => {
 	const [selectedRow, setRow] = useState('A');
 	const [selectedCol, setCol] = useState('1');
+	const [loading, setLoading] = useState(false);
+    const [done, setDone] = useState(false);
 	
 	const _handleRowChange = (event) => {
 		setRow(event.target.value);
@@ -108,15 +110,17 @@ const ItemsStoragePopup = (props) => {
 			],
 		};
 		console.log(body);
+
+		setLoading(true);
 		
 		const response = await sendJasminRequest(
 			`materialsManagement/stockTransferOrders`,
 			'POST',
-			body,
+			//body,
 		);
 		
-		console.log('RESPONSE: ');
-		console.log(response);
+        setLoading(false);
+        setDone(true);
 	}
 	
 	const rowOptions = [
@@ -128,6 +132,7 @@ const ItemsStoragePopup = (props) => {
 	];
 	
 	return (
+		<div>
 		<div className={styles.popUp}>
 			<span className={styles.storagePopup}>Choose storage section:</span>
 			<div className={styles.selectors}>
@@ -150,7 +155,11 @@ const ItemsStoragePopup = (props) => {
 					}
 				</select>
 			</div>
-			<button type="button" className="btn" onClick={_confirmItemStorage}>Confirm</button>
+			<button disabled={done} type="button" className="btn" onClick={_confirmItemStorage}>Confirm</button>
+		</div>
+		<div class={styles.loaderSection}>
+			{ loading && <Loader size="5em" marginTop="0"/> }
+		</div>
 		</div>
 	)
 };
