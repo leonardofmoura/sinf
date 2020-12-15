@@ -120,7 +120,8 @@ const ItemsStoragePopup = (props) => {
 		);
 		
         setLoading(false);
-        setDone(true);
+		setDone(true);
+		window.location.reload(false);
 	}
 	
 	const rowOptions = [

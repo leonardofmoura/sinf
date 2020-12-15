@@ -134,6 +134,7 @@ const ConfirmReceptionPopup = (props) => {
 
         setLoading(false);
         setDone(true);
+        window.location.reload(false);
     }
 
     return(
