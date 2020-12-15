@@ -3,12 +3,17 @@ import { useState } from 'react';
 import Popup from 'reactjs-popup';
 import { sendJasminRequest } from '../../../../jasmin/request';
 import styles from "./ItemsStoragePopup.module.css";
+import Loader from '../../../utils/Loader';
+
 
 const ItemsStoragePopup = (props) => {
     const [selectedRow, setRow] = useState('A');
     const [selectedCol, setCol] = useState('1');
     const [selectedQuantity, setQuantity] = useState(0);
     const maxQuantity = parseInt(props.item[2].substr(0, props.item[2].length-4));    
+
+    const [loading, setLoading] = useState(false);
+    const [done, setDone] = useState(false);
 
     const _handleRowChange = (event) => {
         setRow(event.target.value);
@@ -42,6 +47,8 @@ const ItemsStoragePopup = (props) => {
             ],
         };
 
+        setLoading(true);
+
         if (0 <= selectedQuantity <= maxQuantity) {
             await sendJasminRequest(
                 `materialsManagement/stockTransferOrders`,
@@ -51,6 +58,9 @@ const ItemsStoragePopup = (props) => {
     
             window.location.reload(false);
         }
+
+        setLoading(false);
+        setDone(true);
     }
 
     const rowOptions = [
@@ -93,7 +103,10 @@ const ItemsStoragePopup = (props) => {
                     <span>Choose quantity:</span>
                     <input type="number" min="0" max={maxQuantity} value={selectedQuantity} onChange={_handleQuantityChange}/>
                 </div>
-                <button type="button" className="btn" onClick = {_confirmItemStorage}>Confirm</button>
+                <button disabled={done} type="button" className="btn" onClick = {_confirmItemStorage}>Confirm</button>
+                <div class={styles.loaderSection}>
+                    { loading && <Loader size="5em" marginTop="0"/> }
+                </div>
             </div>
         </Popup>
     )

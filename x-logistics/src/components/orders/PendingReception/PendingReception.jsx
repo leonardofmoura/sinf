@@ -14,8 +14,6 @@ import Loader from '../../utils/Loader';
 import styles from './PendingReception.module.css';
 import {reorderDoubleArray} from "../../../utils/reoder";
 
-import { LinearProgress } from "@material-ui/core";
-
 const PendingReception = (props) => {
 	const tableHeaders = ['ID', 'Supplier', 'Date'];
 	const subTableHeaders = ['Item', 'Description', 'Quantity', 'Reception'];
@@ -126,7 +124,7 @@ const ConfirmReceptionPopup = (props) => {
 
         setLoading(true);
 
-        const response = await sendJasminRequest(
+        await sendJasminRequest(
             'goodsReceipt/processOrders/GXSA',
             'POST',
             body,
@@ -134,6 +132,7 @@ const ConfirmReceptionPopup = (props) => {
 
         setLoading(false);
         setDone(true);
+        window.location.reload(false);
     }
 
     return(
