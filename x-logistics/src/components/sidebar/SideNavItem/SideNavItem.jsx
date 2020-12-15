@@ -13,7 +13,7 @@ export default function NavItem(props) {
 
     return (
         <Link className={active ? styles.activeItem : styles.inactiveItem} to={props.path} onClick={handleClick}>
-            <Button startIcon={props.icon} size="medium" fullWidth="true" variant={active ? "contained" : ""} color="inherit">
+            <Button startIcon={props.icon} size="medium" fullWidth={true} variant={active ? "contained" : "text"} color="inherit">
                 {props.title}
             </Button>
         </Link>
