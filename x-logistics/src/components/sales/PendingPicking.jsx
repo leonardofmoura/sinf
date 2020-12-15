@@ -9,6 +9,7 @@ import PickingAction from "./PickingAction/PickingAction.jsx";
 import { Component  } from "react";
 import { withRouter } from "react-router-dom";
 import Loader from "../utils/Loader.jsx";
+import {reorderDoubleArray} from "../../utils/reoder";
 const moment = require("moment");
 
 class PendingPicking extends Component {
@@ -21,11 +22,13 @@ class PendingPicking extends Component {
         this.selectedItems = [];
 
         this.state = {sales: null};
+        this.lastTarget = "id"
+        this.reversed = true
     }
 
     componentDidMount() {
         getPendingPicking().then((newSales) => {
-            this.setState({ sales: newSales });
+            this.setState({sales: reorderDoubleArray(this.lastTarget,newSales,this.reversed,"info")});
         });
     }
     
@@ -106,11 +109,19 @@ class PendingPicking extends Component {
             return ( <span>No sales found</span> )
         }
     }
-
+    reorder = (target) => {
+        if (this.lastTarget === target)
+            this.reversed = !this.reversed
+        const sorted = reorderDoubleArray(target, this.state.sales, this.reversed,"info")
+        this.lastTarget = target //used for reverting order if clicked twice in succession
+        this.setState({sales: sorted})
+    }
     render = () => {
         return (
             <Table>
-                <TableHeader headers={this.tableHeaders}/>
+                <TableHeader headers={this.tableHeaders} parent={this}
+                             reorderProperties={["id", "customer", "date"]}
+                             orderSelected={[this.reversed, this.lastTarget]}/>
                 { this.renderSales() }
                 <CreatePickingWaveButton onClick={this.handleCreatePickingWave} />
             </Table>
