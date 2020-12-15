@@ -13,7 +13,8 @@ export default function tableHeader(props) {
 							return (
 								<div className={isLastItem && props.center ? styles.lastItem : styles.headerItem}
 										 style={{width: itemWidth}} key={index}
-										 onClick={(e) => props.parent.reorder(props.reorderProperties[index])}>
+										 onClick={(e) => props.parent.reorder(props.reorderProperties[index])}
+										 className={styles.clickable}>
 									{header} {props.orderSelected[0] ? <i className="bi bi-arrow-up"/> :
 									<i className="bi bi-arrow-down"/>}
 								</div>
@@ -21,7 +22,8 @@ export default function tableHeader(props) {
 						else return (
 							<div className={isLastItem && props.center ? styles.lastItem : styles.headerItem}
 									 style={{width: itemWidth}} key={index}
-									 onClick={(e) => props.parent.reorder(props.reorderProperties[index])}>
+									 onClick={(e) => props.parent.reorder(props.reorderProperties[index])}
+									 className={styles.clickable}>
 								{header}
 							</div>
 						)
