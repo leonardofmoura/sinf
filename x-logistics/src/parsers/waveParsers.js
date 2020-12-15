@@ -8,11 +8,11 @@ const parseWaveInfo = (waveInfo) => {
 
 const parseWaveProduct = (product) => {
     return [
-        product.id, 
+        product.nameId, 
         product.name, 
         product.category, 
         product.warehouse, 
-        product.waveQuantity + " " + product.unit
+        product.waveQuantity + " (" + product.unit + ")"
     ];
 }
 
