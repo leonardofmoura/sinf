@@ -47,3 +47,7 @@ Then the API can be started:
 ```shell
 npm start 
 ```
+
+---
+
+**Note:** The backend should be started before the frontend
